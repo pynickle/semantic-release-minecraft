@@ -1,4 +1,4 @@
-import { glob } from 'glob/dist/esm';
+import { glob } from 'glob';
 import { template } from 'lodash';
 import { resolve } from 'path';
 import { NextRelease, PublishContext } from 'semantic-release';

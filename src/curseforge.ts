@@ -1,7 +1,6 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import { readFile } from 'fs/promises';
-import { template } from 'lodash';
 import { PublishContext } from 'semantic-release';
 import { Plugin_config } from './definitions/plugin_config.js';
 import {
