@@ -39,7 +39,7 @@ export async function prepare(
             // 创建版本映射并存储在模块级变量中供后续使用
             curseforgeGameVersionsIds = await getCurseForgeGameVersionIds(
                 apiKey,
-                pluginConfig.curseforge!,
+                pluginConfig,
                 env,
                 context.nextRelease
             );

@@ -177,7 +177,7 @@ export async function publishToModrinth(
     }
 
     // 添加版本信息作为 JSON
-    form.append('data', JSON.stringify(versionData));
+    form.append('data', versionData);
 
     // 发送版本创建请求
     try {
@@ -206,6 +206,7 @@ export async function publishToModrinth(
         ) {
             // 处理客户端错误
             const data = versionResponse.data;
+            logger.error(data);
             if (data && data.error && data.description) {
                 logger.error(
                     `Modrinth API Error (${versionResponse.status}): ${data.error} - ${data.description}`
