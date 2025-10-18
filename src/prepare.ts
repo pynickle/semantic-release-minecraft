@@ -5,9 +5,9 @@ import {
     CurseForgeGameVersion,
     CurseForgeGameVersionMap,
     CurseForgeGameVersionType,
-} from './definitions/curseforge';
-import { Plugin_config } from './definitions/plugin_config';
-import { getCurseForgeModLoaders, toArray } from './utils/utils';
+} from './definitions/curseforge.js';
+import { Plugin_config } from './definitions/plugin_config.js';
+import { getCurseForgeModLoaders, toArray } from './utils/utils.js';
 
 /**
  * 根据提供的游戏版本联合对象检索游戏版本 ID 变体数组。

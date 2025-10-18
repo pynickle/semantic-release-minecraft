@@ -3,12 +3,12 @@ import FormData from 'form-data';
 import { readFile } from 'fs/promises';
 import { template } from 'lodash';
 import { PublishContext } from 'semantic-release';
-import { Plugin_config } from './definitions/plugin_config';
+import { Plugin_config } from './definitions/plugin_config.js';
 import {
     findFiles,
     getCurseForgeModLoaders,
     resolveTemplate,
-} from './utils/utils';
+} from './utils/utils.js';
 
 /**
  * 为 CurseForge 查找单个文件

@@ -3,10 +3,10 @@ import {
     PublishContext,
     VerifyConditionsContext,
 } from 'semantic-release';
-import { publishToCurseforge } from './curseforge';
-import { Plugin_config } from './definitions/plugin_config';
-import { publishToModrinth } from './modrinth';
-import { getCurseForgeGameVersionIds } from './prepare';
+import { publishToCurseforge } from './curseforge.js';
+import { Plugin_config } from './definitions/plugin_config.js';
+import { publishToModrinth } from './modrinth.js';
+import { getCurseForgeGameVersionIds } from './prepare.js';
 
 // 模块级变量存储 CurseForge 版本映射
 let curseforgeGameVersionsIds: number[] | undefined;

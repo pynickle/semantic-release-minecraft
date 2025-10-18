@@ -5,13 +5,13 @@ import { glob } from 'glob';
 import { template } from 'lodash';
 import { resolve } from 'path';
 import { PublishContext } from 'semantic-release';
-import { Plugin_config } from './definitions/plugin_config';
+import { Plugin_config } from './definitions/plugin_config.js';
 import {
     findFiles,
     renderTemplates,
     resolveTemplate,
     toArray,
-} from './utils/utils';
+} from './utils/utils.js';
 
 /**
  * 发布到 Modrinth

@@ -2,7 +2,7 @@ import { glob } from 'glob/dist/esm';
 import { template } from 'lodash';
 import { resolve } from 'path';
 import { NextRelease, PublishContext } from 'semantic-release';
-import { Plugin_config } from '../definitions/plugin_config';
+import { Plugin_config } from '../definitions/plugin_config.js';
 
 /**
  * 根据 glob 模式查找文件
