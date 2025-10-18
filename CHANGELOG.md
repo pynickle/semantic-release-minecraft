@@ -1,3 +1,9 @@
+## [1.1.2](https://github.com/pynickle/semantic-release-minecraft/compare/v1.1.1...v1.1.2) (2025-10-18)
+
+### 🐛 Bug修复
+
+* fix error headers ([34aef70](https://github.com/pynickle/semantic-release-minecraft/commit/34aef705e4fde15aa28ca48817d04020f12861ab))
+
 ## [1.1.1](https://github.com/pynickle/semantic-release-minecraft/compare/v1.1.0...v1.1.1) (2025-10-18)
 
 ### 🐛 Bug修复
