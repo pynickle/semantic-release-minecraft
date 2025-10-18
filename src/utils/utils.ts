@@ -1,5 +1,5 @@
 import { glob } from 'glob';
-import { template } from 'lodash';
+import _ from 'lodash';
 import { resolve } from 'path';
 import { NextRelease, PublishContext } from 'semantic-release';
 import { Plugin_config } from '../definitions/plugin_config.js';
@@ -57,7 +57,7 @@ export function renderTemplates(
     templates: string[],
     context: Record<string, any>
 ): string[] {
-    return templates.map((tpl) => template(tpl)(context));
+    return templates.map((tpl) => _.template(tpl)(context));
 }
 
 /**
@@ -74,7 +74,7 @@ export function resolveTemplate(
     if (!source) return undefined;
 
     try {
-        return template(source)(context);
+        return _.template(source)(context);
     } catch (err) {
         console.error('Failed to render template:', err);
         return undefined;

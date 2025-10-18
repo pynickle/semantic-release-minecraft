@@ -2,7 +2,7 @@ import axios from 'axios';
 import FormData from 'form-data';
 import { readFile } from 'fs/promises';
 import { glob } from 'glob';
-import { template } from 'lodash';
+import _ from 'lodash';
 import { resolve } from 'path';
 import { PublishContext } from 'semantic-release';
 import { Plugin_config } from './definitions/plugin_config.js';
@@ -64,9 +64,9 @@ export async function publishToModrinth(
     // displayName按照优先级：平台特定配置 > 全局配置 > 平台特定环境变量 > 全局环境变量
     let displayName: string | undefined;
     if (modrinth?.display_name) {
-        displayName = template(modrinth.display_name)(nextRelease) as string;
+        displayName = _.template(modrinth.display_name)(nextRelease) as string;
     } else if (pluginConfig.display_name) {
-        displayName = template(pluginConfig.display_name)(
+        displayName = _.template(pluginConfig.display_name)(
             nextRelease
         ) as string;
     } else if (env.MODRINTH_DISPLAY_NAME) {
