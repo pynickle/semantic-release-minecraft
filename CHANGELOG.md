@@ -1,3 +1,9 @@
+## [1.1.3](https://github.com/pynickle/semantic-release-minecraft/compare/v1.1.2...v1.1.3) (2025-10-18)
+
+### 🐛 Bug修复
+
+* fix argument error ([b8f2f74](https://github.com/pynickle/semantic-release-minecraft/commit/b8f2f74035081b8637f9ce4ede90dfcc013e5f9c))
+
 ## [1.1.2](https://github.com/pynickle/semantic-release-minecraft/compare/v1.1.1...v1.1.2) (2025-10-18)
 
 ### 🐛 Bug修复
