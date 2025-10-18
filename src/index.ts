@@ -3,7 +3,7 @@ import {
     PublishContext,
     VerifyConditionsContext,
 } from 'semantic-release';
-import { publishToCurseforge } from './curseforge.js';
+import { publishToCurseforge } from './curseforge .js';
 import { Plugin_config } from './definitions/plugin_config.js';
 import { publishToModrinth } from './modrinth.js';
 import { getCurseForgeGameVersionIds } from './prepare.js';

@@ -9,6 +9,7 @@ import { Plugin_config } from './definitions/plugin_config.js';
 import {
     findFiles,
     renderTemplates,
+    resolveMultipleTemplate,
     resolveTemplate,
     toArray,
 } from './utils/utils.js';
@@ -28,7 +29,7 @@ export async function publishToModrinth(
     const nextReleaseVersion = nextRelease.version;
 
     // 查找文件并确定主要文件
-    const { files, primaryFile } = await findModrinthJarFiles(
+    const { files, primaryFile } = await findModrinthFiles(
         pluginConfig,
         context
     );
@@ -57,11 +58,11 @@ export async function publishToModrinth(
         }
     }
 
-    // 使用根据primaryFileGlob确定的主要文件
+    // 使用根据 primaryFileGlob 确定的主要文件
     const finalPrimaryFile: string | undefined = primaryFilePartName;
 
     // 准备版本信息，只包含必需字段和存在的可选字段
-    // displayName按照优先级：平台特定配置 > 全局配置 > 平台特定环境变量 > 全局环境变量
+    // displayName 按照优先级：平台特定配置 > 全局配置 > 平台特定环境变量 > 全局环境变量
     let displayName: string | undefined;
     if (modrinth?.display_name) {
         displayName = _.template(modrinth.display_name)(nextRelease) as string;
@@ -247,14 +248,24 @@ export async function publishToModrinth(
 /**
  * 为 Modrinth 查找文件并确定主要文件
  */
-async function findModrinthJarFiles(
+async function findModrinthFiles(
     pluginConfig: Plugin_config,
     context: PublishContext
 ): Promise<{ files: string[]; primaryFile: string | undefined }> {
-    const { logger } = context;
+    const { env, logger } = context;
 
     // 获取 Modrinth 专用的 glob 配置，如果没有则使用全局配置
-    const modrinthGlob = pluginConfig.modrinth?.glob || pluginConfig.glob || [];
+    const modrinthGlob = resolveMultipleTemplate(
+        [
+            pluginConfig.modrinth?.glob,
+            pluginConfig.glob,
+            env.MODRINTH_GLOB,
+            env.GLOB,
+        ],
+        {
+            nextRelease: context.nextRelease,
+        }
+    );
 
     // 查找所有文件
     const jarFiles = await findFiles(modrinthGlob, context);
@@ -265,15 +276,17 @@ async function findModrinthJarFiles(
     // 确定主要文件
     let primaryFile: string | undefined = undefined;
 
-    // 检查是否提供了 primaryFileGlob
-    if (pluginConfig.modrinth?.primary_file_glob) {
-        const primaryPatterns = Array.isArray(
-            pluginConfig.modrinth.primary_file_glob
-        )
-            ? pluginConfig.modrinth.primary_file_glob
-            : [pluginConfig.modrinth.primary_file_glob];
+    const primaryPatterns = resolveMultipleTemplate(
+        [
+            pluginConfig.modrinth?.primary_file_glob,
+            env.MODRINTH_PRIMARY_FILE_GLOB,
+        ],
+        {
+            nextRelease: context.nextRelease,
+        }
+    );
 
-        // 查找匹配 primaryFileGlob 的文件
+    if (primaryPatterns) {
         let primaryCandidates: string[] = [];
 
         for (const pattern of primaryPatterns) {

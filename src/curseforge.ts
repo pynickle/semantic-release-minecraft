@@ -6,6 +6,7 @@ import { Plugin_config } from './definitions/plugin_config.js';
 import {
     findFiles,
     getCurseForgeModLoaders,
+    resolveMultipleTemplate,
     resolveTemplate,
 } from './utils/utils.js';
 
@@ -16,12 +17,20 @@ async function findFileCurseforge(
     pluginConfig: Plugin_config,
     context: PublishContext
 ): Promise<string> {
-    const { logger } = context;
+    const { env, logger } = context;
     const version = context.nextRelease.version;
 
-    // 获取 CurseForge 的 glob 配置，如果没有则使用全局配置
-    const curseforgeGlob =
-        pluginConfig.curseforge?.glob || pluginConfig.glob || [];
+    const curseforgeGlob = resolveMultipleTemplate(
+        [
+            pluginConfig.curseforge?.glob,
+            pluginConfig.glob,
+            env.CURSEFORGE_GLOB,
+            env.GLOB,
+        ],
+        {
+            nextRelease: context.nextRelease,
+        }
+    );
 
     // 查找文件
     const files = await findFiles(curseforgeGlob, context);

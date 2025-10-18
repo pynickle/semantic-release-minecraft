@@ -8,25 +8,17 @@ import { Plugin_config } from '../definitions/plugin_config.js';
  * 根据 glob 模式查找文件
  */
 export async function findFiles(
-    patterns: string | string[],
-    context: PublishContext,
-    defaultPatterns: string[] = [
+    patterns: string[] = [
         'build/libs/!(*-@(dev|sources|javadoc)).jar',
         'build/libs/*-@(dev|sources|javadoc).jar',
-    ]
+    ],
+    context: PublishContext
 ): Promise<string[]> {
     const { logger, cwd } = context;
 
-    // 使用提供的 glob 模式，如果没有则使用默认模式
-    const searchPatterns = patterns
-        ? Array.isArray(patterns)
-            ? patterns
-            : [patterns]
-        : defaultPatterns;
-
     const allFiles: string[] = [];
 
-    for (const pattern of searchPatterns) {
+    for (const pattern of patterns) {
         logger.log(`Searching for files with pattern: ${pattern}`);
         const files = await glob(pattern, {
             cwd,
@@ -40,7 +32,7 @@ export async function findFiles(
 
     if (files.length === 0) {
         throw new Error(
-            `No files found matching patterns: ${searchPatterns.join(', ')}`
+            `No files found matching patterns: ${patterns.join(', ')}`
         );
     }
 
@@ -73,12 +65,20 @@ export function resolveTemplate(
     const source = sources.find(Boolean);
     if (!source) return undefined;
 
-    try {
-        return _.template(source)(context);
-    } catch (err) {
-        console.error('Failed to render template:', err);
-        return undefined;
-    }
+    return _.template(source)(context);
+}
+
+export function resolveMultipleTemplate(
+    sources: Array<string | string[] | undefined | null>,
+    context: Record<string, any>
+): string[] | undefined {
+    const source = sources.find(Boolean);
+    if (!source) return undefined;
+
+    return renderTemplates(
+        typeof source === 'string' ? toArray(source) : source,
+        context
+    );
 }
 
 /**
