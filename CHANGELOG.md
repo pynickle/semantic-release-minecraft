@@ -1,3 +1,13 @@
+## [1.0.1](https://github.com/pynickle/semantic-release-minecraft/compare/v1.0.0...v1.0.1) (2025-10-18)
+
+### 🐛 Bug修复
+
+* fix import module style ([8a67f3f](https://github.com/pynickle/semantic-release-minecraft/commit/8a67f3faa905bf52eb2b704e0c4808ce2f6b528d))
+
+### 🔧 其他更改
+
+* **package:** fix unchanged package lock json ([864893d](https://github.com/pynickle/semantic-release-minecraft/commit/864893da8783fee41afa7906075d984243dc1a7f))
+
 ## 1.0.0 (2025-10-18)
 
 ### ✨ 功能更新
