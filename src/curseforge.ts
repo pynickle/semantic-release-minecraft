@@ -150,7 +150,7 @@ export async function publishToCurseforge(
             {
                 headers: {
                     ...form.getHeaders(),
-                    'X-API-Key': apiKey,
+                    'X-API-TOKEN': apiKey,
                 },
             }
         );
