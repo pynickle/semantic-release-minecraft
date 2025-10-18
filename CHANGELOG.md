@@ -1,3 +1,9 @@
+## [1.0.3](https://github.com/pynickle/semantic-release-minecraft/compare/v1.0.2...v1.0.3) (2025-10-18)
+
+### 🐛 Bug修复
+
+* fix lodash import ([dd8dd84](https://github.com/pynickle/semantic-release-minecraft/commit/dd8dd847057d9c0a5139c012cc455b7b70a9a1e1))
+
 ## [1.0.2](https://github.com/pynickle/semantic-release-minecraft/compare/v1.0.1...v1.0.2) (2025-10-18)
 
 ### 🐛 Bug修复
