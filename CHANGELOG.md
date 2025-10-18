@@ -1,3 +1,13 @@
+## [1.1.0](https://github.com/pynickle/semantic-release-minecraft/compare/v1.0.3...v1.1.0) (2025-10-18)
+
+### ✨ 功能更新
+
+* add env glob ([0f49320](https://github.com/pynickle/semantic-release-minecraft/commit/0f493204f00fbc960b45ff0d27c5fcddb9a65953))
+
+### 🐛 Bug修复
+
+* small fix ([aed0831](https://github.com/pynickle/semantic-release-minecraft/commit/aed0831071f53f0197fa07d37cc17ec430051dae))
+
 ## [1.0.3](https://github.com/pynickle/semantic-release-minecraft/compare/v1.0.2...v1.0.3) (2025-10-18)
 
 ### 🐛 Bug修复
