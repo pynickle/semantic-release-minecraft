@@ -65,11 +65,13 @@ export async function publishToModrinth(
     // displayName 按照优先级：平台特定配置 > 全局配置 > 平台特定环境变量 > 全局环境变量
     let displayName: string | undefined;
     if (modrinth?.display_name) {
-        displayName = _.template(modrinth.display_name)(nextRelease) as string;
+        displayName = _.template(modrinth.display_name)({
+            nextRelease,
+        }) as string;
     } else if (pluginConfig.display_name) {
-        displayName = _.template(pluginConfig.display_name)(
-            nextRelease
-        ) as string;
+        displayName = _.template(pluginConfig.display_name)({
+            nextRelease,
+        }) as string;
     } else if (env.MODRINTH_DISPLAY_NAME) {
         displayName = env.MODRINTH_DISPLAY_NAME;
     } else if (env.DISPLAY_NAME) {
@@ -79,7 +81,7 @@ export async function publishToModrinth(
     // version_number 按照优先级：平台特定配置 > 平台特定环境变量 > 全局环境变量
     const versionNumber = resolveTemplate(
         [modrinth?.version_number, env.MODRINTH_VERSION_NUMBER],
-        nextRelease
+        { nextRelease }
     );
 
     // 准备版本信息，只包含必需字段和存在的可选字段

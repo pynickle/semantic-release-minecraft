@@ -98,7 +98,7 @@ export async function publishToCurseforge(
             env.CURSEFORGE_DISPLAY_NAME,
             env.DISPLAY_NAME,
         ],
-        nextRelease
+        { nextRelease }
     );
 
     // 准备基础 metadata
