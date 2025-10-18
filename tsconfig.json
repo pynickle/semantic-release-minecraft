@@ -1,0 +1,25 @@
+﻿{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "target": "ES2022",                // 产物使用的 JS 语言版本（现代 Node 推荐 ES2022/ES2023/ESNext）
+    "module": "ES2022",                // 输出为 ESM 模块语法（import / export）
+    "moduleResolution": "node",        // 如何根据 node 风格解析模块（node 或 bundler 友好）
+    "lib": ["ES2022"],                 // 编译时可用的内置类型（Promise, Map, etc.）
+    "rootDir": "src",
+    "outDir": "dist",
+    "declaration": true,               // 生成 .d.ts 类型声明文件（发布库时强烈推荐）
+    "sourceMap": true,                 // 生成 source map，便于调试
+    "strict": true,                    // 启用一整套严格检查（等价开启多项 strict 选项）
+    "noImplicitAny": true,             // 不允许隐式 any
+    "esModuleInterop": true,           // 与 CommonJS 的互操作（允许 default 导入 commonjs 模块）
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,              // 跳过依赖声明的类型检查，显著加快编译并减少第三方问题
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,         // 允许 import .json
+    "moduleDetection": "force",        // 强制模块类型检测（TypeScript 5+ 的选项）
+    "types": ["node"],                 // 引入 node 全局类型（比如 process、Buffer）
+    "declarationMap": true             // 生成 declaration maps（对调试 d.ts 有帮助）
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test", "coverage"]
+}

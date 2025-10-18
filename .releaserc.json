@@ -1,0 +1,51 @@
+{
+  "branches": [
+    "master"
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits",
+        "presetConfig": {
+          "types": [
+            { "type": "feat", "section": "✨ 功能更新" },
+            { "type": "fix", "section": "🐛 Bug修复" },
+            { "type": "docs", "section": "📚 文档更新" },
+            { "type": "style", "section": "💄 样式优化" },
+            { "type": "refactor", "section": "♻️ 代码重构" },
+            { "type": "perf", "section": "⚡ 性能优化" },
+            { "type": "test", "section": "✅ 测试" },
+            { "type": "build", "section": "📦 构建" },
+            { "type": "ci", "section": "👷 CI/CD" },
+            { "type": "chore", "section": "🔧 其他更改" }
+          ]
+        }
+      }
+    ],
+    "@semantic-release/changelog",
+    "@semantic-release/npm",
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "CHANGELOG.md",
+          "package.json"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ]
+  ],
+  "preset": "angular",
+  "releaseRules": [
+    {
+      "type": "refactor",
+      "release": "patch"
+    },
+    {
+      "type": "style",
+      "release": "patch"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "semantic-release-minecraft",
+  "version": "0.0.1",
+  "description": "Automated Release For Minecraft Project",
+  "keywords": [
+    "semantic-release",
+    "minecraft",
+    "automation"
+  ],
+  "author": "ENC_Euphony <2330458484@qq.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint ./src --ext .ts",
+    "lint:fix": "eslint ./src --ext .ts --fix",
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "semantic-release": "semantic-release"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "@types/node": "^24.8.1",
+    "@types/lodash": "^4.17.20",
+    "eslint": "^9.38.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "prettier": "^3.6.2",
+    "semantic-release": "^25.0.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/npm": "^13.0.0",
+    "@semantic-release/release-notes-generator": "^14.1.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.1"
+  },
+  "peerDependencies": {
+    "semantic-release": ">=18.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.12.2",
+    "form-data": "^4.0.4",
+    "glob": "^11.0.3",
+    "lodash": "^4.17.21"
+  }
+}

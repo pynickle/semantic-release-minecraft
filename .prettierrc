@@ -1,0 +1,18 @@
+﻿{
+  "trailingComma": "es5",
+  "tabWidth": 4,
+  "singleQuote": true,
+  "importOrder": [
+    "^(?:@[^/].*|[A-Za-z].*)$",
+    "^@/.*$",
+    "^[./].*$"
+  ],
+  "importOrderSortSpecifiers": true,
+  "importOrderParserPlugins": [
+    "typescript",
+    "decorators"
+  ],
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports"
+  ],
+}
