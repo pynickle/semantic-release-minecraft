@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/pynickle/semantic-release-minecraft/compare/v1.1.0...v1.1.1) (2025-10-18)
+
+### 🐛 Bug修复
+
+* fix template error ([33689ba](https://github.com/pynickle/semantic-release-minecraft/commit/33689ba606199912621f950c0c5f0c6b3ea4ab17))
+
 ## [1.1.0](https://github.com/pynickle/semantic-release-minecraft/compare/v1.0.3...v1.1.0) (2025-10-18)
 
 ### ✨ 功能更新
