@@ -11,19 +11,25 @@ import { resolveAndRenderTemplates } from '../template-utils.js';
 export async function findFilesAndPrimaryFile(
     pluginConfig: PluginConfig,
     context: PublishContext,
-    strategy: Record<string, string>
+    strategy: Record<string, string>,
+    platform: 'curseforge' | 'modrinth'
 ): Promise<{ files: string[]; primaryFile: string }> {
     const { nextRelease, logger } = context;
 
-    const modrinthGlob = resolveAndRenderTemplates(
-        [pluginConfig.modrinth?.glob, pluginConfig.glob],
+    const filesGlob = resolveAndRenderTemplates(
+        [
+            platform === 'modrinth'
+                ? pluginConfig.modrinth?.glob
+                : pluginConfig.curseforge?.glob,
+            pluginConfig.glob,
+        ],
         {
             nextRelease,
             ...strategy,
         }
     );
 
-    const files = await findFilesByGlob(modrinthGlob, context);
+    const files = await findFilesByGlob(filesGlob, context);
     logger.log(
         `Found ${files.length} file(s) for publishing: ${files.join(', ')}`
     );
@@ -34,7 +40,9 @@ export async function findFilesAndPrimaryFile(
 
     const primaryPatterns = resolveAndRenderTemplates(
         [
-            pluginConfig.modrinth?.primary_file_glob,
+            platform === 'modrinth'
+                ? pluginConfig.modrinth?.primary_file_glob
+                : pluginConfig.curseforge?.primary_file_glob,
             pluginConfig.primary_file_glob,
         ],
         {
