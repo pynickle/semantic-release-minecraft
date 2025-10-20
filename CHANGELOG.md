@@ -1,3 +1,9 @@
+## [2.0.4](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.3...v2.0.4) (2025-10-20)
+
+### 🐛 Bug修复
+
+* fix form data error ([44eaf76](https://github.com/pynickle/semantic-release-minecraft/commit/44eaf76c6eeedbc63ebc4d7602a68a09ed4352e1))
+
 ## [2.0.3](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.2...v2.0.3) (2025-10-20)
 
 ### 🐛 Bug修复
