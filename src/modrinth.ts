@@ -56,7 +56,6 @@ export async function publishToModrinth(
     const versionData: any = {
         project_id: projectId,
         file_parts: filePartNames,
-        loaders: modrinth?.mod_loaders || [],
         version_type: pluginConfig.release_type || 'release',
         dependencies: modrinth?.dependencies || [],
         featured: modrinth?.featured || false,
@@ -112,7 +111,7 @@ export async function publishToModrinth(
         }
     );
 
-    versionData.mod_loaders = modLoaders || [];
+    versionData.loaders = modLoaders || [];
 
     form.append('data', JSON.stringify(versionData));
 
