@@ -4,9 +4,9 @@ import { readFile } from 'fs/promises';
 import { basename } from 'path';
 import { PublishContext } from 'semantic-release';
 import { PluginConfig } from './definitions/plugin-config.js';
-import { getCurseForgeModLoaders } from './utils/platform/curseforge-utils';
-import { findFilesAndPrimaryFile } from './utils/platform/utils';
-import { resolveAndRenderTemplate } from './utils/template-utils';
+import { getCurseForgeModLoaders } from './utils/platform/curseforge-utils.js';
+import { findFilesAndPrimaryFile } from './utils/platform/utils.js';
+import { resolveAndRenderTemplate } from './utils/template-utils.js';
 
 /**
  * Publishes files to CurseForge.

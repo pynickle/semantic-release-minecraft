@@ -1,9 +1,9 @@
 ﻿import { glob } from 'glob';
 import { resolve } from 'path';
 import { PublishContext } from 'semantic-release';
-import { PluginConfig } from '../../definitions/plugin-config';
-import { findFilesByGlob } from '../glob-utils';
-import { resolveAndRenderTemplates } from '../template-utils';
+import { PluginConfig } from '../../definitions/plugin-config.js';
+import { findFilesByGlob } from '../glob-utils.js';
+import { resolveAndRenderTemplates } from '../template-utils.js';
 
 /**
  * Find files and primary file for publishing.

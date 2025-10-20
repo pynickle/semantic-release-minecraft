@@ -6,8 +6,8 @@ import {
     CurseForgeGameVersionMap,
     CurseForgeGameVersionType,
 } from './definitions/curseforge.js';
-import { PluginConfig } from './definitions/plugin-config';
-import { getCurseForgeModLoaders } from './utils/platform/curseforge-utils';
+import { PluginConfig } from './definitions/plugin-config.js';
+import { getCurseForgeModLoaders } from './utils/platform/curseforge-utils.js';
 import { toArray } from './utils/utils.js';
 
 /**

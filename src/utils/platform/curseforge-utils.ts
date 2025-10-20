@@ -1,6 +1,6 @@
 ﻿import { NextRelease } from 'semantic-release';
-import { PluginConfig } from '../../definitions/plugin-config';
-import { renderTemplates, resolveAndRenderTemplates } from '../template-utils';
+import { PluginConfig } from '../../definitions/plugin-config.js';
+import { resolveAndRenderTemplates } from '../template-utils.js';
 
 export function getCurseForgeModLoaders(
     pluginConfig: PluginConfig,

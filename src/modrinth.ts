@@ -3,12 +3,12 @@ import FormData from 'form-data';
 import { readFile } from 'fs/promises';
 import { basename } from 'path';
 import { PublishContext } from 'semantic-release';
-import { PluginConfig } from './definitions/plugin-config';
-import { findFilesAndPrimaryFile } from './utils/platform/utils';
+import { PluginConfig } from './definitions/plugin-config.js';
+import { findFilesAndPrimaryFile } from './utils/platform/utils.js';
 import {
     resolveAndRenderTemplate,
     resolveAndRenderTemplates,
-} from './utils/template-utils';
+} from './utils/template-utils.js';
 
 /**
  * Publishes files to Modrinth.
