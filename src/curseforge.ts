@@ -1,6 +1,6 @@
 import axios from 'axios';
 import FormData from 'form-data';
-import { readFile } from 'fs/promises';
+import { createReadStream } from 'node:fs';
 import { basename } from 'path';
 import { PublishContext } from 'semantic-release';
 import { PluginConfig } from './definitions/plugin-config.js';
@@ -78,7 +78,7 @@ async function uploadCurseForgeFile(
     const projectId = curseforge!.project_id!;
 
     const form = new FormData();
-    const file = await readFile(filePath);
+    const file = createReadStream(filePath);
     form.append('file', file, {
         filename: basename(filePath),
     });
@@ -94,7 +94,7 @@ async function uploadCurseForgeFile(
         metadata.parentFileID = primaryFileId;
     }
 
-    form.append('metadata', metadata);
+    form.append('metadata', JSON.stringify(metadata));
 
     const response = await axios.post(
         `https://upload.curseforge.com/api/projects/${projectId}/upload-file`,

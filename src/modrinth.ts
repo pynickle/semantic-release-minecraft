@@ -1,6 +1,6 @@
 import axios from 'axios';
 import FormData from 'form-data';
-import { readFile } from 'fs/promises';
+import { createReadStream } from 'node:fs';
 import { basename } from 'path';
 import { PublishContext } from 'semantic-release';
 import { PluginConfig } from './definitions/plugin-config.js';
@@ -40,7 +40,7 @@ export async function publishToModrinth(
 
     for (let i = 0; i < files.length; i++) {
         const filePath = files[i];
-        const file = await readFile(filePath);
+        const file = createReadStream(filePath);
         const fileName = basename(filePath);
 
         const filePartName = `file-${i}`;
@@ -103,7 +103,7 @@ export async function publishToModrinth(
 
     versionData.mod_loaders = modLoaders || [];
 
-    form.append('data', versionData);
+    form.append('data', JSON.stringify(versionData));
 
     const versionResponse = await axios.post(
         'https://api.modrinth.com/v2/version',
