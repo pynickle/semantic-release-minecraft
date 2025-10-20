@@ -1,3 +1,13 @@
+## [1.2.1](https://github.com/pynickle/semantic-release-minecraft/compare/v1.2.0...v1.2.1) (2025-10-20)
+
+### 💄 样式优化
+
+* add more comment for code ([f8423eb](https://github.com/pynickle/semantic-release-minecraft/commit/f8423eb0adf5ff61c86f0e2a7c733709348a1adb))
+
+### 🔧 其他更改
+
+* update dev dependencies version ([af5a038](https://github.com/pynickle/semantic-release-minecraft/commit/af5a038f14de657bff1cacf9b5812771199e202d))
+
 ## [1.2.0](https://github.com/pynickle/semantic-release-minecraft/compare/v1.1.3...v1.2.0) (2025-10-20)
 
 ### ✨ 功能更新
