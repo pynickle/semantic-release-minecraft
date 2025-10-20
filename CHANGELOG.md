@@ -1,3 +1,9 @@
+## [2.0.9](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.8...v2.0.9) (2025-10-20)
+
+### 🐛 Bug修复
+
+* try to fix modrinth upload error ([8751372](https://github.com/pynickle/semantic-release-minecraft/commit/875137212046de59dd422d0d56b40541c8c4a0d5))
+
 ## [2.0.8](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.7...v2.0.8) (2025-10-20)
 
 ### 🐛 Bug修复
