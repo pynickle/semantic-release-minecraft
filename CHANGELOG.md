@@ -1,3 +1,9 @@
+## [2.0.6](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.5...v2.0.6) (2025-10-20)
+
+### 🐛 Bug修复
+
+* fix error key in modrinth publishing ([95969e0](https://github.com/pynickle/semantic-release-minecraft/commit/95969e0a15263b8624e924c5e7973fa9373e4522))
+
 ## [2.0.5](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.4...v2.0.5) (2025-10-20)
 
 ### 🐛 Bug修复
