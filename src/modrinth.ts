@@ -56,7 +56,6 @@ export async function publishToModrinth(
     const versionData: any = {
         project_id: projectId,
         file_parts: filePartNames,
-        changelog: modrinth?.changelog || nextRelease.notes || '',
         loaders: modrinth?.mod_loaders || [],
         version_type: pluginConfig.release_type || 'release',
         dependencies: modrinth?.dependencies || [],
@@ -65,6 +64,18 @@ export async function publishToModrinth(
         requested_status: modrinth?.requested_status || 'listed',
         primary_file: primaryFilePartName,
     };
+
+    const changelog = resolveAndRenderTemplate(
+        [modrinth?.changelog, nextRelease.notes],
+        {
+            nextRelease,
+            ...strategy,
+        }
+    );
+
+    if (changelog) {
+        versionData.changelog = changelog;
+    }
 
     const displayName = resolveAndRenderTemplate(
         [modrinth?.display_name, pluginConfig.display_name],
@@ -129,11 +140,11 @@ export async function publishToModrinth(
         versionResponse.status === 401
     ) {
         throw new Error(
-            `Failed to publish to Modrinth (${versionResponse.status}): ${resData}`
+            `Failed to publish to Modrinth (${versionResponse.status}): ${resData.error}\n${resData.description}`
         );
     } else {
         throw new Error(
-            `Failed to publish to Modrinth (${versionResponse.status}): ${resData}`
+            `Failed to publish to Modrinth (${versionResponse.status}): ${resData.error}\n${resData.description}`
         );
     }
 }
