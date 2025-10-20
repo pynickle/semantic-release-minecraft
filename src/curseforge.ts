@@ -8,6 +8,9 @@ import { getCurseForgeModLoaders } from './utils/platform/curseforge-utils';
 import { findFilesAndPrimaryFile } from './utils/platform/utils';
 import { resolveAndRenderTemplate } from './utils/template-utils';
 
+/**
+ * Publishes files to CurseForge.
+ */
 export async function publishToCurseforge(
     pluginConfig: PluginConfig,
     context: PublishContext,
@@ -52,6 +55,9 @@ export async function publishToCurseforge(
     return primaryFileId;
 }
 
+/**
+ * Uploads a single file to CurseForge.
+ */
 async function uploadCurseForgeFile(
     pluginConfig: PluginConfig,
     context: PublishContext,
@@ -108,6 +114,9 @@ async function uploadCurseForgeFile(
     }
 }
 
+/**
+ * Prepares metadata for the CurseForge file upload.
+ */
 function prepareMetadata(
     pluginConfig: PluginConfig,
     context: PublishContext,
