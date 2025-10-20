@@ -35,6 +35,7 @@ export type PluginConfig = {
             }>;
         };
         glob?: string | string[];
+        primary_file_glob?: string | string[];
     };
     modrinth?: {
         project_id: string;
