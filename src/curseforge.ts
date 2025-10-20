@@ -25,7 +25,8 @@ export async function publishToCurseforge(
     const { files, primaryFile } = await findFilesAndPrimaryFile(
         pluginConfig,
         context,
-        strategy
+        strategy,
+        'curseforge'
     );
     logger.log(
         `Publishing ${files.length} file(s) to CurseForge project ${projectId}...`

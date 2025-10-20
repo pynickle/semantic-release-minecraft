@@ -26,7 +26,8 @@ export async function publishToModrinth(
     const { files, primaryFile } = await findFilesAndPrimaryFile(
         pluginConfig,
         context,
-        strategy
+        strategy,
+        'modrinth'
     );
     logger.log(
         `Publishing ${files.length} file(s) to Modrinth project ${projectId}...`
