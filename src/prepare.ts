@@ -7,7 +7,7 @@ import {
     CurseForgeGameVersionType,
 } from './definitions/curseforge.js';
 import { PluginConfig } from './definitions/plugin-config.js';
-import { resolveAndRenderTemplates } from './utils/template-utils';
+import { resolveAndRenderTemplates } from './utils/template-utils.js';
 import { toArray } from './utils/utils.js';
 
 /**
