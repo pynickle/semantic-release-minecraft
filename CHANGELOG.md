@@ -6,6 +6,23 @@
 
 ### 🐛 Bug修复
 
+* add missing argument for findFilesAndPrimaryFile ([443c52d](https://github.com/pynickle/semantic-release-minecraft/commit/443c52db0fd63f908b5a17a0b2161e6923337be4))
+* fix import error ([a4aa6d0](https://github.com/pynickle/semantic-release-minecraft/commit/a4aa6d0159a73465da9d1dc0dab308ab8a66763d))
+* fix incorrect glob for curseforge ([4422258](https://github.com/pynickle/semantic-release-minecraft/commit/44222580c708825a46ff3b35a8f73129997075c5))
+
+### 🔧 其他更改
+
+* add parserOpts of noteKeywords ([a4d1114](https://github.com/pynickle/semantic-release-minecraft/commit/a4d11148c048547e3829d9347797da7cd09b1e73))
+* **release:** 2.0.0 [skip ci] ([201f84d](https://github.com/pynickle/semantic-release-minecraft/commit/201f84d9d5c06a1cc0c209eebfbc588bb353b732))
+
+## [2.0.0](https://github.com/pynickle/semantic-release-minecraft/compare/v1.2.1...v2.0.0) (2025-10-20)
+
+### ⚠ BREAKING CHANGES
+
+* test if it works
+
+### 🐛 Bug修复
+
 * fix import error ([a4aa6d0](https://github.com/pynickle/semantic-release-minecraft/commit/a4aa6d0159a73465da9d1dc0dab308ab8a66763d))
 
 ### 🔧 其他更改
