@@ -4,69 +4,63 @@ import {
     VerifyConditionsContext,
 } from 'semantic-release';
 import { publishToCurseforge } from './curseforge.js';
-import { Plugin_config } from './definitions/plugin_config.js';
+import { PluginConfig } from './definitions/plugin-config.js';
 import { publishToModrinth } from './modrinth.js';
 import { getCurseForgeGameVersionIds } from './prepare.js';
 
-// 模块级变量存储 CurseForge 版本映射
+// Game version IDs transformed from user's input, used during publishing to CurseForge
 let curseforgeGameVersionsIds: number[] | undefined;
 
 export async function verifyConditions(
-    pluginConfig: Plugin_config,
+    pluginConfig: PluginConfig,
     context: VerifyConditionsContext
 ) {
-    // 验证配置：只检查 project_id，token 通过环境变量验证
-    if (pluginConfig.curseforge && !pluginConfig.curseforge.project_id) {
+    const { env } = context;
+
+    if (env.CURSEFORGE_TOKEN && !pluginConfig.curseforge?.project_id) {
         throw new Error('CurseForge project ID is required');
     }
 
-    if (pluginConfig.modrinth && !pluginConfig.modrinth.project_id) {
+    if (env.MODRINTH_TOKEN && !pluginConfig.modrinth?.project_id) {
         throw new Error('Modrinth project ID is required');
     }
 }
 
 export async function prepare(
-    pluginConfig: Plugin_config,
+    pluginConfig: PluginConfig,
     context: PrepareContext
 ) {
     const { env, logger } = context;
 
     if (env.CURSEFORGE_TOKEN) {
-        const apiKey = env.CURSEFORGE_TOKEN;
-        try {
-            logger.log('Fetching CurseForge game versions and types...');
+        const apiToken = env.CURSEFORGE_TOKEN;
+        logger.log('Fetching CurseForge game versions and types...');
 
-            // 创建版本映射并存储在模块级变量中供后续使用
-            curseforgeGameVersionsIds = await getCurseForgeGameVersionIds(
-                apiKey,
-                pluginConfig,
-                env,
-                context.nextRelease
-            );
+        curseforgeGameVersionsIds = await getCurseForgeGameVersionIds(
+            apiToken,
+            pluginConfig,
+            context
+        );
 
-            logger.log(
-                `Successfully transform ${Object.keys(curseforgeGameVersionsIds).length} CurseForge game versions`
-            );
-        } catch (error) {
-            logger.warn(
-                `Failed to fetch CurseForge game versions: ${error instanceof Error ? error.message : 'Unknown error'}`
-            );
-        }
+        logger.log(
+            `Successfully transform into ${Object.keys(curseforgeGameVersionsIds).length} CurseForge game versions`
+        );
     }
 }
 
 export async function publish(
-    pluginConfig: Plugin_config,
+    pluginConfig: PluginConfig,
     context: PublishContext
 ): Promise<{ url: string }[]> {
     const { env, logger } = context;
     const results: { url: string }[] = [];
 
-    try {
+    for (const strategy of pluginConfig.strategies || [{}]) {
         if (env.CURSEFORGE_TOKEN) {
             const curseforgeId = await publishToCurseforge(
                 pluginConfig,
                 context,
+                strategy,
                 curseforgeGameVersionsIds
             );
             results.push({
@@ -78,9 +72,12 @@ export async function publish(
             );
         }
 
-        // 发布到 Modrinth（如果配置了 Modrinth 且存在环境变量）
         if (env.MODRINTH_TOKEN) {
-            const modrinthId = await publishToModrinth(pluginConfig, context);
+            const modrinthId = await publishToModrinth(
+                pluginConfig,
+                context,
+                strategy
+            );
             results.push({
                 url: `https://modrinth.com/mod/${pluginConfig.modrinth!.project_id}/version/${modrinthId}`,
             });
@@ -89,10 +86,7 @@ export async function publish(
                 'Modrinth publishing is skipped: MODRINTH_TOKEN environment variable not found.'
             );
         }
-
-        return results;
-    } catch (error) {
-        logger.error('Failed to publish:', error);
-        throw error;
     }
+
+    return results;
 }

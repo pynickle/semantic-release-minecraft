@@ -1,37 +1,38 @@
 import axios from 'axios';
-import { NextRelease } from 'semantic-release';
+import { PrepareContext } from 'semantic-release';
 import {
     BUKKIT_GAME_VERSION_TYPE,
     CurseForgeGameVersion,
     CurseForgeGameVersionMap,
     CurseForgeGameVersionType,
 } from './definitions/curseforge.js';
-import { Plugin_config } from './definitions/plugin_config.js';
-import { getCurseForgeModLoaders, toArray } from './utils/utils.js';
+import { PluginConfig } from './definitions/plugin-config';
+import { getCurseForgeModLoaders } from './utils/platform/curseforge-utils';
+import { toArray } from './utils/utils.js';
 
 /**
- * 根据提供的游戏版本联合对象检索游戏版本 ID 变体数组。
+ * Get CurseForge game version IDs based on the plugin configuration.
  */
 export async function getCurseForgeGameVersionIds(
     apiToken: string,
-    pluginConfig: Plugin_config,
-    env: Record<string, string>,
-    nextRelease: NextRelease
+    pluginConfig: PluginConfig,
+    context: PrepareContext
 ): Promise<number[]> {
+    const { nextRelease } = context;
+
     const curseforgeConfig = pluginConfig.curseforge!;
 
-    const modLoaders = getCurseForgeModLoaders(pluginConfig, env, nextRelease);
-    const javaVersions = toArray(curseforgeConfig.java_versions || []);
+    const modLoaders = getCurseForgeModLoaders(pluginConfig, nextRelease);
+
+    const javaVersions = toArray(curseforgeConfig.java_versions);
     const gameVersions = toArray(
-        curseforgeConfig.game_versions || pluginConfig.game_versions || []
+        curseforgeConfig.game_versions || pluginConfig.game_versions
     );
     const pluginGameVersions = toArray(
-        curseforgeConfig.game_versions_for_plugins || []
+        curseforgeConfig.game_versions_for_plugins
     );
-    const addonGameVersions = toArray(
-        curseforgeConfig.game_versions_for_addon || []
-    );
-    const environments = toArray(curseforgeConfig.environments || []);
+    const addonGameVersions = toArray(curseforgeConfig.game_versions_for_addon);
+    const environments = toArray(curseforgeConfig.environments);
 
     const map = await createCurseForgeGameVersionMap(apiToken);
 
@@ -42,12 +43,9 @@ export async function getCurseForgeGameVersionIds(
     // TODO: Modrinth 和 CurseForge 的游戏版本命名格式转化，以 Modrinth 为基准
     // const gameVersionNames = gameVersions.map(x => formatCurseForgeGameVersionSnapshot(x));
 
-    // 模组的游戏版本名称
     const gameVersionIds = findCurseForgeGameVersionIdsByNames(
         map.game_versions,
-        gameVersions,
-        undefined,
-        CURSEFORGE_GAME_VERSION_SNAPSHOT_NAME_COMPARER
+        gameVersions
     );
 
     const loaderIds = findCurseForgeGameVersionIdsByNames(
@@ -60,13 +58,11 @@ export async function getCurseForgeGameVersionIds(
         javaVersionNames
     );
 
-    // 插件的游戏版本名称
     const pluginGameVersionIds = findCurseForgeGameVersionIdsByNames(
         map.game_versions_for_plugins,
         pluginGameVersions
     );
 
-    // 附加组件的游戏版本名称
     const addonGameVersionIds = findCurseForgeGameVersionIdsByNames(
         map.game_versions_for_addons,
         addonGameVersions
@@ -89,7 +85,9 @@ export async function getCurseForgeGameVersionIds(
     return curseforgeGameVersionIds;
 }
 
-// 创建一个 CurseForge 游戏版本映射，通过根据类型名称对游戏版本类型进行分类。
+/**
+ * Create a CurseForge game version map by categorizing game versions based on their type names.
+ */
 async function createCurseForgeGameVersionMap(
     apiToken: string
 ): Promise<CurseForgeGameVersionMap> {
@@ -120,18 +118,9 @@ async function createCurseForgeGameVersionMap(
     };
 }
 
-function filterGameVersionsByTypeName(
-    versions: CurseForgeGameVersion[],
-    types: CurseForgeGameVersionType[],
-    typeName: string
-): CurseForgeGameVersion[] {
-    const filteredTypes = types.filter((x) => x.slug.startsWith(typeName));
-    return versions.filter((v) =>
-        filteredTypes.some((t) => t.id === v.gameVersionTypeID)
-    );
-}
-
-// 获取 CurseForge 游戏版本和版本类型信息
+/**
+ * Fetch CurseForge game version and version type information.
+ */
 async function fetchCurseForgeGameVersionInfo(apiToken: string): Promise<{
     versions: CurseForgeGameVersion[];
     types: CurseForgeGameVersionType[];
@@ -158,7 +147,7 @@ async function fetchCurseForgeGameVersionInfo(apiToken: string): Promise<{
         gameVersionTypesRes.data as CurseForgeGameVersionType[];
 
     if (!gameVersionTypes.some((x) => x.id === BUKKIT_GAME_VERSION_TYPE.id)) {
-        gameVersionTypes.unshift(BUKKIT_GAME_VERSION_TYPE);
+        gameVersionTypes.push(BUKKIT_GAME_VERSION_TYPE);
     }
 
     return {
@@ -167,33 +156,35 @@ async function fetchCurseForgeGameVersionInfo(apiToken: string): Promise<{
     };
 }
 
+/**
+ * Filter game versions by their type name prefix.
+ */
+function filterGameVersionsByTypeName(
+    versions: CurseForgeGameVersion[],
+    types: CurseForgeGameVersionType[],
+    typeName: string
+): CurseForgeGameVersion[] {
+    const filteredTypes = types.filter((x) => x.slug.startsWith(typeName));
+    return versions.filter((v) =>
+        filteredTypes.some((t) => t.id === v.gameVersionTypeID)
+    );
+}
+
+/**
+ * Find CurseForge game version IDs by their names using a custom comparer.
+ */
 function findCurseForgeGameVersionIdsByNames(
     versions: { id: number; name: string }[],
     names: string[],
     comparer: (a: string, b: string) => boolean = (a, b) =>
-        a.toLowerCase() === b.toLowerCase(),
-    fallbackComparer?: (a: string, b: string) => boolean
+        a.toLowerCase() === b.toLowerCase()
 ): number[] {
     const result: number[] = [];
 
     for (const name of names) {
         let version = versions.find((v) => comparer(v.name, name));
-        if (!version && fallbackComparer) {
-            version = versions.find((v) => fallbackComparer(v.name, name));
-        }
         if (version) result.push(version.id);
     }
 
-    return [...new Set(result)];
+    return result;
 }
-
-/**
- * 比较器：忽略名称中的 "-Snapshot" 后缀
- */
-export const CURSEFORGE_GAME_VERSION_SNAPSHOT_NAME_COMPARER = (
-    a: string,
-    b: string
-): boolean => {
-    const normalize = (s: string) => s?.replace(/-snapshot$/i, '') ?? '';
-    return normalize(a).toLowerCase() === normalize(b).toLowerCase();
-};

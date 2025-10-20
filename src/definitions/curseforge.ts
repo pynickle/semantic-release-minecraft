@@ -14,32 +14,32 @@ export interface CurseForgeGameVersionType {
 
 export interface CurseForgeGameVersionMap {
     /**
-     * Minecraft 游戏版本的数组。
+     * Array of Minecraft game versions.
      */
     game_versions: CurseForgeGameVersion[];
 
     /**
-     * 主要用于 Bukkit 插件的游戏版本数组。
+     * Array of game versions primarily used for Bukkit plugins.
      */
     game_versions_for_plugins: CurseForgeGameVersion[];
 
     /**
-     * 附加组件的游戏版本数组。
+     * Array of game versions for add-ons.
      */
     game_versions_for_addons: CurseForgeGameVersion[];
 
     /**
-     * Java 版本的数组。
+     * Array of Java versions.
      */
     java_versions: CurseForgeGameVersion[];
 
     /**
-     * 模组加载器的游戏版本数组。
+     * Array of game versions for mod loaders.
      */
     loaders: CurseForgeGameVersion[];
 
     /**
-     * 不同环境的游戏版本数组。
+     * Array of game versions for different environments.
      */
     environments: CurseForgeGameVersion[];
 }
