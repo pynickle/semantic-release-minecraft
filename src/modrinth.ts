@@ -113,9 +113,10 @@ export async function publishToModrinth(
 
     versionData.loaders = modLoaders || [];
 
-    for (const [key, value] of versionData.entries) {
-        logger.log(`${key}: ${value}`);
+    for (const [key, value] of Object.entries(versionData)) {
+        logger.log(key, value);
     }
+
     logger.log(
         JSON.stringify(versionData)
     )
