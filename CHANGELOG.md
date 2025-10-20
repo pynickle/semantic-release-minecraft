@@ -1,3 +1,9 @@
+## [2.0.5](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.4...v2.0.5) (2025-10-20)
+
+### 🐛 Bug修复
+
+* fix changelog not applied correctly ([53317c2](https://github.com/pynickle/semantic-release-minecraft/commit/53317c2b5c3d483488b9d3decfabddea3cd0e2b9))
+
 ## [2.0.4](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.3...v2.0.4) (2025-10-20)
 
 ### 🐛 Bug修复
