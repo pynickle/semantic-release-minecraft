@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.2...v2.0.3) (2025-10-20)
+
+### 🐛 Bug修复
+
+* fix import error ([7d49ea7](https://github.com/pynickle/semantic-release-minecraft/commit/7d49ea7e7841f7b44a46d7009dcd9a32a23b4ba6))
+* fix mod loaders are not parsed with strategy ([5f0527e](https://github.com/pynickle/semantic-release-minecraft/commit/5f0527e45729983e067cf8bd5e701ea2d5d151ee))
+
 ## [2.0.2](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.1...v2.0.2) (2025-10-20)
 
 ### 🐛 Bug修复
