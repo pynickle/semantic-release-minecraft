@@ -1,3 +1,9 @@
+## [2.0.2](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.1...v2.0.2) (2025-10-20)
+
+### 🐛 Bug修复
+
+* fix import error again ([58305ec](https://github.com/pynickle/semantic-release-minecraft/commit/58305ecd396bd18c48cda0f2b950944bf932ef90))
+
 ## [2.0.1](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.0...v2.0.1) (2025-10-20)
 
 ### 🐛 Bug修复
