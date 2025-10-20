@@ -1,3 +1,17 @@
+## [2.0.0](https://github.com/pynickle/semantic-release-minecraft/compare/v1.2.1...v2.0.0) (2025-10-20)
+
+### ⚠ BREAKING CHANGES
+
+* test if it works
+
+### 🐛 Bug修复
+
+* fix import error ([a4aa6d0](https://github.com/pynickle/semantic-release-minecraft/commit/a4aa6d0159a73465da9d1dc0dab308ab8a66763d))
+
+### 🔧 其他更改
+
+* add parserOpts of noteKeywords ([a4d1114](https://github.com/pynickle/semantic-release-minecraft/commit/a4d11148c048547e3829d9347797da7cd09b1e73))
+
 ## [1.2.1](https://github.com/pynickle/semantic-release-minecraft/compare/v1.2.0...v1.2.1) (2025-10-20)
 
 ### 💄 样式优化
