@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/pynickle/semantic-release-minecraft/compare/v1.1.3...v1.2.0) (2025-10-20)
+
+### ✨ 功能更新
+
+* add strategy for multiple release ([b688b0c](https://github.com/pynickle/semantic-release-minecraft/commit/b688b0cd698c63f8e3f00216cd317a2f665561eb))
+
 ## [1.1.3](https://github.com/pynickle/semantic-release-minecraft/compare/v1.1.2...v1.1.3) (2025-10-18)
 
 ### 🐛 Bug修复
