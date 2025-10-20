@@ -113,6 +113,13 @@ export async function publishToModrinth(
 
     versionData.loaders = modLoaders || [];
 
+    for (const [key, value] of versionData.entries) {
+        logger.log(`${key}: ${value}`);
+    }
+    logger.log(
+        JSON.stringify(versionData)
+    )
+
     form.append('data', JSON.stringify(versionData));
 
     const versionResponse = await axios.post(
