@@ -1,3 +1,15 @@
+## [2.0.1](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.0...v2.0.1) (2025-10-20)
+
+### 🐛 Bug修复
+
+* add missing argument for findFilesAndPrimaryFile ([443c52d](https://github.com/pynickle/semantic-release-minecraft/commit/443c52db0fd63f908b5a17a0b2161e6923337be4))
+* fix incorrect glob for curseforge ([4422258](https://github.com/pynickle/semantic-release-minecraft/commit/44222580c708825a46ff3b35a8f73129997075c5))
+* trigger release ([e579951](https://github.com/pynickle/semantic-release-minecraft/commit/e5799515977cb3e1bf373aedd1d5a95d27625331))
+
+### 🔧 其他更改
+
+* **release:** 2.0.0 [skip ci] ([b7f49a9](https://github.com/pynickle/semantic-release-minecraft/commit/b7f49a9d4da207d4d310ff47b43f19aba667e0f5))
+
 ## [2.0.0](https://github.com/pynickle/semantic-release-minecraft/compare/v1.2.1...v2.0.0) (2025-10-20)
 
 ### ⚠ BREAKING CHANGES
