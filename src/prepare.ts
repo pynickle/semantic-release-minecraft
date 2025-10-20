@@ -7,7 +7,7 @@ import {
     CurseForgeGameVersionType,
 } from './definitions/curseforge.js';
 import { PluginConfig } from './definitions/plugin-config.js';
-import { getCurseForgeModLoaders } from './utils/platform/curseforge-utils.js';
+import { resolveAndRenderTemplates } from './utils/template-utils';
 import { toArray } from './utils/utils.js';
 
 /**
@@ -16,13 +16,21 @@ import { toArray } from './utils/utils.js';
 export async function getCurseForgeGameVersionIds(
     apiToken: string,
     pluginConfig: PluginConfig,
-    context: PrepareContext
+    context: PrepareContext,
+    strategy: Record<string, string>
 ): Promise<number[]> {
     const { nextRelease } = context;
 
     const curseforgeConfig = pluginConfig.curseforge!;
 
-    const modLoaders = getCurseForgeModLoaders(pluginConfig, nextRelease);
+    const modLoaders =
+        resolveAndRenderTemplates(
+            [pluginConfig.curseforge?.mod_loaders, pluginConfig.mod_loaders],
+            {
+                nextRelease,
+                ...strategy,
+            }
+        ) || [];
 
     const javaVersions = toArray(curseforgeConfig.java_versions);
     const gameVersions = toArray(

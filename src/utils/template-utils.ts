@@ -47,8 +47,5 @@ export function resolveAndRenderTemplates(
     const source = sources.find(Boolean);
     if (!source) return undefined;
 
-    return renderTemplates(
-        typeof source === 'string' ? toArray(source) : source,
-        context
-    );
+    return renderTemplates(source, context);
 }

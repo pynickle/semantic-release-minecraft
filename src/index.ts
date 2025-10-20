@@ -9,7 +9,7 @@ import { publishToModrinth } from './modrinth.js';
 import { getCurseForgeGameVersionIds } from './prepare.js';
 
 // Game version IDs transformed from user's input, used during publishing to CurseForge
-let curseforgeGameVersionsIds: number[] | undefined;
+let curseforgeGameVersionsIds: Array<number[]> = [];
 
 export async function verifyConditions(
     pluginConfig: PluginConfig,
@@ -36,14 +36,19 @@ export async function prepare(
         const apiToken = env.CURSEFORGE_TOKEN;
         logger.log('Fetching CurseForge game versions and types...');
 
-        curseforgeGameVersionsIds = await getCurseForgeGameVersionIds(
-            apiToken,
-            pluginConfig,
-            context
-        );
+        for (const strategy of pluginConfig.strategies || [{}]) {
+            curseforgeGameVersionsIds?.push(
+                await getCurseForgeGameVersionIds(
+                    apiToken,
+                    pluginConfig,
+                    context,
+                    strategy
+                )
+            );
+        }
 
         logger.log(
-            `Successfully transform into ${Object.keys(curseforgeGameVersionsIds).length} CurseForge game versions`
+            `Successfully transform into ${Object.keys(curseforgeGameVersionsIds[0]).length} CurseForge game versions for every strategy`
         );
     }
 }
@@ -55,13 +60,15 @@ export async function publish(
     const { env, logger } = context;
     const results: { url: string }[] = [];
 
-    for (const strategy of pluginConfig.strategies || [{}]) {
+    for (const [index, strategy] of (
+        pluginConfig.strategies || [{}]
+    ).entries()) {
         if (env.CURSEFORGE_TOKEN) {
             const curseforgeId = await publishToCurseforge(
                 pluginConfig,
                 context,
                 strategy,
-                curseforgeGameVersionsIds
+                curseforgeGameVersionsIds[index]
             );
             results.push({
                 url: `https://www.curseforge.com/minecraft/mc-mods/${pluginConfig.curseforge!.project_id}/files/${curseforgeId}`,

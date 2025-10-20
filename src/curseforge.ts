@@ -4,9 +4,11 @@ import { readFile } from 'fs/promises';
 import { basename } from 'path';
 import { PublishContext } from 'semantic-release';
 import { PluginConfig } from './definitions/plugin-config.js';
-import { getCurseForgeModLoaders } from './utils/platform/curseforge-utils.js';
 import { findFilesAndPrimaryFile } from './utils/platform/utils.js';
-import { resolveAndRenderTemplate } from './utils/template-utils.js';
+import {
+    resolveAndRenderTemplate,
+    resolveAndRenderTemplates,
+} from './utils/template-utils.js';
 
 /**
  * Publishes files to CurseForge.
@@ -35,6 +37,7 @@ export async function publishToCurseforge(
     let primaryFileId = await uploadCurseForgeFile(
         pluginConfig,
         context,
+        strategy,
         curseforgeGameVersionIds,
         primaryFile
     );
@@ -47,6 +50,7 @@ export async function publishToCurseforge(
         await uploadCurseForgeFile(
             pluginConfig,
             context,
+            strategy,
             curseforgeGameVersionIds,
             filePath,
             primaryFileId
@@ -62,6 +66,7 @@ export async function publishToCurseforge(
 async function uploadCurseForgeFile(
     pluginConfig: PluginConfig,
     context: PublishContext,
+    strategy: Record<string, string>,
     curseforgeGameVersionIds: number[] | undefined,
     filePath: string,
     primaryFileId?: number
@@ -81,6 +86,7 @@ async function uploadCurseForgeFile(
     const metadata = prepareMetadata(
         pluginConfig,
         context,
+        strategy,
         curseforgeGameVersionIds
     );
 
@@ -121,6 +127,7 @@ async function uploadCurseForgeFile(
 function prepareMetadata(
     pluginConfig: PluginConfig,
     context: PublishContext,
+    strategy: Record<string, string>,
     curseforgeGameVersionIds: number[] | undefined
 ) {
     const { nextRelease } = context;
@@ -137,12 +144,22 @@ function prepareMetadata(
 
     const displayName = resolveAndRenderTemplate(
         [curseforge?.display_name, pluginConfig.display_name],
-        { nextRelease }
+        {
+            nextRelease,
+            ...strategy,
+        }
     );
 
-    metadata.display_name = displayName || context.nextRelease.name;
+    metadata.displayName = displayName || context.nextRelease.name;
 
-    metadata.modLoaders = getCurseForgeModLoaders(pluginConfig, nextRelease);
+    const modLoaders = resolveAndRenderTemplates(
+        [pluginConfig.curseforge?.mod_loaders, pluginConfig.mod_loaders],
+        {
+            nextRelease,
+            ...strategy,
+        }
+    );
+    metadata.modLoaders = modLoaders || [];
 
     return metadata;
 }
