@@ -105,7 +105,7 @@ async function uploadCurseForgeFile(
 
     if (resData && typeof resData.id === 'number') {
         logger.log(
-            `Successfully published to CurseForge, File ID: ${resData.id}`
+            `Successfully published to CurseForge, ${primaryFileId ? 'Primary ' : ''}File ID: ${resData.id}`
         );
         return resData.id;
     } else {
