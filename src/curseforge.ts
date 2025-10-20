@@ -1,6 +1,6 @@
 import axios from 'axios';
 import FormData from 'form-data';
-import { createReadStream } from 'node:fs';
+import { readFileSync } from 'fs';
 import { basename } from 'path';
 import { PublishContext } from 'semantic-release';
 import { PluginConfig } from './definitions/plugin-config.js';
@@ -78,7 +78,7 @@ async function uploadCurseForgeFile(
     const projectId = curseforge!.project_id!;
 
     const form = new FormData();
-    const file = createReadStream(filePath);
+    const file = readFileSync(filePath);
     form.append('file', file, {
         filename: basename(filePath),
     });

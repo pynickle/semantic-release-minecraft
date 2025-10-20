@@ -1,6 +1,6 @@
 import axios from 'axios';
 import FormData from 'form-data';
-import { createReadStream } from 'node:fs';
+import { readFileSync } from 'fs';
 import { basename } from 'path';
 import { PublishContext } from 'semantic-release';
 import { PluginConfig } from './definitions/plugin-config.js';
@@ -35,17 +35,21 @@ export async function publishToModrinth(
 
     // use multipart/form-data to upload files and version data
     const form = new FormData();
+
     const filePartNames: string[] = [];
     let primaryFilePartName: string | undefined = undefined;
+    const fileBuffers: Buffer[] = [];
+    const fileNames: string[] = [];
 
     for (let i = 0; i < files.length; i++) {
         const filePath = files[i];
-        const file = createReadStream(filePath);
+        const fileBuffer = readFileSync(filePath);
+        fileBuffers.push(fileBuffer);
         const fileName = basename(filePath);
+        fileNames.push(fileName);
 
         const filePartName = `file-${i}`;
 
-        form.append(filePartName, file, { filename: fileName });
         filePartNames.push(filePartName);
 
         if (filePath === primaryFile) {
@@ -61,8 +65,11 @@ export async function publishToModrinth(
         featured: modrinth?.featured || false,
         status: modrinth?.status || 'listed',
         requested_status: modrinth?.requested_status || 'listed',
-        primary_file: primaryFilePartName,
     };
+
+    if (primaryFilePartName) {
+        versionData.primary_file = primaryFilePartName;
+    }
 
     const changelog = resolveAndRenderTemplate(
         [modrinth?.changelog, nextRelease.notes],
@@ -113,27 +120,40 @@ export async function publishToModrinth(
 
     versionData.loaders = modLoaders || [];
 
+    form.append('data', JSON.stringify(versionData), {
+        contentType: 'application/json',
+    });
+
+    for (let i = 0; i < files.length; i++) {
+        const filePartName = filePartNames[i];
+        const fileBuffer = fileBuffers[i];
+        const fileName = fileNames[i];
+
+        form.append(filePartName, fileBuffer, { filename: fileName });
+    }
+
+    const headers = form.getHeaders();
+    headers['Content-Length'] = form.getLengthSync();
+
     for (const [key, value] of Object.entries(versionData)) {
         logger.log(key, value);
     }
 
-    logger.log(
-        JSON.stringify(versionData)
-    )
-
-    form.append('data', JSON.stringify(versionData));
+    logger.log(JSON.stringify(versionData));
 
     const versionResponse = await axios.post(
         'https://api.modrinth.com/v2/version',
         form,
         {
             headers: {
-                ...form.getHeaders(),
+                ...headers,
                 Authorization: token,
             },
             validateStatus: (status) => status < 500,
         }
     );
+
+    form.append('data', JSON.stringify(versionData));
 
     const resData = versionResponse.data;
 
