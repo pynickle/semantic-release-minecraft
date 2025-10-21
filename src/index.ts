@@ -9,7 +9,7 @@ import { publishToModrinth } from './modrinth.js';
 import { getCurseForgeGameVersionIds } from './prepare.js';
 
 // Game version IDs transformed from user's input, used during publishing to CurseForge
-let curseforgeGameVersionsIds: Array<number[]> = [];
+let curseforgeGameVersionsIdsPerStrategy: Array<number[]> = [];
 
 export async function verifyConditions(
     pluginConfig: PluginConfig,
@@ -36,19 +36,11 @@ export async function prepare(
         const apiToken = env.CURSEFORGE_TOKEN;
         logger.log('Fetching CurseForge game versions and types...');
 
-        for (const strategy of pluginConfig.strategies || [{}]) {
-            curseforgeGameVersionsIds?.push(
-                await getCurseForgeGameVersionIds(
-                    apiToken,
-                    pluginConfig,
-                    context,
-                    strategy
-                )
-            );
-        }
+        curseforgeGameVersionsIdsPerStrategy =
+            await getCurseForgeGameVersionIds(apiToken, pluginConfig, context);
 
         logger.log(
-            `Successfully transform into ${Object.keys(curseforgeGameVersionsIds[0]).length} CurseForge game versions for every strategy`
+            `Successfully transform into ${Object.keys(curseforgeGameVersionsIdsPerStrategy[0]).length} CurseForge game versions for each strategy`
         );
     }
 }
@@ -68,7 +60,7 @@ export async function publish(
                 pluginConfig,
                 context,
                 strategy,
-                curseforgeGameVersionsIds[index]
+                curseforgeGameVersionsIdsPerStrategy[index]
             );
             results.push({
                 url: `https://www.curseforge.com/minecraft/mc-mods/${pluginConfig.curseforge!.project_id}/files/${curseforgeId}`,

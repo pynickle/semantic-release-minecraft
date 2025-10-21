@@ -83,42 +83,38 @@ export async function publishToModrinth(
         versionData.changelog = changelog;
     }
 
-    const displayName = resolveAndRenderTemplate(
-        [modrinth?.display_name, pluginConfig.display_name],
-        {
+    versionData.name =
+        resolveAndRenderTemplate(
+            [modrinth?.display_name, pluginConfig.display_name],
+            {
+                nextRelease,
+                ...strategy,
+            }
+        ) || nextRelease.name;
+
+    versionData.version_number =
+        resolveAndRenderTemplate([modrinth?.version_number], {
             nextRelease,
             ...strategy,
-        }
-    );
+        }) || nextRelease.version;
 
-    versionData.name = displayName || nextRelease.name;
+    versionData.game_versions =
+        resolveAndRenderTemplates(
+            [modrinth?.game_versions, pluginConfig.game_versions],
+            {
+                nextRelease,
+                ...strategy,
+            }
+        ) || [];
 
-    const versionNumber = resolveAndRenderTemplate([modrinth?.version_number], {
-        nextRelease,
-        ...strategy,
-    });
-
-    versionData.version_number = versionNumber || nextRelease.version;
-
-    const gameVersions = resolveAndRenderTemplates(
-        [modrinth?.game_versions, pluginConfig.game_versions],
-        {
-            nextRelease,
-            ...strategy,
-        }
-    );
-
-    versionData.game_versions = gameVersions || [];
-
-    const modLoaders = resolveAndRenderTemplates(
-        [modrinth?.mod_loaders, pluginConfig.mod_loaders],
-        {
-            nextRelease,
-            ...strategy,
-        }
-    );
-
-    versionData.loaders = modLoaders || [];
+    versionData.loaders =
+        resolveAndRenderTemplates(
+            [modrinth?.mod_loaders, pluginConfig.mod_loaders],
+            {
+                nextRelease,
+                ...strategy,
+            }
+        ) || [];
 
     form.append('data', JSON.stringify(versionData), {
         contentType: 'application/json',
@@ -153,7 +149,7 @@ export async function publishToModrinth(
         }
     );
 
-    form.append('data', JSON.stringify(versionData));
+    // form.append('data', JSON.stringify(versionData));
 
     const resData = versionResponse.data;
 
@@ -170,8 +166,10 @@ export async function publishToModrinth(
             `Failed to publish to Modrinth (${versionResponse.status}): ${resData.error}\n${resData.description}`
         );
     } else {
+        logger.log('Headers:', versionResponse.headers);
+        logger.log('Data:', resData);
         throw new Error(
-            `Failed to publish to Modrinth (${versionResponse.status}): ${resData.error}\n${resData.description}`
+            `Failed to publish to Modrinth (${versionResponse.status}): ${versionResponse.statusText}`
         );
     }
 }

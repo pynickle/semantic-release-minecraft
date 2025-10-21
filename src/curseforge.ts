@@ -34,11 +34,17 @@ export async function publishToCurseforge(
         `Publishing ${files.length} file(s) to CurseForge project ${projectId}...`
     );
 
-    let primaryFileId = await uploadCurseForgeFile(
+    const metadata = prepareMetadata(
         pluginConfig,
         context,
         strategy,
-        curseforgeGameVersionIds,
+        curseforgeGameVersionIds
+    );
+
+    let primaryFileId = await uploadCurseForgeFile(
+        pluginConfig,
+        context,
+        metadata,
         primaryFile
     );
 
@@ -50,8 +56,7 @@ export async function publishToCurseforge(
         await uploadCurseForgeFile(
             pluginConfig,
             context,
-            strategy,
-            curseforgeGameVersionIds,
+            metadata,
             filePath,
             primaryFileId
         );
@@ -66,8 +71,7 @@ export async function publishToCurseforge(
 async function uploadCurseForgeFile(
     pluginConfig: PluginConfig,
     context: PublishContext,
-    strategy: Record<string, string>,
-    curseforgeGameVersionIds: number[] | undefined,
+    metadata: any,
     filePath: string,
     primaryFileId?: number
 ): Promise<number> {
@@ -77,18 +81,12 @@ async function uploadCurseForgeFile(
     const apiKey = env.CURSEFORGE_TOKEN!;
     const projectId = curseforge!.project_id!;
 
+    // add file to form data
     const form = new FormData();
     const file = readFileSync(filePath);
     form.append('file', file, {
         filename: basename(filePath),
     });
-
-    const metadata = prepareMetadata(
-        pluginConfig,
-        context,
-        strategy,
-        curseforgeGameVersionIds
-    );
 
     if (primaryFileId) {
         metadata.parentFileID = primaryFileId;
@@ -96,6 +94,7 @@ async function uploadCurseForgeFile(
 
     form.append('metadata', JSON.stringify(metadata));
 
+    // post to CurseForge API
     const response = await axios.post(
         `https://upload.curseforge.com/api/projects/${projectId}/upload-file`,
         form,
@@ -142,24 +141,23 @@ function prepareMetadata(
         relations: curseforge?.relations || [],
     };
 
-    const displayName = resolveAndRenderTemplate(
-        [curseforge?.display_name, pluginConfig.display_name],
-        {
-            nextRelease,
-            ...strategy,
-        }
-    );
+    metadata.displayName =
+        resolveAndRenderTemplate(
+            [curseforge?.display_name, pluginConfig.display_name],
+            {
+                nextRelease,
+                ...strategy,
+            }
+        ) || context.nextRelease.name;
 
-    metadata.displayName = displayName || context.nextRelease.name;
-
-    const modLoaders = resolveAndRenderTemplates(
-        [pluginConfig.curseforge?.mod_loaders, pluginConfig.mod_loaders],
-        {
-            nextRelease,
-            ...strategy,
-        }
-    );
-    metadata.modLoaders = modLoaders || [];
+    metadata.modLoaders =
+        resolveAndRenderTemplates(
+            [pluginConfig.curseforge?.mod_loaders, pluginConfig.mod_loaders],
+            {
+                nextRelease,
+                ...strategy,
+            }
+        ) || [];
 
     return metadata;
 }

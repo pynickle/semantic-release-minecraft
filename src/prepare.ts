@@ -16,81 +16,92 @@ import { toArray } from './utils/utils.js';
 export async function getCurseForgeGameVersionIds(
     apiToken: string,
     pluginConfig: PluginConfig,
-    context: PrepareContext,
-    strategy: Record<string, string>
-): Promise<number[]> {
+    context: PrepareContext
+): Promise<Array<number[]>> {
     const { nextRelease } = context;
 
     const curseforgeConfig = pluginConfig.curseforge!;
 
-    const modLoaders =
-        resolveAndRenderTemplates(
-            [pluginConfig.curseforge?.mod_loaders, pluginConfig.mod_loaders],
-            {
-                nextRelease,
-                ...strategy,
-            }
-        ) || [];
-
-    const javaVersions = toArray(curseforgeConfig.java_versions);
-    const gameVersions = toArray(
-        curseforgeConfig.game_versions || pluginConfig.game_versions
-    );
-    const pluginGameVersions = toArray(
-        curseforgeConfig.game_versions_for_plugins
-    );
-    const addonGameVersions = toArray(curseforgeConfig.game_versions_for_addon);
-    const environments = toArray(curseforgeConfig.environments);
-
     const map = await createCurseForgeGameVersionMap(apiToken);
 
-    const javaVersionNames = javaVersions.map(
-        (javaVersion: string) => `Java ${javaVersion}`
-    );
+    let curseforgeGameVersionsIdsPerStrategy: Array<number[]> = [];
 
-    // TODO: Modrinth 和 CurseForge 的游戏版本命名格式转化，以 Modrinth 为基准
-    // const gameVersionNames = gameVersions.map(x => formatCurseForgeGameVersionSnapshot(x));
+    for (const strategy of pluginConfig.strategies || [{}]) {
+        // fetch plugin config values with template rendering
+        const modLoaders =
+            resolveAndRenderTemplates(
+                [
+                    pluginConfig.curseforge?.mod_loaders,
+                    pluginConfig.mod_loaders,
+                ],
+                {
+                    nextRelease,
+                    ...strategy,
+                }
+            ) || [];
 
-    const gameVersionIds = findCurseForgeGameVersionIdsByNames(
-        map.game_versions,
-        gameVersions
-    );
+        const javaVersions = toArray(curseforgeConfig.java_versions);
+        const gameVersions = toArray(
+            curseforgeConfig.game_versions || pluginConfig.game_versions
+        );
+        const pluginGameVersions = toArray(
+            curseforgeConfig.game_versions_for_plugins
+        );
+        const addonGameVersions = toArray(
+            curseforgeConfig.game_versions_for_addon
+        );
+        const environments = toArray(curseforgeConfig.environments);
 
-    const loaderIds = findCurseForgeGameVersionIdsByNames(
-        map.loaders,
-        modLoaders
-    );
+        const javaVersionNames = javaVersions.map(
+            (javaVersion: string) => `Java ${javaVersion}`
+        );
 
-    const javaIds = findCurseForgeGameVersionIdsByNames(
-        map.java_versions,
-        javaVersionNames
-    );
+        // TODO: Modrinth 和 CurseForge 的游戏版本命名格式转化，以 Modrinth 为基准
+        // const gameVersionNames = gameVersions.map(x => formatCurseForgeGameVersionSnapshot(x));
 
-    const pluginGameVersionIds = findCurseForgeGameVersionIdsByNames(
-        map.game_versions_for_plugins,
-        pluginGameVersions
-    );
+        // get CurseForge game version IDs from mapped game versions
+        const gameVersionIds = findCurseForgeGameVersionIdsByNames(
+            map.game_versions,
+            gameVersions
+        );
 
-    const addonGameVersionIds = findCurseForgeGameVersionIdsByNames(
-        map.game_versions_for_addons,
-        addonGameVersions
-    );
+        const loaderIds = findCurseForgeGameVersionIdsByNames(
+            map.loaders,
+            modLoaders
+        );
 
-    const environmentIds = findCurseForgeGameVersionIdsByNames(
-        map.environments,
-        environments
-    );
+        const javaIds = findCurseForgeGameVersionIdsByNames(
+            map.java_versions,
+            javaVersionNames
+        );
 
-    const curseforgeGameVersionIds: number[] = [];
-    curseforgeGameVersionIds.push(
-        ...gameVersionIds,
-        ...loaderIds,
-        ...javaIds,
-        ...pluginGameVersionIds,
-        ...addonGameVersionIds,
-        ...environmentIds
-    );
-    return curseforgeGameVersionIds;
+        const pluginGameVersionIds = findCurseForgeGameVersionIdsByNames(
+            map.game_versions_for_plugins,
+            pluginGameVersions
+        );
+
+        const addonGameVersionIds = findCurseForgeGameVersionIdsByNames(
+            map.game_versions_for_addons,
+            addonGameVersions
+        );
+
+        const environmentIds = findCurseForgeGameVersionIdsByNames(
+            map.environments,
+            environments
+        );
+
+        const curseforgeGameVersionIds: number[] = [];
+        curseforgeGameVersionIds.push(
+            ...gameVersionIds,
+            ...loaderIds,
+            ...javaIds,
+            ...pluginGameVersionIds,
+            ...addonGameVersionIds,
+            ...environmentIds
+        );
+        curseforgeGameVersionsIdsPerStrategy.push(curseforgeGameVersionIds);
+    }
+    return curseforgeGameVersionsIdsPerStrategy;
 }
 
 /**
