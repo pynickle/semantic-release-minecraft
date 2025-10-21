@@ -25,7 +25,7 @@ npm install --save-dev semantic-release-minecraft
 
 The plugin configuration is passed via semantic-release's config (e.g., `.releaserc.json`). Below is a detailed explanation of the configuration options, grouped by scope.
 
-If you don't want to read through the lengthy configuration introduction below, you can jump to the [Configuration Reference](#🗂️configuration-reference) to check out some practical configurations.
+If you don't want to read through the lengthy configuration introduction below, you can jump to the [Configuration Reference](#%EF%B8%8Fconfiguration-reference) to check out some practical configurations.
 
 ---
 
