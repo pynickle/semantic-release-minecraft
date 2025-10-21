@@ -1,3 +1,14 @@
+## [2.0.10](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.9...v2.0.10) (2025-10-21)
+
+### ♻️ 代码重构
+
+* refactor code to make better understanding and performance ([f9f12da](https://github.com/pynickle/semantic-release-minecraft/commit/f9f12daac890b238848047e316b558fbc5d59389))
+
+### 🔧 其他更改
+
+* change preset to conventional commits and fix missing change of refactor ([06136f4](https://github.com/pynickle/semantic-release-minecraft/commit/06136f4c29e1ab6abe7101f130e734c05051a091))
+* change refactor to ref ([c93ccb7](https://github.com/pynickle/semantic-release-minecraft/commit/c93ccb761452525e4a765137acdbbdd36b4fa18e))
+
 ## [2.0.9](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.8...v2.0.9) (2025-10-20)
 
 ### 🐛 Bug修复
