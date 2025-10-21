@@ -1,3 +1,13 @@
+## [2.0.11](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.10...v2.0.11) (2025-10-21)
+
+### 🐛 Bug Fixes
+
+* fix publish return value error ([7903c65](https://github.com/pynickle/semantic-release-minecraft/commit/7903c65076b0dfe634a35acec455011fc4127a98))
+
+### 🔧 Miscellaneous Changes
+
+* change changelog language to english ([454ddd0](https://github.com/pynickle/semantic-release-minecraft/commit/454ddd0ec58d3205ed5c97b73e954304d72b59d9))
+
 ## [2.0.10](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.9...v2.0.10) (2025-10-21)
 
 ### ♻️ 代码重构
