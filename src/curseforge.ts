@@ -134,7 +134,7 @@ function prepareMetadata(
     const metadata: any = {
         gameVersions: curseforgeGameVersionIds,
         releaseType: pluginConfig.release_type || 'release',
-        changelog: lodash.template(curseforge?.changelog || context.nextRelease.notes),
+        changelog: lodash.template(curseforge?.changelog || context.nextRelease.notes)({...context, ...strategy}),
         changelogType: curseforge?.changelog_type || 'markdown',
         isMarkedForManualRelease:
             curseforge?.is_marked_for_manual_release || false,
