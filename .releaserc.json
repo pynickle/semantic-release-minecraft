@@ -41,10 +41,10 @@
       }
     ]
   ],
-  "preset": "angular",
+  "preset": "conventionalcommits",
   "releaseRules": [
     {
-      "type": "refactor",
+      "type": "ref",
       "release": "patch"
     },
     {
