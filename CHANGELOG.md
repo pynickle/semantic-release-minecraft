@@ -1,3 +1,13 @@
+## [2.2.1](https://github.com/pynickle/semantic-release-minecraft/compare/v2.2.0...v2.2.1) (2025-10-21)
+
+### 🐛 Bug Fixes
+
+* fix curseforge changelog can not be correctly applied ([83ca07a](https://github.com/pynickle/semantic-release-minecraft/commit/83ca07a02d3d00e78ce74c771ea6d43517815281))
+
+### 📚 Documentation
+
+* fix docs link error ([0fb3bac](https://github.com/pynickle/semantic-release-minecraft/commit/0fb3bac4c4c5714f9f44302ae6de9aa26d122a05))
+
 ## [2.2.0](https://github.com/pynickle/semantic-release-minecraft/compare/v2.1.0...v2.2.0) (2025-10-21)
 
 ### ✨ Features
