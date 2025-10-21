@@ -10,16 +10,16 @@
         "preset": "conventionalcommits",
         "presetConfig": {
           "types": [
-            { "type": "feat", "section": "✨ 功能更新" },
-            { "type": "fix", "section": "🐛 Bug修复" },
-            { "type": "docs", "section": "📚 文档更新" },
-            { "type": "style", "section": "💄 样式优化" },
-            { "type": "ref", "section": "♻️ 代码重构" },
-            { "type": "perf", "section": "⚡ 性能优化" },
-            { "type": "test", "section": "✅ 测试" },
-            { "type": "build", "section": "📦 构建" },
+            { "type": "feat", "section": "✨ Features" },
+            { "type": "fix", "section": "🐛 Bug Fixes" },
+            { "type": "docs", "section": "📚 Documentation" },
+            { "type": "style", "section": "💄 Style Improvements" },
+            { "type": "ref", "section": "♻️ Code Refactoring" },
+            { "type": "perf", "section": "⚡ Performance Improvements" },
+            { "type": "test", "section": "✅ Tests" },
+            { "type": "build", "section": "📦 Build System" },
             { "type": "ci", "section": "👷 CI/CD" },
-            { "type": "chore", "section": "🔧 其他更改" }
+            { "type": "chore", "section": "🔧 Miscellaneous Changes" }
           ]
         },
         "parserOpts": {
