@@ -48,9 +48,9 @@ export async function prepare(
 export async function publish(
     pluginConfig: PluginConfig,
     context: PublishContext
-): Promise<{ url: string }[]> {
+) {
     const { env, logger } = context;
-    const results: { url: string }[] = [];
+    const results: { curseforge: { url: string }[], modrinth: { url: string }[]} = { curseforge: [], modrinth: [] };
 
     for (const [index, strategy] of (
         pluginConfig.strategies || [{}]
@@ -62,7 +62,7 @@ export async function publish(
                 strategy,
                 curseforgeGameVersionsIdsPerStrategy[index]
             );
-            results.push({
+            results.curseforge.push({
                 url: `https://www.curseforge.com/minecraft/mc-mods/${pluginConfig.curseforge!.project_id}/files/${curseforgeId}`,
             });
         } else {
@@ -77,7 +77,7 @@ export async function publish(
                 context,
                 strategy
             );
-            results.push({
+            results.modrinth.push({
                 url: `https://modrinth.com/mod/${pluginConfig.modrinth!.project_id}/version/${modrinthId}`,
             });
         } else {

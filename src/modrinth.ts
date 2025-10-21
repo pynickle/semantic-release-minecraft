@@ -131,12 +131,6 @@ export async function publishToModrinth(
     const headers = form.getHeaders();
     headers['Content-Length'] = form.getLengthSync();
 
-    for (const [key, value] of Object.entries(versionData)) {
-        logger.log(key, value);
-    }
-
-    logger.log(JSON.stringify(versionData));
-
     const versionResponse = await axios.post(
         'https://api.modrinth.com/v2/version',
         form,
@@ -148,8 +142,6 @@ export async function publishToModrinth(
             validateStatus: (status) => status < 500,
         }
     );
-
-    // form.append('data', JSON.stringify(versionData));
 
     const resData = versionResponse.data;
 
