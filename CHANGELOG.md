@@ -1,3 +1,13 @@
+## [2.1.0](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.11...v2.1.0) (2025-10-21)
+
+### ✨ Features
+
+* make strategies type any to fit more ([6402978](https://github.com/pynickle/semantic-release-minecraft/commit/6402978194a9e7be4850cd13759353b96c83ff7e))
+
+### 🔧 Miscellaneous Changes
+
+* add LICENSE ([8c5de2f](https://github.com/pynickle/semantic-release-minecraft/commit/8c5de2f5ff73464eb6251316da3f822e0b10cb7c))
+
 ## [2.0.11](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.10...v2.0.11) (2025-10-21)
 
 ### 🐛 Bug Fixes
