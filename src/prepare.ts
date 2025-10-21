@@ -18,8 +18,6 @@ export async function getCurseForgeGameVersionIds(
     pluginConfig: PluginConfig,
     context: PrepareContext
 ): Promise<Array<number[]>> {
-    const { nextRelease } = context;
-
     const curseforgeConfig = pluginConfig.curseforge!;
 
     const map = await createCurseForgeGameVersionMap(apiToken);
@@ -35,7 +33,7 @@ export async function getCurseForgeGameVersionIds(
                     pluginConfig.mod_loaders,
                 ],
                 {
-                    nextRelease,
+                    ...context,
                     ...strategy,
                 }
             ) || [];
@@ -53,7 +51,7 @@ export async function getCurseForgeGameVersionIds(
         const environments = toArray(curseforgeConfig.environments);
 
         const javaVersionNames = javaVersions.map(
-            (javaVersion: string) => `Java ${javaVersion}`
+            (javaVersion: number) => `Java ${javaVersion}`
         );
 
         // TODO: Modrinth 和 CurseForge 的游戏版本命名格式转化，以 Modrinth 为基准

@@ -50,7 +50,10 @@ export async function publish(
     context: PublishContext
 ) {
     const { env, logger } = context;
-    const results: { curseforge: { url: string }[], modrinth: { url: string }[]} = { curseforge: [], modrinth: [] };
+    const results: {
+        curseforge: { url: string }[];
+        modrinth: { url: string }[];
+    } = { curseforge: [], modrinth: [] };
 
     for (const [index, strategy] of (
         pluginConfig.strategies || [{}]

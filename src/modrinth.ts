@@ -74,7 +74,7 @@ export async function publishToModrinth(
     const changelog = resolveAndRenderTemplate(
         [modrinth?.changelog, nextRelease.notes],
         {
-            nextRelease,
+            ...context,
             ...strategy,
         }
     );
@@ -87,14 +87,14 @@ export async function publishToModrinth(
         resolveAndRenderTemplate(
             [modrinth?.display_name, pluginConfig.display_name],
             {
-                nextRelease,
+                ...context,
                 ...strategy,
             }
         ) || nextRelease.name;
 
     versionData.version_number =
         resolveAndRenderTemplate([modrinth?.version_number], {
-            nextRelease,
+            ...context,
             ...strategy,
         }) || nextRelease.version;
 
@@ -102,7 +102,7 @@ export async function publishToModrinth(
         resolveAndRenderTemplates(
             [modrinth?.game_versions, pluginConfig.game_versions],
             {
-                nextRelease,
+                ...context,
                 ...strategy,
             }
         ) || [];
@@ -111,7 +111,7 @@ export async function publishToModrinth(
         resolveAndRenderTemplates(
             [modrinth?.mod_loaders, pluginConfig.mod_loaders],
             {
-                nextRelease,
+                ...context,
                 ...strategy,
             }
         ) || [];

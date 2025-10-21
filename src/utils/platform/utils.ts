@@ -14,7 +14,7 @@ export async function findFilesAndPrimaryFile(
     strategy: Record<string, string>,
     platform: 'curseforge' | 'modrinth'
 ): Promise<{ files: string[]; primaryFile: string }> {
-    const { nextRelease, logger } = context;
+    const { logger } = context;
 
     const filesGlob = resolveAndRenderTemplates(
         [
@@ -24,7 +24,7 @@ export async function findFilesAndPrimaryFile(
             pluginConfig.glob,
         ],
         {
-            nextRelease,
+            ...context,
             ...strategy,
         }
     );
@@ -46,7 +46,7 @@ export async function findFilesAndPrimaryFile(
             pluginConfig.primary_file_glob,
         ],
         {
-            nextRelease,
+            ...context,
             ...strategy,
         }
     );

@@ -9,6 +9,7 @@ import {
     resolveAndRenderTemplate,
     resolveAndRenderTemplates,
 } from './utils/template-utils.js';
+import lodash from "lodash";
 
 /**
  * Publishes files to CurseForge.
@@ -129,23 +130,27 @@ function prepareMetadata(
     strategy: Record<string, string>,
     curseforgeGameVersionIds: number[] | undefined
 ) {
-    const { nextRelease } = context;
     const { curseforge } = pluginConfig;
     const metadata: any = {
         gameVersions: curseforgeGameVersionIds,
         releaseType: pluginConfig.release_type || 'release',
-        changelog: curseforge?.changelog || context.nextRelease.notes,
+        changelog: lodash.template(curseforge?.changelog || context.nextRelease.notes),
         changelogType: curseforge?.changelog_type || 'markdown',
         isMarkedForManualRelease:
             curseforge?.is_marked_for_manual_release || false,
-        relations: curseforge?.relations || [],
+        relations: curseforge?.relations
+            ? {
+                  projects: curseforge?.relations,
+              }
+            : {},
     };
 
     metadata.displayName =
         resolveAndRenderTemplate(
             [curseforge?.display_name, pluginConfig.display_name],
             {
-                nextRelease,
+
+                ...context,
                 ...strategy,
             }
         ) || context.nextRelease.name;
@@ -154,7 +159,7 @@ function prepareMetadata(
         resolveAndRenderTemplates(
             [pluginConfig.curseforge?.mod_loaders, pluginConfig.mod_loaders],
             {
-                nextRelease,
+                ...context,
                 ...strategy,
             }
         ) || [];

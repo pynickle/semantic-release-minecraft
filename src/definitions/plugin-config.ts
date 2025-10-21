@@ -13,7 +13,7 @@ export type PluginConfig = {
     curseforge?: {
         project_id: string;
         game_versions?: string | string[];
-        java_versions?: string | string[];
+        java_versions?: number | number[];
         environments?: string | string[];
         game_versions_for_plugins?: string | string[];
         game_versions_for_addon?: string | string[];
@@ -22,18 +22,16 @@ export type PluginConfig = {
         changelog_type?: 'text' | 'html' | 'markdown';
         display_name?: string;
         is_marked_for_manual_release?: boolean;
-        relations?: {
-            projects?: Array<{
-                slug: string;
-                project_id?: string;
-                type:
-                    | 'embedded_library'
-                    | 'incompatible'
-                    | 'optional_dependency'
-                    | 'required_dependency'
-                    | 'tool';
-            }>;
-        };
+        relations?: Array<{
+            slug: string;
+            project_id?: string;
+            type:
+                | 'embedded_library'
+                | 'incompatible'
+                | 'optional_dependency'
+                | 'required_dependency'
+                | 'tool';
+        }>;
         glob?: string | string[];
         primary_file_glob?: string | string[];
     };
