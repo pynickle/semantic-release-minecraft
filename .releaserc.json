@@ -14,7 +14,7 @@
             { "type": "fix", "section": "🐛 Bug修复" },
             { "type": "docs", "section": "📚 文档更新" },
             { "type": "style", "section": "💄 样式优化" },
-            { "type": "refactor", "section": "♻️ 代码重构" },
+            { "type": "ref", "section": "♻️ 代码重构" },
             { "type": "perf", "section": "⚡ 性能优化" },
             { "type": "test", "section": "✅ 测试" },
             { "type": "build", "section": "📦 构建" },
