@@ -5,7 +5,7 @@ export type PluginConfig = {
     display_name?: string;
 
     // Global release strategy configuration for multiple publish operations
-    strategies?: Record<string, string>[];
+    strategies?: Record<any, any>[];
 
     glob?: string | string[];
     primary_file_glob: string | string[];
