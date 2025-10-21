@@ -1,3 +1,13 @@
+## [2.2.0](https://github.com/pynickle/semantic-release-minecraft/compare/v2.1.0...v2.2.0) (2025-10-21)
+
+### ✨ Features
+
+* use full context for lodash template and optimize dependency configuration ([88c1535](https://github.com/pynickle/semantic-release-minecraft/commit/88c1535b95ab3f7bbea74d65d2ecaa72dbdef6fb))
+
+### 📚 Documentation
+
+* add README ([ea09462](https://github.com/pynickle/semantic-release-minecraft/commit/ea09462309985ac15aa1a02ddd3f7e11f1e7a6ff))
+
 ## [2.1.0](https://github.com/pynickle/semantic-release-minecraft/compare/v2.0.11...v2.1.0) (2025-10-21)
 
 ### ✨ Features
