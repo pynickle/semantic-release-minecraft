@@ -1,3 +1,13 @@
+## [2.3.0](https://github.com/pynickle/semantic-release-minecraft/compare/v2.2.1...v2.3.0) (2025-10-22)
+
+### ✨ Features
+
+* add global dependency configuration ([c1d1700](https://github.com/pynickle/semantic-release-minecraft/commit/c1d17003faffe1d8754759db7a1bcfd6c5fd5ac4))
+
+### 📚 Documentation
+
+* add missing platform api token configuration part ([833b18d](https://github.com/pynickle/semantic-release-minecraft/commit/833b18d59f64a0e786fe6adbf3c6be133c2043ff))
+
 ## [2.2.1](https://github.com/pynickle/semantic-release-minecraft/compare/v2.2.0...v2.2.1) (2025-10-21)
 
 ### 🐛 Bug Fixes
