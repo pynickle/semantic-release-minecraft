@@ -150,14 +150,18 @@ function prepareMetadata(
 
     if (curseforge?.relations) {
         metadata.relations = {
-            projects: curseforge?.relations,
+            projects: curseforge?.relations.map((item) => ({
+                slug: item.slug,
+                projectId: item.project_id,
+                type: item.type,
+            })),
         };
     } else {
         let projects = [];
         for (const dependency of pluginConfig.dependencies || []) {
             projects.push({
                 slug: dependency.slug,
-                project_id: dependency.curseforge_project_id,
+                projectId: dependency.curseforge_project_id,
                 type: DependencyTypeMap[dependency.type],
             });
         }

@@ -79,7 +79,7 @@ export async function publishToModrinth(
                 project_id:
                     dependency.modrinth_project_id ||
                     (await getModrinthProjectBySlug(dependency.slug, token)),
-                type: dependency.type,
+                dependency_type: dependency.type,
             });
         }
         versionData.dependencies = dependencies;
