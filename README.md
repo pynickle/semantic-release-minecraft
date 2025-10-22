@@ -29,6 +29,25 @@ If you don't want to read through the lengthy configuration introduction below, 
 
 ---
 
+### 🛠️ CI Secret Configuration
+
+For Modrinth and CurseForge API token configuration, you can set them via environment variables in tools like GitHub Actions:
+
+```yaml
+CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+```
+
+Remember to configure the repository secrets in the repository settings.
+
+Below are the links to obtain API tokens for CurseForge and Modrinth:
+
+[CurseForge](https://authors-old.curseforge.com/account/api-tokens)
+
+> Once obtained, your Modrinth API token can only be viewed once. Please ensure you save your API token securely.
+
+[Modrinth](https://modrinth.com/settings/pats)
+
 ### 🌍 Global Configuration
 
 | Field               | Type                             | Description                                                                        | Default                                                                                         | Example                                              |
