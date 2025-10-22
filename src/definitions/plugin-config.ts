@@ -1,8 +1,16 @@
+import { GlobalDependencyType } from './curseforge';
+
 export type PluginConfig = {
     release_type?: 'alpha' | 'beta' | 'release';
     game_versions?: string | string[];
     mod_loaders?: string | string[];
     display_name?: string;
+    dependencies?: Array<{
+        slug: string;
+        curseforge_project_id?: string;
+        modrinth_project_id?: string;
+        type: GlobalDependencyType;
+    }>;
 
     // Global release strategy configuration for multiple publish operations
     strategies?: Record<any, any>[];
@@ -26,10 +34,10 @@ export type PluginConfig = {
             slug: string;
             project_id?: string;
             type:
-                | 'embedded_library'
+                | 'embeddedLibrary'
                 | 'incompatible'
-                | 'optional_dependency'
-                | 'required_dependency'
+                | 'optionalDependency'
+                | 'requiredDependency'
                 | 'tool';
         }>;
         glob?: string | string[];

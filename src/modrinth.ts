@@ -61,7 +61,6 @@ export async function publishToModrinth(
         project_id: projectId,
         file_parts: filePartNames,
         version_type: pluginConfig.release_type || 'release',
-        dependencies: modrinth?.dependencies || [],
         featured: modrinth?.featured || false,
         status: modrinth?.status || 'listed',
         requested_status: modrinth?.requested_status || 'listed',
@@ -69,6 +68,21 @@ export async function publishToModrinth(
 
     if (primaryFilePartName) {
         versionData.primary_file = primaryFilePartName;
+    }
+
+    if (modrinth?.dependencies) {
+        versionData.dependencies = modrinth?.dependencies;
+    } else {
+        let dependencies = [];
+        for (const dependency of pluginConfig.dependencies || []) {
+            dependencies.push({
+                project_id:
+                    dependency.modrinth_project_id ||
+                    (await getModrinthProjectBySlug(dependency.slug, token)),
+                type: dependency.type,
+            });
+        }
+        versionData.dependencies = dependencies;
     }
 
     const changelog = resolveAndRenderTemplate(
@@ -131,7 +145,7 @@ export async function publishToModrinth(
     const headers = form.getHeaders();
     headers['Content-Length'] = form.getLengthSync();
 
-    const versionResponse = await axios.post(
+    const versionRes = await axios.post(
         'https://api.modrinth.com/v2/version',
         form,
         {
@@ -143,25 +157,39 @@ export async function publishToModrinth(
         }
     );
 
-    const resData = versionResponse.data;
+    const resData = versionRes.data;
 
-    if (versionResponse.status === 200) {
+    if (versionRes.status === 200) {
         logger.log(
             `Successfully published to Modrinth: ${resData.project_id} (File ID: ${resData.file_id})`
         );
-        return versionResponse.data.id;
-    } else if (
-        versionResponse.status === 400 ||
-        versionResponse.status === 401
-    ) {
+        return versionRes.data.id;
+    } else if (versionRes.status === 400 || versionRes.status === 401) {
         throw new Error(
-            `Failed to publish to Modrinth (${versionResponse.status}): ${resData.error}\n${resData.description}`
+            `Failed to publish to Modrinth (${versionRes.status}): ${resData.error}\n${resData.description}`
         );
     } else {
-        logger.log('Headers:', versionResponse.headers);
+        logger.log('Headers:', versionRes.headers);
         logger.log('Data:', resData);
         throw new Error(
-            `Failed to publish to Modrinth (${versionResponse.status}): ${versionResponse.statusText}`
+            `Failed to publish to Modrinth (${versionRes.status}): ${versionRes.statusText}`
         );
+    }
+}
+
+async function getModrinthProjectBySlug(
+    slug: string,
+    token: string
+): Promise<string | undefined> {
+    const projectRes = await axios.get(
+        `https://api.modrinth.com/v2/project/${slug}`,
+        {
+            headers: {
+                Authorization: token,
+            },
+        }
+    );
+    if (projectRes.status === 200) {
+        return projectRes.data.id;
     }
 }

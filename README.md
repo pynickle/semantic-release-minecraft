@@ -59,6 +59,17 @@ Below are the links to obtain API tokens for CurseForge and Modrinth:
 | `strategies`        | `Record<any, any>[]`             | Store an array of strategy configurations for each release. See explanation below. | `[{}]`                                                                                          | `[{ 'loader': 'fabric' }, { 'loader': 'neoforge' }]` |
 | `glob`              | `string \| string[]`             | Glob patterns that matches all files requiring upload                              | `['build/libs/!(*-@(dev\|sources\|javadoc)).jar','build/libs/*-@(dev\|sources\|javadoc).jar',]` | -                                                    |
 | `primary_file_glob` | `string \| string[]`             | Glob pattern matching the primary file                                             | -                                                                                               | -                                                    |
+| `dependencies`      | Array of Objects                 | Global Dependency relations. See sub-table below.                                  | `[]`                                                                                            | ~~~                                                  |
+
+#### 🕸️ Global Dependencies Sub-Configuration
+
+| Field                   | Type                                                       | Description                            | Default | Example      |
+|-------------------------|------------------------------------------------------------|----------------------------------------|---------|--------------|
+| `slug`                  | `string`                                                   | Project Slug of dependency (required). | -       | `'yacl'`     |
+| `curseforge_project_id` | `string`                                                   | CurseForge Project ID of dependency.   | -       | ~~~          |
+| `modrinth_project_id`   | `string`                                                   | Modrinth Project ID of dependency.     | -       | ~~~          |
+| `type`                  | `'required' \| 'optional' \| 'incompatible' \| 'embedded'` | Dependency type (required).            | -       | `'embedded'` |
+
 
 ### ⚙️ Strategy (Template) Configuration
 
@@ -94,7 +105,7 @@ Configure under the `curseforge` object. Requires `project_id` to enable.
 | `changelog_type`               | `'text' \| 'html' \| 'markdown'` | Changelog format.                                           | `'markdown'`        | `'html'`                          |
 | `display_name`                 | `string`                         | CurseForge-specific display name.                           | Global              | `'Iris 1.9.6 for Fabric 1.21.10'` |
 | `is_marked_for_manual_release` | `boolean`                        | Mark release as manual so you can choose when to release.   | `false`             | `true`                            |
-| `relations`                    | Array of Objects                 | Dependency relations. See sub-table below.                  | `[]`                | -                                 |
+| `relations`                    | Array of Objects                 | Dependency relations. See sub-table below.                  | Global              | -                                 |
 | `glob`                         | `string \| string[]`             | CurseForge-specific file glob.                              | Global              | ~~~                               |
 | `primary_file_glob`            | `string \| string[]`             | CurseForge-specific primary file.                           | Global              | ~~~                               |
 
@@ -118,7 +129,7 @@ Configure under the `modrinth` object. Requires `project_id` to enable.
 | `game_versions`     | `string[]`                                                                    | Modrinth-specific game versions.                           | Global                | `'1.12.2'`               |
 | `mod_loaders`       | `string[]`                                                                    | Modrinth-specific loaders.                                 | Global                | `'quilt'`                |
 | `changelog`         | `string`                                                                      | Custom changelog.                                          | `nextRelease.notes`   | `'See full changelog'`   |
-| `dependencies`      | Array of Objects                                                              | Dependency relations. See sub-table below.                 | `[]`                  | -                        |
+| `dependencies`      | Array of Objects                                                              | Dependency relations. See sub-table below.                 | Global                | -                        |
 | `featured`          | `boolean`                                                                     | Mark as featured version.                                  | `false`               | `true`                   |
 | `status`            | `'listed' \| 'archived' \| 'draft' \| 'unlisted' \| 'scheduled' \| 'unknown'` | Version visibility status.                                 | `'listed'`            | `'draft'`                |
 | `requested_status`  | `'listed' \| 'archived' \| 'draft' \| 'unlisted'`                             | Requested status (for moderation).                         | `'listed'`            | `'unlisted'`             |

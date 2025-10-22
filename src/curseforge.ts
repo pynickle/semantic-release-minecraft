@@ -1,15 +1,16 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import { readFileSync } from 'fs';
+import lodash from 'lodash';
 import { basename } from 'path';
 import { PublishContext } from 'semantic-release';
+import { DependencyTypeMap } from './definitions/curseforge.js';
 import { PluginConfig } from './definitions/plugin-config.js';
 import { findFilesAndPrimaryFile } from './utils/platform/utils.js';
 import {
     resolveAndRenderTemplate,
     resolveAndRenderTemplates,
 } from './utils/template-utils.js';
-import lodash from "lodash";
 
 /**
  * Publishes files to CurseForge.
@@ -134,7 +135,9 @@ function prepareMetadata(
     const metadata: any = {
         gameVersions: curseforgeGameVersionIds,
         releaseType: pluginConfig.release_type || 'release',
-        changelog: lodash.template(curseforge?.changelog || context.nextRelease.notes)({...context, ...strategy}),
+        changelog: lodash.template(
+            curseforge?.changelog || context.nextRelease.notes
+        )({ ...context, ...strategy }),
         changelogType: curseforge?.changelog_type || 'markdown',
         isMarkedForManualRelease:
             curseforge?.is_marked_for_manual_release || false,
@@ -145,11 +148,28 @@ function prepareMetadata(
             : {},
     };
 
+    if (curseforge?.relations) {
+        metadata.relations = {
+            projects: curseforge?.relations,
+        };
+    } else {
+        let projects = [];
+        for (const dependency of pluginConfig.dependencies || []) {
+            projects.push({
+                slug: dependency.slug,
+                project_id: dependency.curseforge_project_id,
+                type: DependencyTypeMap[dependency.type],
+            });
+        }
+        metadata.relations = {
+            projects,
+        };
+    }
+
     metadata.displayName =
         resolveAndRenderTemplate(
             [curseforge?.display_name, pluginConfig.display_name],
             {
-
                 ...context,
                 ...strategy,
             }
