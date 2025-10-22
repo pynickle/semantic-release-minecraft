@@ -1,3 +1,9 @@
+## [2.3.1](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.0...v2.3.1) (2025-10-22)
+
+### 🐛 Bug Fixes
+
+* fix incorrect json key for publishing ([ad6b973](https://github.com/pynickle/semantic-release-minecraft/commit/ad6b97381a2883c452a75cd9a49817cdb196eb19))
+
 ## [2.3.0](https://github.com/pynickle/semantic-release-minecraft/compare/v2.2.1...v2.3.0) (2025-10-22)
 
 ### ✨ Features
