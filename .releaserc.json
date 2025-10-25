@@ -19,7 +19,8 @@
             { "type": "test", "section": "✅ Tests" },
             { "type": "build", "section": "📦 Build System" },
             { "type": "ci", "section": "👷 CI/CD" },
-            { "type": "chore", "section": "🔧 Miscellaneous Changes" }
+            { "type": "chore", "section": "🔧 Miscellaneous Changes" },
+            { "type": "imp", "section": "🚀 Improvements" }
           ]
         },
         "parserOpts": {
@@ -49,6 +50,10 @@
     },
     {
       "type": "style",
+      "release": "patch"
+    },
+    {
+      "type": "imp",
       "release": "patch"
     }
   ]
