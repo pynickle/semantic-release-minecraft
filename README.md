@@ -147,7 +147,9 @@ Configure under the `modrinth` object. Requires `project_id` to enable.
 
 ## 🗂️Configuration Reference
 
-The following is an example configuration for an Architectury project, demonstrating how to use different options:
+The following is an example configuration for an Architectury project, demonstrating how to use different options.
+
+If you'd like a more detailed, comprehensive reference, you can find it in my project [Better Client](https://github.com/pynickle/Better-Client).
 
 Some quick tips to help you grasp things faster:
 - Each strategy runs once.
@@ -157,10 +159,20 @@ Some quick tips to help you grasp things faster:
 [
   "semantic-release-minecraft",
   {
-    "game_versions": ["1.21.9", "1.21.10"],
+    "game_versions": "1.21.1",
     "mod_loaders": "${ loader }",
-    "display_name": "[${ name } 1.21.9/10] ${ nextRelease.version }",
+    "display_name": "[${ name } 1.21.1] ${ nextRelease.version }",
     "glob": "${ loader }/build/libs/better_client-${ loader }-${ nextRelease.version }.jar",
+    "dependencies": [
+      {
+        "slug": "architectury-api",
+        "type": "required"
+      },
+      {
+        "slug": "yacl",
+        "type": "required"
+      }
+    ],
     "strategies": [
       {
         "loader": "fabric",
@@ -174,31 +186,11 @@ Some quick tips to help you grasp things faster:
     "curseforge": {
       "project_id": "1250626",
       "java_versions": 21,
-      "environments": "client",
-      "relations": [
-        {
-          "slug": "yacl",
-          "type": "optionalDependency"
-        },
-        {
-          "slug": "architectury-api",
-          "type": "requiredDependency"
-        }
-      ]
+      "environments": "client"
     },
     "modrinth": {
       "project_id": "uWsLN21d",
-      "version_number": "${ nextRelease.version }+${ loader }",
-      "dependencies": [
-        {
-          "project_id": "lhGA9TYQ",
-          "dependency_type": "optional"
-        },
-        {
-          "project_id": "1eAoo2KR",
-          "dependency_type": "required"
-        }
-      ]
+      "version_number": "${ nextRelease.version }+${ loader }"
     }
   }
 ]
