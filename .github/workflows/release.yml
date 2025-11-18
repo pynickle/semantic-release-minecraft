@@ -22,19 +22,24 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "lts/*"
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Release
         env:
