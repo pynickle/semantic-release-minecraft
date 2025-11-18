@@ -1,3 +1,18 @@
+## [2.3.2](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.1...v2.3.2) (2025-11-18)
+
+### 🐛 Bug Fixes
+
+* just trigger a release ([d8cdf83](https://github.com/pynickle/semantic-release-minecraft/commit/d8cdf83f53aaf1a8ed28c924c034d853176e0a27))
+
+### 📚 Documentation
+
+* update document for newer version ([21514b5](https://github.com/pynickle/semantic-release-minecraft/commit/21514b59813c2fb93e5d3a00aa5c04c5dc010729))
+
+### 🔧 Miscellaneous Changes
+
+* add imp for conventional commit type ([4c2d277](https://github.com/pynickle/semantic-release-minecraft/commit/4c2d277d67215ae6e904390db59174e2a79c753b))
+* use pnpm instead of npm ([8d00dd8](https://github.com/pynickle/semantic-release-minecraft/commit/8d00dd88c357edc211ec50799a7e1611cdcb8f70))
+
 ## [2.3.1](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.0...v2.3.1) (2025-10-22)
 
 ### 🐛 Bug Fixes
