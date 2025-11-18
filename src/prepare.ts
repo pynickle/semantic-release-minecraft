@@ -53,10 +53,7 @@ export async function getCurseForgeGameVersionIds(
         const javaVersionNames = javaVersions.map(
             (javaVersion: number) => `Java ${javaVersion}`
         );
-
-        // TODO: Modrinth 和 CurseForge 的游戏版本命名格式转化，以 Modrinth 为基准
-        // const gameVersionNames = gameVersions.map(x => formatCurseForgeGameVersionSnapshot(x));
-
+        
         // get CurseForge game version IDs from mapped game versions
         const gameVersionIds = findCurseForgeGameVersionIdsByNames(
             map.game_versions,
