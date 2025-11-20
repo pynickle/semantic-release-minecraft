@@ -1,3 +1,9 @@
+## [2.3.5](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.4...v2.3.5) (2025-11-20)
+
+### 🐛 Bug Fixes
+
+* fix data error ([fd43254](https://github.com/pynickle/semantic-release-minecraft/commit/fd432544859f5bdb30c89729caa36ed045445219))
+
 ## [2.3.4](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.3...v2.3.4) (2025-11-20)
 
 ## [2.3.3](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.2...v2.3.3) (2025-11-20)
