@@ -141,11 +141,6 @@ function prepareMetadata(
         changelogType: curseforge?.changelog_type || 'markdown',
         isMarkedForManualRelease:
             curseforge?.is_marked_for_manual_release || false,
-        relations: curseforge?.relations
-            ? {
-                  projects: curseforge?.relations,
-              }
-            : {},
     };
 
     if (curseforge?.relations) {
@@ -158,16 +153,18 @@ function prepareMetadata(
         };
     } else {
         let projects = [];
-        for (const dependency of pluginConfig.dependencies || []) {
-            projects.push({
-                slug: dependency.slug,
-                projectId: dependency.curseforge_project_id,
-                type: DependencyTypeMap[dependency.type],
-            });
+        if (pluginConfig.dependencies) {
+            for (const dependency of pluginConfig.dependencies) {
+                projects.push({
+                    slug: dependency.slug,
+                    projectId: dependency.curseforge_project_id,
+                    type: DependencyTypeMap[dependency.type],
+                });
+            }
+            metadata.relations = {
+                projects,
+            };
         }
-        metadata.relations = {
-            projects,
-        };
     }
 
     metadata.displayName =

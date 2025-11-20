@@ -53,7 +53,7 @@ export async function getCurseForgeGameVersionIds(
         const javaVersionNames = javaVersions.map(
             (javaVersion: number) => `Java ${javaVersion}`
         );
-        
+
         // get CurseForge game version IDs from mapped game versions
         const gameVersionIds = findCurseForgeGameVersionIdsByNames(
             map.game_versions,
