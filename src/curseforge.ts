@@ -103,7 +103,7 @@ async function uploadCurseForgeFile(
         {
             headers: {
                 ...form.getHeaders(),
-                'x-api-key': apiKey,
+                'X-API-TOKEN': apiKey,
             },
         }
     );
