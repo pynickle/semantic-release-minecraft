@@ -158,14 +158,14 @@ async function fetchCurseForgeGameVersionInfo(apiToken: string): Promise<{
     );
 
     const gameVersionTypes =
-        gameVersionTypesRes.data as CurseForgeGameVersionType[];
+        gameVersionTypesRes.data.data as CurseForgeGameVersionType[];
 
     if (!gameVersionTypes.some((x) => x.id === BUKKIT_GAME_VERSION_TYPE.id)) {
         gameVersionTypes.push(BUKKIT_GAME_VERSION_TYPE);
     }
 
     return {
-        versions: gameVersionsRes.data,
+        versions: gameVersionsRes.data.data,
         types: gameVersionTypes,
     };
 }
