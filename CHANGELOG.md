@@ -1,3 +1,9 @@
+## [2.3.3](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.2...v2.3.3) (2025-11-20)
+
+### 🐛 Bug Fixes
+
+* use api.curseforge.com for prepare ([4ce575b](https://github.com/pynickle/semantic-release-minecraft/commit/4ce575b701c5418497a3040ac642250a815de088))
+
 ## [2.3.2](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.1...v2.3.2) (2025-11-18)
 
 ### 🐛 Bug Fixes
