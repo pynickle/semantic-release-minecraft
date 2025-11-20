@@ -140,19 +140,19 @@ async function fetchCurseForgeGameVersionInfo(apiToken: string): Promise<{
     types: CurseForgeGameVersionType[];
 }> {
     const gameVersionsRes = await axios.get(
-        'https://minecraft.curseforge.com/api/game/versions',
+        'https://api.curseforge.com/v1/games/432/versions',
         {
             headers: {
-                'X-Api-Token': apiToken,
+                'x-api-key': apiToken,
             },
         }
     );
 
     const gameVersionTypesRes = await axios.get(
-        'https://minecraft.curseforge.com/api/game/version-types',
+        'https://api.curseforge.com/v1/games/432/version-types',
         {
             headers: {
-                'X-Api-Token': apiToken,
+                'x-api-key': apiToken,
             },
         }
     );
