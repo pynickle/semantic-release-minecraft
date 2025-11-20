@@ -1,3 +1,9 @@
+## [2.3.6](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.5...v2.3.6) (2025-11-20)
+
+### 🐛 Bug Fixes
+
+* fix incorrect header ([344feec](https://github.com/pynickle/semantic-release-minecraft/commit/344feecd426b003d4da00f70059173efc3f3e092))
+
 ## [2.3.5](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.4...v2.3.5) (2025-11-20)
 
 ### 🐛 Bug Fixes
