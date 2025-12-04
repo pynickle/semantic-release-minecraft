@@ -1,3 +1,9 @@
+## [2.3.9](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.8...v2.3.9) (2025-12-04)
+
+### 🔧 Miscellaneous Changes
+
+* update dependencies, use oxfmt and oxlint ([6b12a6d](https://github.com/pynickle/semantic-release-minecraft/commit/6b12a6da28151655c2d92bdd37e5d573f6f13673))
+
 ## [2.3.8](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.7...v2.3.8) (2025-11-20)
 
 ### 🐛 Bug Fixes
