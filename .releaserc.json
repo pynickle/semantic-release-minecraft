@@ -55,6 +55,10 @@
     {
       "type": "imp",
       "release": "patch"
+    },
+    {
+      "type": "chore",
+      "release": "patch"
     }
   ]
 }
