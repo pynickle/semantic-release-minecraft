@@ -1,14 +1,11 @@
+import { PluginConfig } from './definitions/plugin-config.js';
+import { findFilesAndPrimaryFile } from './utils/platform/utils.js';
+import { resolveAndRenderTemplate, resolveAndRenderTemplates } from './utils/template-utils.js';
 import axios from 'axios';
 import FormData from 'form-data';
 import { readFileSync } from 'fs';
 import { basename } from 'path';
 import { PublishContext } from 'semantic-release';
-import { PluginConfig } from './definitions/plugin-config.js';
-import { findFilesAndPrimaryFile } from './utils/platform/utils.js';
-import {
-    resolveAndRenderTemplate,
-    resolveAndRenderTemplates,
-} from './utils/template-utils.js';
 
 /**
  * Publishes files to Modrinth.
@@ -29,9 +26,7 @@ export async function publishToModrinth(
         strategy,
         'modrinth'
     );
-    logger.log(
-        `Publishing ${files.length} file(s) to Modrinth project ${projectId}...`
-    );
+    logger.log(`Publishing ${files.length} file(s) to Modrinth project ${projectId}...`);
 
     // use multipart/form-data to upload files and version data
     const form = new FormData();
@@ -85,26 +80,20 @@ export async function publishToModrinth(
         versionData.dependencies = dependencies;
     }
 
-    const changelog = resolveAndRenderTemplate(
-        [modrinth?.changelog, nextRelease.notes],
-        {
-            ...context,
-            ...strategy,
-        }
-    );
+    const changelog = resolveAndRenderTemplate([modrinth?.changelog, nextRelease.notes], {
+        ...context,
+        ...strategy,
+    });
 
     if (changelog) {
         versionData.changelog = changelog;
     }
 
     versionData.name =
-        resolveAndRenderTemplate(
-            [modrinth?.display_name, pluginConfig.display_name],
-            {
-                ...context,
-                ...strategy,
-            }
-        ) || nextRelease.name;
+        resolveAndRenderTemplate([modrinth?.display_name, pluginConfig.display_name], {
+            ...context,
+            ...strategy,
+        }) || nextRelease.name;
 
     versionData.version_number =
         resolveAndRenderTemplate([modrinth?.version_number], {
@@ -113,22 +102,16 @@ export async function publishToModrinth(
         }) || nextRelease.version;
 
     versionData.game_versions =
-        resolveAndRenderTemplates(
-            [modrinth?.game_versions, pluginConfig.game_versions],
-            {
-                ...context,
-                ...strategy,
-            }
-        ) || [];
+        resolveAndRenderTemplates([modrinth?.game_versions, pluginConfig.game_versions], {
+            ...context,
+            ...strategy,
+        }) || [];
 
     versionData.loaders =
-        resolveAndRenderTemplates(
-            [modrinth?.mod_loaders, pluginConfig.mod_loaders],
-            {
-                ...context,
-                ...strategy,
-            }
-        ) || [];
+        resolveAndRenderTemplates([modrinth?.mod_loaders, pluginConfig.mod_loaders], {
+            ...context,
+            ...strategy,
+        }) || [];
 
     form.append('data', JSON.stringify(versionData), {
         contentType: 'application/json',
@@ -145,17 +128,13 @@ export async function publishToModrinth(
     const headers = form.getHeaders();
     headers['Content-Length'] = form.getLengthSync();
 
-    const versionRes = await axios.post(
-        'https://api.modrinth.com/v2/version',
-        form,
-        {
-            headers: {
-                ...headers,
-                Authorization: token,
-            },
-            validateStatus: (status) => status < 500,
-        }
-    );
+    const versionRes = await axios.post('https://api.modrinth.com/v2/version', form, {
+        headers: {
+            ...headers,
+            Authorization: token,
+        },
+        validateStatus: (status) => status < 500,
+    });
 
     const resData = versionRes.data;
 
@@ -177,18 +156,12 @@ export async function publishToModrinth(
     }
 }
 
-async function getModrinthProjectBySlug(
-    slug: string,
-    token: string
-): Promise<string | undefined> {
-    const projectRes = await axios.get(
-        `https://api.modrinth.com/v2/project/${slug}`,
-        {
-            headers: {
-                Authorization: token,
-            },
-        }
-    );
+async function getModrinthProjectBySlug(slug: string, token: string): Promise<string | undefined> {
+    const projectRes = await axios.get(`https://api.modrinth.com/v2/project/${slug}`, {
+        headers: {
+            Authorization: token,
+        },
+    });
     if (projectRes.status === 200) {
         return projectRes.data.id;
     }

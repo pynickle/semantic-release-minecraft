@@ -1,9 +1,9 @@
-﻿import { glob } from 'glob';
-import { resolve } from 'path';
-import { PublishContext } from 'semantic-release';
 import { PluginConfig } from '../../definitions/plugin-config.js';
 import { findFilesByGlob } from '../glob-utils.js';
 import { resolveAndRenderTemplates } from '../template-utils.js';
+﻿import { glob } from 'glob';
+import { resolve } from 'path';
+import { PublishContext } from 'semantic-release';
 
 /**
  * Find files and primary file for publishing.
@@ -18,9 +18,7 @@ export async function findFilesAndPrimaryFile(
 
     const filesGlob = resolveAndRenderTemplates(
         [
-            platform === 'modrinth'
-                ? pluginConfig.modrinth?.glob
-                : pluginConfig.curseforge?.glob,
+            platform === 'modrinth' ? pluginConfig.modrinth?.glob : pluginConfig.curseforge?.glob,
             pluginConfig.glob,
         ],
         {
@@ -30,9 +28,7 @@ export async function findFilesAndPrimaryFile(
     );
 
     const files = await findFilesByGlob(filesGlob, context);
-    logger.log(
-        `Found ${files.length} file(s) for publishing: ${files.join(', ')}`
-    );
+    logger.log(`Found ${files.length} file(s) for publishing: ${files.join(', ')}`);
 
     if (files.length === 0) {
         throw new Error('No files found for publishing.');
@@ -60,14 +56,10 @@ export async function findFilesAndPrimaryFile(
                 cwd: context.cwd,
                 nodir: true,
             });
-            primaryCandidates.push(
-                ...matches.map((file) => resolve(context.cwd!, file))
-            );
+            primaryCandidates.push(...matches.map((file) => resolve(context.cwd!, file)));
         }
 
-        primaryCandidates = primaryCandidates.filter((file) =>
-            files.includes(file)
-        );
+        primaryCandidates = primaryCandidates.filter((file) => files.includes(file));
 
         if (primaryCandidates.length === 1) {
             const primaryFile = primaryCandidates[0];

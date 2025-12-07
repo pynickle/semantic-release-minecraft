@@ -1,12 +1,8 @@
-import {
-    PrepareContext,
-    PublishContext,
-    VerifyConditionsContext,
-} from 'semantic-release';
 import { publishToCurseforge } from './curseforge.js';
 import { PluginConfig } from './definitions/plugin-config.js';
 import { publishToModrinth } from './modrinth.js';
 import { getCurseForgeGameVersionIds } from './prepare.js';
+import { PrepareContext, PublishContext, VerifyConditionsContext } from 'semantic-release';
 
 // Game version IDs transformed from user's input, used during publishing to CurseForge
 let curseforgeGameVersionsIdsPerStrategy: Array<number[]> = [];
@@ -26,18 +22,18 @@ export async function verifyConditions(
     }
 }
 
-export async function prepare(
-    pluginConfig: PluginConfig,
-    context: PrepareContext
-) {
+export async function prepare(pluginConfig: PluginConfig, context: PrepareContext) {
     const { env, logger } = context;
 
     if (env.CURSEFORGE_TOKEN) {
         const apiToken = env.CURSEFORGE_TOKEN;
         logger.log('Fetching CurseForge game versions and types...');
 
-        curseforgeGameVersionsIdsPerStrategy =
-            await getCurseForgeGameVersionIds(apiToken, pluginConfig, context);
+        curseforgeGameVersionsIdsPerStrategy = await getCurseForgeGameVersionIds(
+            apiToken,
+            pluginConfig,
+            context
+        );
 
         logger.log(
             `Successfully transform into ${Object.keys(curseforgeGameVersionsIdsPerStrategy[0]).length} CurseForge game versions for each strategy`
@@ -45,19 +41,14 @@ export async function prepare(
     }
 }
 
-export async function publish(
-    pluginConfig: PluginConfig,
-    context: PublishContext
-) {
+export async function publish(pluginConfig: PluginConfig, context: PublishContext) {
     const { env, logger } = context;
     const results: {
         curseforge: { url: string }[];
         modrinth: { url: string }[];
     } = { curseforge: [], modrinth: [] };
 
-    for (const [index, strategy] of (
-        pluginConfig.strategies || [{}]
-    ).entries()) {
+    for (const [index, strategy] of (pluginConfig.strategies || [{}]).entries()) {
         if (env.CURSEFORGE_TOKEN) {
             const curseforgeId = await publishToCurseforge(
                 pluginConfig,
@@ -75,11 +66,7 @@ export async function publish(
         }
 
         if (env.MODRINTH_TOKEN) {
-            const modrinthId = await publishToModrinth(
-                pluginConfig,
-                context,
-                strategy
-            );
+            const modrinthId = await publishToModrinth(pluginConfig, context, strategy);
             results.modrinth.push({
                 url: `https://modrinth.com/mod/${pluginConfig.modrinth!.project_id}/version/${modrinthId}`,
             });

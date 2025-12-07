@@ -54,20 +54,10 @@ export type PluginConfig = {
             version_id?: string;
             project_id?: string;
             file_name?: string;
-            dependency_type:
-                | 'required'
-                | 'optional'
-                | 'incompatible'
-                | 'embedded';
+            dependency_type: 'required' | 'optional' | 'incompatible' | 'embedded';
         }>;
         featured?: boolean;
-        status?:
-            | 'listed'
-            | 'archived'
-            | 'draft'
-            | 'unlisted'
-            | 'scheduled'
-            | 'unknown';
+        status?: 'listed' | 'archived' | 'draft' | 'unlisted' | 'scheduled' | 'unknown';
         requested_status?: 'listed' | 'archived' | 'draft' | 'unlisted';
         glob?: string | string[];
         primary_file_glob?: string | string[];

@@ -29,9 +29,7 @@ export async function findFilesByGlob(
     const files = allFiles.map((file) => resolve(cwd!, file));
 
     if (files.length === 0) {
-        throw new Error(
-            `No files found matching patterns: ${patterns.join(', ')}`
-        );
+        throw new Error(`No files found matching patterns: ${patterns.join(', ')}`);
     }
 
     return files;

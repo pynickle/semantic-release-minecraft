@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { PrepareContext } from 'semantic-release';
 import {
     BUKKIT_GAME_VERSION_TYPE,
     CurseForgeGameVersion,
@@ -9,6 +7,8 @@ import {
 import { PluginConfig } from './definitions/plugin-config.js';
 import { resolveAndRenderTemplates } from './utils/template-utils.js';
 import { toArray } from './utils/utils.js';
+import axios from 'axios';
+import { PrepareContext } from 'semantic-release';
 
 /**
  * Get CurseForge game version IDs based on the plugin configuration.
@@ -28,10 +28,7 @@ export async function getCurseForgeGameVersionIds(
         // fetch plugin config values with template rendering
         const modLoaders =
             resolveAndRenderTemplates(
-                [
-                    pluginConfig.curseforge?.mod_loaders,
-                    pluginConfig.mod_loaders,
-                ],
+                [pluginConfig.curseforge?.mod_loaders, pluginConfig.mod_loaders],
                 {
                     ...context,
                     ...strategy,
@@ -39,36 +36,19 @@ export async function getCurseForgeGameVersionIds(
             ) || [];
 
         const javaVersions = toArray(curseforgeConfig.java_versions);
-        const gameVersions = toArray(
-            curseforgeConfig.game_versions || pluginConfig.game_versions
-        );
-        const pluginGameVersions = toArray(
-            curseforgeConfig.game_versions_for_plugins
-        );
-        const addonGameVersions = toArray(
-            curseforgeConfig.game_versions_for_addon
-        );
+        const gameVersions = toArray(curseforgeConfig.game_versions || pluginConfig.game_versions);
+        const pluginGameVersions = toArray(curseforgeConfig.game_versions_for_plugins);
+        const addonGameVersions = toArray(curseforgeConfig.game_versions_for_addon);
         const environments = toArray(curseforgeConfig.environments);
 
-        const javaVersionNames = javaVersions.map(
-            (javaVersion: number) => `Java ${javaVersion}`
-        );
+        const javaVersionNames = javaVersions.map((javaVersion: number) => `Java ${javaVersion}`);
 
         // get CurseForge game version IDs from mapped game versions
-        const gameVersionIds = findCurseForgeGameVersionIdsByNames(
-            map.game_versions,
-            gameVersions
-        );
+        const gameVersionIds = findCurseForgeGameVersionIdsByNames(map.game_versions, gameVersions);
 
-        const loaderIds = findCurseForgeGameVersionIdsByNames(
-            map.loaders,
-            modLoaders
-        );
+        const loaderIds = findCurseForgeGameVersionIdsByNames(map.loaders, modLoaders);
 
-        const javaIds = findCurseForgeGameVersionIdsByNames(
-            map.java_versions,
-            javaVersionNames
-        );
+        const javaIds = findCurseForgeGameVersionIdsByNames(map.java_versions, javaVersionNames);
 
         const pluginGameVersionIds = findCurseForgeGameVersionIdsByNames(
             map.game_versions_for_plugins,
@@ -80,10 +60,7 @@ export async function getCurseForgeGameVersionIds(
             addonGameVersions
         );
 
-        const environmentIds = findCurseForgeGameVersionIdsByNames(
-            map.environments,
-            environments
-        );
+        const environmentIds = findCurseForgeGameVersionIdsByNames(map.environments, environments);
 
         const curseforgeGameVersionIds: number[] = [];
         curseforgeGameVersionIds.push(
@@ -102,33 +79,15 @@ export async function getCurseForgeGameVersionIds(
 /**
  * Create a CurseForge game version map by categorizing game versions based on their type names.
  */
-async function createCurseForgeGameVersionMap(
-    apiToken: string
-): Promise<CurseForgeGameVersionMap> {
+async function createCurseForgeGameVersionMap(apiToken: string): Promise<CurseForgeGameVersionMap> {
     const { versions, types } = await fetchCurseForgeGameVersionInfo(apiToken);
     return {
-        game_versions: filterGameVersionsByTypeName(
-            versions,
-            types,
-            'minecraft'
-        ),
-        game_versions_for_plugins: filterGameVersionsByTypeName(
-            versions,
-            types,
-            'bukkit'
-        ),
-        game_versions_for_addons: filterGameVersionsByTypeName(
-            versions,
-            types,
-            'addon'
-        ),
+        game_versions: filterGameVersionsByTypeName(versions, types, 'minecraft'),
+        game_versions_for_plugins: filterGameVersionsByTypeName(versions, types, 'bukkit'),
+        game_versions_for_addons: filterGameVersionsByTypeName(versions, types, 'addon'),
         loaders: filterGameVersionsByTypeName(versions, types, 'modloader'),
         java_versions: filterGameVersionsByTypeName(versions, types, 'java'),
-        environments: filterGameVersionsByTypeName(
-            versions,
-            types,
-            'environment'
-        ),
+        environments: filterGameVersionsByTypeName(versions, types, 'environment'),
     };
 }
 
@@ -139,14 +98,11 @@ async function fetchCurseForgeGameVersionInfo(apiToken: string): Promise<{
     versions: CurseForgeGameVersion[];
     types: CurseForgeGameVersionType[];
 }> {
-    const gameVersionsRes = await axios.get(
-        'https://minecraft.curseforge.com/api/game/versions',
-        {
-            headers: {
-                'X-Api-Token': apiToken,
-            },
-        }
-    );
+    const gameVersionsRes = await axios.get('https://minecraft.curseforge.com/api/game/versions', {
+        headers: {
+            'X-Api-Token': apiToken,
+        },
+    });
 
     const gameVersionTypesRes = await axios.get(
         'https://minecraft.curseforge.com/api/game/version-types',
@@ -157,8 +113,7 @@ async function fetchCurseForgeGameVersionInfo(apiToken: string): Promise<{
         }
     );
 
-    const gameVersionTypes =
-        gameVersionTypesRes.data as CurseForgeGameVersionType[];
+    const gameVersionTypes = gameVersionTypesRes.data as CurseForgeGameVersionType[];
 
     if (!gameVersionTypes.some((x) => x.id === BUKKIT_GAME_VERSION_TYPE.id)) {
         gameVersionTypes.push(BUKKIT_GAME_VERSION_TYPE);
@@ -179,9 +134,7 @@ function filterGameVersionsByTypeName(
     typeName: string
 ): CurseForgeGameVersion[] {
     const filteredTypes = types.filter((x) => x.slug.startsWith(typeName));
-    return versions.filter((v) =>
-        filteredTypes.some((t) => t.id === v.gameVersionTypeID)
-    );
+    return versions.filter((v) => filteredTypes.some((t) => t.id === v.gameVersionTypeID));
 }
 
 /**
@@ -190,8 +143,7 @@ function filterGameVersionsByTypeName(
 function findCurseForgeGameVersionIdsByNames(
     versions: { id: number; name: string }[],
     names: string[],
-    comparer: (a: string, b: string) => boolean = (a, b) =>
-        a.toLowerCase() === b.toLowerCase()
+    comparer: (a: string, b: string) => boolean = (a, b) => a.toLowerCase() === b.toLowerCase()
 ): number[] {
     const result: number[] = [];
 

@@ -50,11 +50,7 @@ export const BUKKIT_GAME_VERSION_TYPE: CurseForgeGameVersionType = {
     slug: 'bukkit',
 };
 
-export type GlobalDependencyType =
-    | 'required'
-    | 'optional'
-    | 'incompatible'
-    | 'embedded';
+export type GlobalDependencyType = 'required' | 'optional' | 'incompatible' | 'embedded';
 
 export const DependencyTypeMap = {
     required: 'requiredDependency',

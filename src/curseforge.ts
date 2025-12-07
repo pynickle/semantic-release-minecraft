@@ -1,16 +1,13 @@
+import { DependencyTypeMap } from './definitions/curseforge.js';
+import { PluginConfig } from './definitions/plugin-config.js';
+import { findFilesAndPrimaryFile } from './utils/platform/utils.js';
+import { resolveAndRenderTemplate, resolveAndRenderTemplates } from './utils/template-utils.js';
 import axios from 'axios';
 import FormData from 'form-data';
 import { readFileSync } from 'fs';
 import lodash from 'lodash';
 import { basename } from 'path';
 import { PublishContext } from 'semantic-release';
-import { DependencyTypeMap } from './definitions/curseforge.js';
-import { PluginConfig } from './definitions/plugin-config.js';
-import { findFilesAndPrimaryFile } from './utils/platform/utils.js';
-import {
-    resolveAndRenderTemplate,
-    resolveAndRenderTemplates,
-} from './utils/template-utils.js';
 
 /**
  * Publishes files to CurseForge.
@@ -32,36 +29,18 @@ export async function publishToCurseforge(
         strategy,
         'curseforge'
     );
-    logger.log(
-        `Publishing ${files.length} file(s) to CurseForge project ${projectId}...`
-    );
+    logger.log(`Publishing ${files.length} file(s) to CurseForge project ${projectId}...`);
 
-    const metadata = prepareMetadata(
-        pluginConfig,
-        context,
-        strategy,
-        curseforgeGameVersionIds
-    );
+    const metadata = prepareMetadata(pluginConfig, context, strategy, curseforgeGameVersionIds);
 
-    let primaryFileId = await uploadCurseForgeFile(
-        pluginConfig,
-        context,
-        metadata,
-        primaryFile
-    );
+    let primaryFileId = await uploadCurseForgeFile(pluginConfig, context, metadata, primaryFile);
 
     for (const filePath of files) {
         if (filePath === primaryFile) {
             continue;
         }
 
-        await uploadCurseForgeFile(
-            pluginConfig,
-            context,
-            metadata,
-            filePath,
-            primaryFileId
-        );
+        await uploadCurseForgeFile(pluginConfig, context, metadata, filePath, primaryFileId);
     }
 
     return primaryFileId;
@@ -116,9 +95,7 @@ async function uploadCurseForgeFile(
         );
         return resData.id;
     } else {
-        throw new Error(
-            `CurseForge API returned unexpected response: ${resData}`
-        );
+        throw new Error(`CurseForge API returned unexpected response: ${resData}`);
     }
 }
 
@@ -135,12 +112,12 @@ function prepareMetadata(
     const metadata: any = {
         gameVersions: curseforgeGameVersionIds,
         releaseType: pluginConfig.release_type || 'release',
-        changelog: lodash.template(
-            curseforge?.changelog || context.nextRelease.notes
-        )({ ...context, ...strategy }),
+        changelog: lodash.template(curseforge?.changelog || context.nextRelease.notes)({
+            ...context,
+            ...strategy,
+        }),
         changelogType: curseforge?.changelog_type || 'markdown',
-        isMarkedForManualRelease:
-            curseforge?.is_marked_for_manual_release || false,
+        isMarkedForManualRelease: curseforge?.is_marked_for_manual_release || false,
     };
 
     if (curseforge?.relations) {
@@ -168,13 +145,10 @@ function prepareMetadata(
     }
 
     metadata.displayName =
-        resolveAndRenderTemplate(
-            [curseforge?.display_name, pluginConfig.display_name],
-            {
-                ...context,
-                ...strategy,
-            }
-        ) || context.nextRelease.name;
+        resolveAndRenderTemplate([curseforge?.display_name, pluginConfig.display_name], {
+            ...context,
+            ...strategy,
+        }) || context.nextRelease.name;
 
     metadata.modLoaders =
         resolveAndRenderTemplates(
