@@ -1,3 +1,14 @@
+## [2.3.10](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.9...v2.3.10) (2025-12-08)
+
+### 💄 Style Improvements
+
+* improve code style ([0156e87](https://github.com/pynickle/semantic-release-minecraft/commit/0156e87b95fc462c8209ccef149084c44d057d94))
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency oxfmt to ^0.17.0 ([b399718](https://github.com/pynickle/semantic-release-minecraft/commit/b3997180f4d468658114137f5e11febe7fb8afc0))
+* **deps:** update dependency oxlint to v1.32.0 ([6bf8b01](https://github.com/pynickle/semantic-release-minecraft/commit/6bf8b01c305c600068dd69d922dacc2cf41eeaab))
+
 ## [2.3.9](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.8...v2.3.9) (2025-12-04)
 
 ### 🔧 Miscellaneous Changes
