@@ -1,7 +1,7 @@
 import { PluginConfig } from '../../definitions/plugin-config.js';
 import { findFilesByGlob } from '../glob-utils.js';
 import { resolveAndRenderTemplates } from '../template-utils.js';
-﻿import { glob } from 'glob';
+import { glob } from 'glob';
 import { resolve } from 'path';
 import { PublishContext } from 'semantic-release';
 
