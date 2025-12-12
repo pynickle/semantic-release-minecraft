@@ -35,7 +35,7 @@
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "semantic-release": ">=18.0.0"
+    "semantic-release": ">=18.0.1"
   },
   "dependencies": {
     "axios": "^1.13.2",
