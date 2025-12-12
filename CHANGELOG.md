@@ -1,3 +1,9 @@
+## [2.3.12](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.11...v2.3.12) (2025-12-12)
+
+### 🔧 Miscellaneous Changes
+
+* trigger release ([1223202](https://github.com/pynickle/semantic-release-minecraft/commit/1223202e2140db312b1ed743a6021d305af9575c))
+
 ## [2.3.11](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.10...v2.3.11) (2025-12-12)
 
 ### 🔧 Miscellaneous Changes
