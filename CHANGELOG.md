@@ -1,3 +1,9 @@
+## [2.3.13](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.12...v2.3.13) (2025-12-12)
+
+### 🔧 Miscellaneous Changes
+
+* add repository info ([684be7a](https://github.com/pynickle/semantic-release-minecraft/commit/684be7adee7532990f7443faaa8a59b5d7d05ac4))
+
 ## [2.3.12](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.11...v2.3.12) (2025-12-12)
 
 ### 🔧 Miscellaneous Changes
