@@ -1,3 +1,13 @@
+## [2.3.14](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.13...v2.3.14) (2025-12-12)
+
+### 💄 Style Improvements
+
+* remove bom ([c54d484](https://github.com/pynickle/semantic-release-minecraft/commit/c54d4846c8c5f6a58eecd4ea79152650556b5e30))
+
+### 🔧 Miscellaneous Changes
+
+* update renovate settings [skip ci] ([780c1d8](https://github.com/pynickle/semantic-release-minecraft/commit/780c1d84c8f641ba216d9f1ec3809acecfd788ca))
+
 ## [2.3.13](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.12...v2.3.13) (2025-12-12)
 
 ### 🔧 Miscellaneous Changes
