@@ -7,6 +7,10 @@
     "minecraft",
     "automation"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pynickle/semantic-release-minecraft"
+  },
   "author": "ENC_Euphony <2330458484@qq.com>",
   "license": "MIT",
   "main": "dist/index.js",
