@@ -1,3 +1,9 @@
+## [2.3.15](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.14...v2.3.15) (2025-12-13)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency @semantic-release/npm to ^13.1.3 ([fd4c574](https://github.com/pynickle/semantic-release-minecraft/commit/fd4c5746f51f5dca119d14cb97a01a1f10eba000))
+
 ## [2.3.14](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.13...v2.3.14) (2025-12-12)
 
 ### 💄 Style Improvements
