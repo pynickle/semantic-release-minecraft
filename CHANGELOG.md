@@ -1,3 +1,10 @@
+## [2.3.16](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.15...v2.3.16) (2025-12-15)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency @types/node to ^24.10.4 ([7e010cc](https://github.com/pynickle/semantic-release-minecraft/commit/7e010ccfe76a4c4a64ad98ecc42074ab4b0368cb))
+* update renovate settings [skip ci] ([87bebeb](https://github.com/pynickle/semantic-release-minecraft/commit/87bebebd3701d77ba645c459e2ad9aa5c91e23f1))
+
 ## [2.3.15](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.14...v2.3.15) (2025-12-13)
 
 ### 🔧 Miscellaneous Changes
