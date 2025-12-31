@@ -1,3 +1,9 @@
+## [2.3.25](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.24...v2.3.25) (2025-12-31)
+
+### 🐛 Bug Fixes
+
+* fix modrinth file id not recognized correctly ([c56f41c](https://github.com/pynickle/semantic-release-minecraft/commit/c56f41ca0b8802ccea9e0fb1c6bab443982718c8))
+
 ## [2.3.24](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.23...v2.3.24) (2025-12-31)
 
 ### 🔧 Miscellaneous Changes
