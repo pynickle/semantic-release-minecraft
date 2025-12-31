@@ -1,3 +1,9 @@
+## [2.3.24](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.23...v2.3.24) (2025-12-31)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency pnpm to v10.27.0 ([13967af](https://github.com/pynickle/semantic-release-minecraft/commit/13967af7d6f422a9b7e10d252c085c0d20a66a64))
+
 ## [2.3.23](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.22...v2.3.23) (2025-12-29)
 
 ### 🔧 Miscellaneous Changes
