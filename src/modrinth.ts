@@ -140,7 +140,7 @@ export async function publishToModrinth(
 
     if (versionRes.status === 200) {
         logger.log(
-            `Successfully published to Modrinth: ${resData.project_id} (File ID: ${resData.file_id})`
+            `Successfully published to Modrinth: ${resData.project_id} (File ID: ${resData.id})`
         );
         return versionRes.data.id;
     } else if (versionRes.status === 400 || versionRes.status === 401) {
@@ -148,8 +148,6 @@ export async function publishToModrinth(
             `Failed to publish to Modrinth (${versionRes.status}): ${resData.error}\n${resData.description}`
         );
     } else {
-        logger.log('Headers:', versionRes.headers);
-        logger.log('Data:', resData);
         throw new Error(
             `Failed to publish to Modrinth (${versionRes.status}): ${versionRes.statusText}`
         );
