@@ -1,3 +1,9 @@
+## [2.3.26](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.25...v2.3.26) (2026-01-04)
+
+### 🔧 Miscellaneous Changes
+
+* remove unused dependency ([580f363](https://github.com/pynickle/semantic-release-minecraft/commit/580f363ba44e682a8953fece1d92deea5acb9788))
+
 ## [2.3.25](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.24...v2.3.25) (2025-12-31)
 
 ### 🐛 Bug Fixes
