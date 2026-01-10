@@ -1,3 +1,9 @@
+## [2.3.31](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.30...v2.3.31) (2026-01-10)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency @types/lodash to ^4.17.23 ([7a38d61](https://github.com/pynickle/semantic-release-minecraft/commit/7a38d61da8fbd4ed77a0c16b2b68a7e468cce76e))
+
 ## [2.3.30](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.29...v2.3.30) (2026-01-10)
 
 ### 🔧 Miscellaneous Changes
