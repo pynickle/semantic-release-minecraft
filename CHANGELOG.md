@@ -1,3 +1,16 @@
+## [2.3.32](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.31...v2.3.32) (2026-01-23)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency @types/node to ^24.10.7 ([4a42ec3](https://github.com/pynickle/semantic-release-minecraft/commit/4a42ec3a1def838bb57f7690dd0cae0e59909999))
+* **deps:** update dependency @types/node to ^24.10.9 ([c6b988b](https://github.com/pynickle/semantic-release-minecraft/commit/c6b988b4661fce633c148f74d906394ccfdde9d5))
+* **deps:** update dependency lodash to ^4.17.23 ([247bee5](https://github.com/pynickle/semantic-release-minecraft/commit/247bee5eb841a638be791ffad12823bf0c77319b))
+* **deps:** update dependency oxfmt to ^0.24.0 ([2d92e90](https://github.com/pynickle/semantic-release-minecraft/commit/2d92e900bff1443201ca193c6403a21a060d6292))
+* **deps:** update dependency oxfmt to ^0.26.0 ([cbd7d0f](https://github.com/pynickle/semantic-release-minecraft/commit/cbd7d0f2608c0707d4affcb1c16f372c5741e3c7))
+* **deps:** update dependency oxlint to ^1.39.0 ([c8a2ee8](https://github.com/pynickle/semantic-release-minecraft/commit/c8a2ee875084c7fc8ead4f2dddeca324ad008e81))
+* **deps:** update dependency oxlint to ^1.41.0 ([4dab5bc](https://github.com/pynickle/semantic-release-minecraft/commit/4dab5bca37b15200aa8b942d387015eec1aa24e6))
+* **deps:** update dependency pnpm to v10.28.1 ([da3796d](https://github.com/pynickle/semantic-release-minecraft/commit/da3796d6e230dd6b553477b0beb64a656d647335))
+
 ## [2.3.31](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.30...v2.3.31) (2026-01-10)
 
 ### 🔧 Miscellaneous Changes
