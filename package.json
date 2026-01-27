@@ -32,7 +32,7 @@
     "@types/lodash": "^4.17.23",
     "@types/node": "^24.10.9",
     "conventional-changelog-conventionalcommits": "^9.1.0",
-    "oxfmt": "^0.26.0",
+    "oxfmt": "^0.27.0",
     "oxlint": "^1.41.0",
     "semantic-release": "^25.0.2",
     "typescript": "^5.9.3"
