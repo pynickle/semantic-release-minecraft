@@ -1,3 +1,10 @@
+## [2.3.35](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.34...v2.3.35) (2026-02-03)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency @types/node to ^24.10.10 ([aa5ede7](https://github.com/pynickle/semantic-release-minecraft/commit/aa5ede7e7cb12742ec29a6a69c0209d8b2e216b0))
+* **deps:** update dependency oxlint to ^1.43.0 ([569e712](https://github.com/pynickle/semantic-release-minecraft/commit/569e712d180480eb0c44d3715fd181cf7abef3a2))
+
 ## [2.3.34](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.33...v2.3.34) (2026-01-27)
 
 ### 🔧 Miscellaneous Changes
