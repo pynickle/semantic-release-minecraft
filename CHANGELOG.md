@@ -1,3 +1,11 @@
+## [2.3.39](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.38...v2.3.39) (2026-02-12)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency @types/node to ^24.10.13 ([96455e8](https://github.com/pynickle/semantic-release-minecraft/commit/96455e874657b2143d6cc41e5f962dffc3e75d94))
+* **deps:** update dependency glob to ^13.0.2 ([4ad3bcf](https://github.com/pynickle/semantic-release-minecraft/commit/4ad3bcf759092592d7b94a7dcba58c2998d1e727))
+* **deps:** update dependency pnpm to v10.29.3 ([cdbe199](https://github.com/pynickle/semantic-release-minecraft/commit/cdbe19939c67b01554cf2d7c1877e2fd06c2a9cb))
+
 ## [2.3.38](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.37...v2.3.38) (2026-02-09)
 
 ### 🔧 Miscellaneous Changes
