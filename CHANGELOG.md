@@ -1,3 +1,10 @@
+## [2.3.41](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.40...v2.3.41) (2026-02-13)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency glob to ^13.0.3 ([5ee78d6](https://github.com/pynickle/semantic-release-minecraft/commit/5ee78d66eb2a75f4db01c760f6f1f31f7f39e893))
+* **deps:** update dependency oxlint to ^1.47.0 ([b8ed540](https://github.com/pynickle/semantic-release-minecraft/commit/b8ed540382514ac53dbe9a05e025ce59f4a52ba1))
+
 ## [2.3.40](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.39...v2.3.40) (2026-02-12)
 
 ### 🔧 Miscellaneous Changes
