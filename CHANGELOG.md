@@ -1,3 +1,11 @@
+## [2.3.43](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.42...v2.3.43) (2026-02-25)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency @types/lodash to ^4.17.24 ([ae4f538](https://github.com/pynickle/semantic-release-minecraft/commit/ae4f538651e2f07130ae992669b494b77f9ecaed))
+* **deps:** update dependency glob to ^13.0.6 ([4bcac11](https://github.com/pynickle/semantic-release-minecraft/commit/4bcac11c88edb448bb05c7111ff236046dcd1489))
+* **deps:** update dependency pnpm to v10.30.2 ([18eb564](https://github.com/pynickle/semantic-release-minecraft/commit/18eb564573d16e026aaf2f3cfe291116c0c54842))
+
 ## [2.3.42](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.41...v2.3.42) (2026-02-19)
 
 ### 🔧 Miscellaneous Changes
