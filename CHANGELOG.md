@@ -1,3 +1,11 @@
+## [2.3.45](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.44...v2.3.45) (2026-03-04)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency @semantic-release/npm to ^13.1.5 ([ca4da46](https://github.com/pynickle/semantic-release-minecraft/commit/ca4da46b05efad755c5deda9d22e00f49b4d53a2))
+* **deps:** update dependency conventional-changelog-conventionalcommits to ^9.2.0 ([5390e96](https://github.com/pynickle/semantic-release-minecraft/commit/5390e9650d656136ed9c4dbae54253c2ea3a16e9))
+* **deps:** update dependency oxlint to ^1.51.0 ([29b34b9](https://github.com/pynickle/semantic-release-minecraft/commit/29b34b9a8cff850f99e7fe1c1cf3c6f45afa9b4e))
+
 ## [2.3.44](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.43...v2.3.44) (2026-02-27)
 
 ### 🔧 Miscellaneous Changes
