@@ -1,3 +1,9 @@
+## [2.3.46](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.45...v2.3.46) (2026-03-07)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency conventional-changelog-conventionalcommits to ^9.3.0 ([c7be950](https://github.com/pynickle/semantic-release-minecraft/commit/c7be950dcf546140f8756e92fb784c2a5b2d32ec))
+
 ## [2.3.45](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.44...v2.3.45) (2026-03-04)
 
 ### 🔧 Miscellaneous Changes
