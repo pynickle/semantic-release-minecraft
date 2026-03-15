@@ -1,3 +1,9 @@
+## [2.3.48](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.47...v2.3.48) (2026-03-15)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency oxlint to ^1.55.0 ([514df4b](https://github.com/pynickle/semantic-release-minecraft/commit/514df4bdeef60950480026893e598e28074b6b03))
+
 ## [2.3.47](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.46...v2.3.47) (2026-03-09)
 
 ### 🔧 Miscellaneous Changes
