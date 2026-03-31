@@ -1,3 +1,15 @@
+## [2.3.52](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.51...v2.3.52) (2026-03-31)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency axios to ^1.14.0 ([8aeb6d2](https://github.com/pynickle/semantic-release-minecraft/commit/8aeb6d26af348ed353cece7cf07ad7e4da09964d))
+* **deps:** update dependency conventional-changelog-conventionalcommits to ^9.3.1 ([c46a748](https://github.com/pynickle/semantic-release-minecraft/commit/c46a748a913122614d655cbb6527a4246691d636))
+* **deps:** update dependency oxfmt to ^0.42.0 ([9e88b11](https://github.com/pynickle/semantic-release-minecraft/commit/9e88b11f46659f741b2c4736ecc656862538aff0))
+* **deps:** update dependency oxlint to ^1.57.0 ([72d9119](https://github.com/pynickle/semantic-release-minecraft/commit/72d911905e33f666c172228897cbbb720d28a1ed))
+* **deps:** update dependency pnpm to v10.33.0 ([a6d24ec](https://github.com/pynickle/semantic-release-minecraft/commit/a6d24ec60fd92c368c892b4b37522751503e5488))
+* **deps:** update dependency typescript to v6 ([93ecf4b](https://github.com/pynickle/semantic-release-minecraft/commit/93ecf4b8e68298643a9d9e3596f3ee113b030d90))
+* update config ([630c820](https://github.com/pynickle/semantic-release-minecraft/commit/630c8204497658f6d21bb76824f997e351c7e651))
+
 ## [2.3.51](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.50...v2.3.51) (2026-03-17)
 
 ### 🔧 Miscellaneous Changes
