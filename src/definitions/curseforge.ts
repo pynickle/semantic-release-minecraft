@@ -57,4 +57,4 @@ export const DependencyTypeMap = {
     optional: 'optionalDependency',
     incompatible: 'incompatible',
     embedded: 'embeddedLibrary',
-};
+} as const satisfies Record<GlobalDependencyType, string>;

@@ -1,4 +1,4 @@
-import { GlobalDependencyType } from './curseforge';
+import type { GlobalDependencyType } from './curseforge.js';
 
 export type PluginConfig = {
     release_type?: 'alpha' | 'beta' | 'release';

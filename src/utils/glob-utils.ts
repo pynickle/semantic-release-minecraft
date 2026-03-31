@@ -1,6 +1,6 @@
-﻿import { glob } from 'glob';
+import { glob } from 'glob';
 import { resolve } from 'path';
-import { PublishContext } from 'semantic-release';
+import type { PublishContext } from 'semantic-release';
 
 /**
  * Find files based on provided glob patterns.
@@ -25,7 +25,6 @@ export async function findFilesByGlob(
         allFiles.push(...files);
     }
 
-    // 转换为绝对路径
     const files = allFiles.map((file) => resolve(cwd!, file));
 
     if (files.length === 0) {

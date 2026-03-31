@@ -1,11 +1,11 @@
-import { PluginConfig } from './definitions/plugin-config.js';
+import type { PluginConfig } from './definitions/plugin-config.js';
 import { findFilesAndPrimaryFile } from './utils/platform/utils.js';
 import { resolveAndRenderTemplate, resolveAndRenderTemplates } from './utils/template-utils.js';
 import axios from 'axios';
 import FormData from 'form-data';
 import { readFileSync } from 'fs';
 import { basename } from 'path';
-import { PublishContext } from 'semantic-release';
+import type { PublishContext } from 'semantic-release';
 
 /**
  * Publishes files to Modrinth.
