@@ -1,3 +1,9 @@
+## [2.3.54](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.53...v2.3.54) (2026-04-05)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency @types/node to ^24.12.2 ([054a751](https://github.com/pynickle/semantic-release-minecraft/commit/054a751e901b9a44f0b09b1e831407168b82faaf))
+
 ## [2.3.53](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.52...v2.3.53) (2026-04-02)
 
 ### 🔧 Miscellaneous Changes
