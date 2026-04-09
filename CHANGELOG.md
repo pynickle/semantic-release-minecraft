@@ -1,3 +1,9 @@
+## [2.3.57](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.56...v2.3.57) (2026-04-09)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency axios to ^1.15.0 ([4da51b7](https://github.com/pynickle/semantic-release-minecraft/commit/4da51b70e5a0d8dad568481f8701a7d82dbdb9c9))
+
 ## [2.3.56](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.55...v2.3.56) (2026-04-07)
 
 ### 🔧 Miscellaneous Changes
