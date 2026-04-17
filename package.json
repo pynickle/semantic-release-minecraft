@@ -35,7 +35,7 @@
     "oxfmt": "^0.44.0",
     "oxlint": "^1.59.0",
     "semantic-release": "^25.0.3",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "semantic-release": ">=18.0.0"
