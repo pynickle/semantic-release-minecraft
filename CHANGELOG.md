@@ -1,3 +1,9 @@
+## [2.3.59](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.58...v2.3.59) (2026-04-18)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency oxfmt to ^0.45.0 ([423e73f](https://github.com/pynickle/semantic-release-minecraft/commit/423e73fc8f7061248d0590c561fd0b3c51215311))
+
 ## [2.3.58](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.57...v2.3.58) (2026-04-17)
 
 ### 🔧 Miscellaneous Changes
