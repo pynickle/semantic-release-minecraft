@@ -30,7 +30,7 @@
     "@semantic-release/npm": "^13.1.5",
     "@semantic-release/release-notes-generator": "^14.1.0",
     "@types/lodash": "^4.17.24",
-    "@types/node": "^24.12.2",
+    "@types/node": "^24.12.4",
     "conventional-changelog-conventionalcommits": "^9.3.1",
     "oxfmt": "^0.45.0",
     "oxlint": "^1.62.0",
