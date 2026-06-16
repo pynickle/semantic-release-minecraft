@@ -1,3 +1,13 @@
+## [2.3.68](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.67...v2.3.68) (2026-06-16)
+
+### 🐛 Bug Fixes
+
+* fix curseforge api url ([cdf0b0b](https://github.com/pynickle/semantic-release-minecraft/commit/cdf0b0b9705c868c68c37dbdbaee87e5ab39f895))
+
+### 🔧 Miscellaneous Changes
+
+* use bun ([bd24b40](https://github.com/pynickle/semantic-release-minecraft/commit/bd24b4041c8c0e7ea00d5042c4428756f3a18044))
+
 ## [2.3.67](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.66...v2.3.67) (2026-06-02)
 
 ### 🔧 Miscellaneous Changes
