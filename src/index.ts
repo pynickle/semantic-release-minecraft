@@ -1,8 +1,9 @@
+import type { PrepareContext, PublishContext, VerifyConditionsContext } from 'semantic-release';
+
 import { publishToCurseforge } from './curseforge.js';
 import type { PluginConfig } from './definitions/plugin-config.js';
 import { publishToModrinth } from './modrinth.js';
 import { getCurseForgeGameVersionIds } from './prepare.js';
-import type { PrepareContext, PublishContext, VerifyConditionsContext } from 'semantic-release';
 
 // Game version IDs transformed from user's input, used during publishing to CurseForge
 let curseforgeGameVersionsIdsPerStrategy: Array<number[]> = [];

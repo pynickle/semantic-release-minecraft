@@ -17,9 +17,9 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "lint": "npx oxlint ./src",
-    "lint:fix": "npx oxlint ./src --fix",
-    "fmt": "npx oxfmt ./src",
+    "lint": "bunx oxlint ./src",
+    "lint:fix": "bunx oxlint ./src --fix",
+    "fmt": "bunx oxfmt ./src",
     "build": "tsc",
     "semantic-release": "semantic-release"
   },
@@ -30,19 +30,19 @@
     "@semantic-release/npm": "^13.1.5",
     "@semantic-release/release-notes-generator": "^14.1.1",
     "@types/lodash": "^4.17.24",
-    "@types/node": "^24.12.4",
+    "@types/node": "^25.9.3",
     "conventional-changelog-conventionalcommits": "^9.3.1",
-    "oxfmt": "^0.51.0",
-    "oxlint": "^1.68.0",
-    "semantic-release": "^25.0.3",
+    "oxfmt": "^0.55.0",
+    "oxlint": "^1.70.0",
+    "semantic-release": "^25.0.5",
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "semantic-release": ">=18.0.0"
   },
   "dependencies": {
-    "axios": "^1.16.1",
-    "form-data": "^4.0.5",
+    "axios": "^1.18.0",
+    "form-data": "^4.0.6",
     "glob": "^13.0.6",
     "lodash": "^4.18.1"
   }

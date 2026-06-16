@@ -3,26 +3,5 @@
   "trailingComma": "es5",
   "tabWidth": 4,
   "singleQuote": true,
-  "experimentalSortImports": {
-    "groups": [
-      [
-        "^(?:@[^/].*|[A-Za-z].*)$"
-      ],
-      [
-        "^@/.*$"
-      ],
-      [
-        "^[./].*$"
-      ]
-    ],
-    "ignoreCase": true,
-    "newlinesBetween": true,
-    "sortSideEffects": false,
-    "partitionByComment": false,
-    "partitionByNewline": false,
-    "internalPattern": [
-      "^@/"
-    ],
-    "order": "asc"
-  }
+  "sortImports": true
 }

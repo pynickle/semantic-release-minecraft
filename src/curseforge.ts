@@ -1,13 +1,15 @@
+import { readFileSync } from 'fs';
+import { basename } from 'path';
+
+import axios from 'axios';
+import FormData from 'form-data';
+import lodash from 'lodash';
+import type { PublishContext } from 'semantic-release';
+
 import { DependencyTypeMap } from './definitions/curseforge.js';
 import type { PluginConfig } from './definitions/plugin-config.js';
 import { findFilesAndPrimaryFile } from './utils/platform/utils.js';
 import { resolveAndRenderTemplate, resolveAndRenderTemplates } from './utils/template-utils.js';
-import axios from 'axios';
-import FormData from 'form-data';
-import { readFileSync } from 'fs';
-import lodash from 'lodash';
-import { basename } from 'path';
-import type { PublishContext } from 'semantic-release';
 
 /**
  * Publishes files to CurseForge.
@@ -77,7 +79,7 @@ async function uploadCurseForgeFile(
 
     // post to CurseForge API
     const response = await axios.post(
-        `https://upload.curseforge.com/api/projects/${projectId}/upload-file`,
+        `https://minecraft.curseforge.com/api/projects/${projectId}/upload-file`,
         form,
         {
             headers: {

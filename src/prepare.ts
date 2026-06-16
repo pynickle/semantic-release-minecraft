@@ -1,6 +1,7 @@
-import {
-    BUKKIT_GAME_VERSION_TYPE,
-} from './definitions/curseforge.js';
+import axios from 'axios';
+import type { PrepareContext } from 'semantic-release';
+
+import { BUKKIT_GAME_VERSION_TYPE } from './definitions/curseforge.js';
 import type {
     CurseForgeGameVersion,
     CurseForgeGameVersionMap,
@@ -9,8 +10,6 @@ import type {
 import type { PluginConfig } from './definitions/plugin-config.js';
 import { resolveAndRenderTemplates } from './utils/template-utils.js';
 import { toArray } from './utils/utils.js';
-import axios from 'axios';
-import type { PrepareContext } from 'semantic-release';
 
 /**
  * Get CurseForge game version IDs based on the plugin configuration.

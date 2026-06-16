@@ -1,5 +1,6 @@
-import { toArray } from './utils.js';
 import lodash from 'lodash';
+
+import { toArray } from './utils.js';
 
 /**
  * Renders one or more template strings sequentially using lodash.template.
