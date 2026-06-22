@@ -1,3 +1,9 @@
+## [2.3.69](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.68...v2.3.69) (2026-06-22)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update actions/checkout action to v7 ([4aeaf88](https://github.com/pynickle/semantic-release-minecraft/commit/4aeaf882c36f6e5dd20ed928e0de43204610c7a2))
+
 ## [2.3.68](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.67...v2.3.68) (2026-06-16)
 
 ### 🐛 Bug Fixes
