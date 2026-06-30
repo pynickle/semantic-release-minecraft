@@ -33,7 +33,7 @@
     "@types/node": "^25.9.3",
     "conventional-changelog-conventionalcommits": "^9.3.1",
     "oxfmt": "^0.56.0",
-    "oxlint": "^1.71.0",
+    "oxlint": "^1.72.0",
     "semantic-release": "^25.0.5",
     "typescript": "^6.0.3"
   },
