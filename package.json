@@ -1,6 +1,6 @@
 {
   "name": "semantic-release-minecraft",
-  "version": "2.3.72",
+  "version": "2.3.73",
   "description": "Automated Release For Minecraft Project",
   "keywords": [
     "semantic-release",
