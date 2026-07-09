@@ -1,3 +1,5 @@
+## [2.3.76](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.75...v2.3.76) (2026-07-09)
+
 ## [2.3.75](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.74...v2.3.75) (2026-07-08)
 
 ## [2.3.74](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.73...v2.3.74) (2026-06-30)
