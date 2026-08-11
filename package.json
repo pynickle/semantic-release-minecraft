@@ -17,9 +17,10 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "lint": "bunx oxlint ./src",
-    "lint:fix": "bunx oxlint ./src --fix",
-    "fmt": "bunx oxfmt ./src",
+    "lint": "bunx oxlint ./src ./test",
+    "lint:fix": "bunx oxlint ./src ./test --fix",
+    "fmt": "bunx oxfmt ./src ./test",
+    "test": "bun test",
     "build": "tsc",
     "semantic-release": "semantic-release"
   },

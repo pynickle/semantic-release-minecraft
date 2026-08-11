@@ -1,5 +1,10 @@
 import type { GlobalDependencyType } from './curseforge.js';
 
+export type ReleaseType = 'alpha' | 'beta' | 'release';
+export type Strategy = Record<string, unknown>;
+export type TemplateValue = string | string[];
+export type PublishingPlatform = 'curseforge' | 'modrinth';
+
 export type ModrinthEnvironment =
   | 'client_only'
   | 'server_only'
@@ -11,67 +16,76 @@ export type ModrinthEnvironment =
   | 'client_or_server'
   | 'singleplayer_only';
 
-export type PluginConfig = {
-  release_type?: 'alpha' | 'beta' | 'release';
-  game_versions?: string | string[];
-  mod_loaders?: string | string[];
+export type ModrinthStatus = 'listed' | 'archived' | 'draft' | 'unlisted' | 'scheduled' | 'unknown';
+export type ModrinthRequestedStatus = Exclude<ModrinthStatus, 'scheduled' | 'unknown'>;
+
+export interface DependencyConfig {
+  slug: string;
+  curseforge_project_id?: string;
+  modrinth_project_id?: string;
+  type: GlobalDependencyType;
+}
+
+export interface PlatformFileConfig {
+  glob?: TemplateValue;
+  primary_file_glob?: TemplateValue;
+}
+
+export interface CurseForgeRelationConfig {
+  slug: string;
+  project_id?: string;
+  type: 'embeddedLibrary' | 'incompatible' | 'optionalDependency' | 'requiredDependency' | 'tool';
+}
+
+export interface CurseForgeConfig extends PlatformFileConfig {
+  project_id: string;
+  game_versions?: TemplateValue;
+  java_versions?: number | number[];
+  environments?: TemplateValue;
+  game_versions_for_plugins?: TemplateValue;
+  game_versions_for_addon?: TemplateValue;
+  mod_loaders?: TemplateValue;
+  changelog?: string;
+  changelog_type?: 'text' | 'html' | 'markdown';
   display_name?: string;
-  dependencies?: Array<{
-    slug: string;
-    curseforge_project_id?: string;
-    modrinth_project_id?: string;
-    type: GlobalDependencyType;
-  }>;
+  is_marked_for_manual_release?: boolean;
+  relations?: CurseForgeRelationConfig[];
+}
+
+export interface ModrinthDependencyConfig {
+  version_id?: string;
+  project_id?: string;
+  file_name?: string;
+  dependency_type: GlobalDependencyType;
+}
+
+export interface ModrinthConfig extends PlatformFileConfig {
+  project_id: string;
+  version_number?: string;
+  display_name?: string;
+  game_versions?: TemplateValue;
+  mod_loaders?: TemplateValue;
+  environment?: ModrinthEnvironment;
+  changelog?: string;
+  dependencies?: ModrinthDependencyConfig[];
+  featured?: boolean;
+  status?: ModrinthStatus;
+  requested_status?: ModrinthRequestedStatus;
+}
+
+export interface PluginConfig {
+  release_type?: ReleaseType;
+  game_versions?: TemplateValue;
+  mod_loaders?: TemplateValue;
+  display_name?: string;
+  dependencies?: DependencyConfig[];
 
   // Global release strategy configuration for multiple publish operations
-  strategies?: Record<any, any>[];
+  strategies?: Strategy[];
 
-  glob?: string | string[];
-  primary_file_glob: string | string[];
+  glob?: TemplateValue;
+  primary_file_glob: TemplateValue;
 
-  curseforge?: {
-    project_id: string;
-    game_versions?: string | string[];
-    java_versions?: number | number[];
-    environments?: string | string[];
-    game_versions_for_plugins?: string | string[];
-    game_versions_for_addon?: string | string[];
-    mod_loaders?: string | string[];
-    changelog?: string;
-    changelog_type?: 'text' | 'html' | 'markdown';
-    display_name?: string;
-    is_marked_for_manual_release?: boolean;
-    relations?: Array<{
-      slug: string;
-      project_id?: string;
-      type:
-        | 'embeddedLibrary'
-        | 'incompatible'
-        | 'optionalDependency'
-        | 'requiredDependency'
-        | 'tool';
-    }>;
-    glob?: string | string[];
-    primary_file_glob?: string | string[];
-  };
-  modrinth?: {
-    project_id: string;
-    version_number?: string;
-    display_name?: string;
-    game_versions?: string[];
-    mod_loaders?: string[];
-    environment?: ModrinthEnvironment;
-    changelog?: string;
-    dependencies?: Array<{
-      version_id?: string;
-      project_id?: string;
-      file_name?: string;
-      dependency_type: 'required' | 'optional' | 'incompatible' | 'embedded';
-    }>;
-    featured?: boolean;
-    status?: 'listed' | 'archived' | 'draft' | 'unlisted' | 'scheduled' | 'unknown';
-    requested_status?: 'listed' | 'archived' | 'draft' | 'unlisted';
-    glob?: string | string[];
-    primary_file_glob?: string | string[];
-  };
-};
+  curseforge?: CurseForgeConfig;
+  modrinth?: ModrinthConfig;
+}

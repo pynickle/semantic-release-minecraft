@@ -1,11 +1,51 @@
-import { resolve } from 'path';
-
-import { glob } from 'glob';
 import type { PublishContext } from 'semantic-release';
 
-import type { PluginConfig } from '../../definitions/plugin-config.js';
-import { findFilesByGlob } from '../glob-utils.js';
-import { resolveAndRenderTemplates } from '../template-utils.js';
+import type {
+  PluginConfig,
+  PublishingPlatform,
+  Strategy,
+} from '../../definitions/plugin-config.js';
+import { findFilesByGlob, findGlobMatches } from '../glob-utils.js';
+import { createTemplateContext, resolveAndRenderTemplates } from '../template-utils.js';
+
+interface PublishingFiles {
+  files: string[];
+  primaryFile: string;
+}
+
+async function selectPrimaryFile(
+  files: string[],
+  primaryPatterns: string[] | undefined,
+  context: PublishContext
+): Promise<string> {
+  const { logger } = context;
+
+  if (!primaryPatterns) {
+    if (files.length > 1) {
+      throw new Error(
+        'Multiple files found but no primary file glob specified. Please specify which file should be primary.'
+      );
+    }
+    return files[0];
+  }
+
+  const primaryCandidates = (
+    await findGlobMatches(primaryPatterns, context, 'Searching for primary file with pattern')
+  ).filter((file) => files.includes(file));
+
+  if (primaryCandidates.length > 1) {
+    throw new Error(
+      `Multiple files matched primary file glob. Please specify a more specific pattern. Found: ${primaryCandidates.join(', ')}`
+    );
+  }
+  if (primaryCandidates.length === 0) {
+    throw new Error('No files matched primary file glob that were also in the main file list.');
+  }
+
+  const primaryFile = primaryCandidates[0];
+  logger.log(`Selected primary file: ${primaryFile}`);
+  return primaryFile;
+}
 
 /**
  * Find files and primary file for publishing.
@@ -13,20 +53,16 @@ import { resolveAndRenderTemplates } from '../template-utils.js';
 export async function findFilesAndPrimaryFile(
   pluginConfig: PluginConfig,
   context: PublishContext,
-  strategy: Record<string, string>,
-  platform: 'curseforge' | 'modrinth'
-): Promise<{ files: string[]; primaryFile: string }> {
+  strategy: Strategy,
+  platform: PublishingPlatform
+): Promise<PublishingFiles> {
   const { logger } = context;
+  const platformConfig = pluginConfig[platform];
+  const templateContext = createTemplateContext(context, strategy);
 
   const filesGlob = resolveAndRenderTemplates(
-    [
-      platform === 'modrinth' ? pluginConfig.modrinth?.glob : pluginConfig.curseforge?.glob,
-      pluginConfig.glob,
-    ],
-    {
-      ...context,
-      ...strategy,
-    }
+    [platformConfig?.glob, pluginConfig.glob],
+    templateContext
   );
 
   const files = await findFilesByGlob(filesGlob, context);
@@ -37,48 +73,10 @@ export async function findFilesAndPrimaryFile(
   }
 
   const primaryPatterns = resolveAndRenderTemplates(
-    [
-      platform === 'modrinth'
-        ? pluginConfig.modrinth?.primary_file_glob
-        : pluginConfig.curseforge?.primary_file_glob,
-      pluginConfig.primary_file_glob,
-    ],
-    {
-      ...context,
-      ...strategy,
-    }
+    [platformConfig?.primary_file_glob, pluginConfig.primary_file_glob],
+    templateContext
   );
+  const primaryFile = await selectPrimaryFile(files, primaryPatterns, context);
 
-  if (primaryPatterns) {
-    let primaryCandidates: string[] = [];
-
-    for (const pattern of primaryPatterns) {
-      logger.log(`Searching for primary file with pattern: ${pattern}`);
-      const matches = await glob(pattern, {
-        cwd: context.cwd,
-        nodir: true,
-      });
-      primaryCandidates.push(...matches.map((file) => resolve(context.cwd!, file)));
-    }
-
-    primaryCandidates = primaryCandidates.filter((file) => files.includes(file));
-
-    if (primaryCandidates.length === 1) {
-      const primaryFile = primaryCandidates[0];
-      logger.log(`Selected primary file: ${primaryFile}`);
-      return { files: files, primaryFile };
-    } else if (primaryCandidates.length > 1) {
-      throw new Error(
-        `Multiple files matched primary file glob. Please specify a more specific pattern. Found: ${primaryCandidates.join(', ')}`
-      );
-    } else {
-      throw new Error(`No files matched primary file glob that were also in the main file list.`);
-    }
-  } else if (files.length > 1) {
-    throw new Error(
-      `Multiple files found but no primary file glob specified. Please specify which file should be primary.`
-    );
-  } else {
-    return { files: files, primaryFile: files[0] };
-  }
+  return { files, primaryFile };
 }

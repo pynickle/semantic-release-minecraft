@@ -4,14 +4,20 @@ import { publishToCurseforge } from './curseforge.js';
 import type { PluginConfig } from './definitions/plugin-config.js';
 import { publishToModrinth } from './modrinth.js';
 import { getCurseForgeGameVersionIds } from './prepare.js';
+import { getStrategies } from './utils/utils.js';
 
 // Game version IDs transformed from user's input, used during publishing to CurseForge
 let curseforgeGameVersionsIdsPerStrategy: Array<number[]> = [];
 
+export interface PublishResults {
+  curseforge: Array<{ url: string }>;
+  modrinth: Array<{ url: string }>;
+}
+
 export async function verifyConditions(
   pluginConfig: PluginConfig,
   context: VerifyConditionsContext
-) {
+): Promise<void> {
   const { env } = context;
 
   if (env.CURSEFORGE_TOKEN && !pluginConfig.curseforge?.project_id) {
@@ -23,7 +29,7 @@ export async function verifyConditions(
   }
 }
 
-export async function prepare(pluginConfig: PluginConfig, context: PrepareContext) {
+export async function prepare(pluginConfig: PluginConfig, context: PrepareContext): Promise<void> {
   const { env, logger } = context;
 
   if (env.CURSEFORGE_TOKEN) {
@@ -37,19 +43,19 @@ export async function prepare(pluginConfig: PluginConfig, context: PrepareContex
     );
 
     logger.log(
-      `Successfully transform into ${Object.keys(curseforgeGameVersionsIdsPerStrategy[0]).length} CurseForge game versions for each strategy`
+      `Successfully transform into ${curseforgeGameVersionsIdsPerStrategy[0].length} CurseForge game versions for each strategy`
     );
   }
 }
 
-export async function publish(pluginConfig: PluginConfig, context: PublishContext) {
+export async function publish(
+  pluginConfig: PluginConfig,
+  context: PublishContext
+): Promise<PublishResults> {
   const { env, logger } = context;
-  const results: {
-    curseforge: { url: string }[];
-    modrinth: { url: string }[];
-  } = { curseforge: [], modrinth: [] };
+  const results: PublishResults = { curseforge: [], modrinth: [] };
 
-  for (const [index, strategy] of (pluginConfig.strategies || [{}]).entries()) {
+  for (const [index, strategy] of getStrategies(pluginConfig.strategies).entries()) {
     if (env.CURSEFORGE_TOKEN) {
       const curseforgeId = await publishToCurseforge(
         pluginConfig,

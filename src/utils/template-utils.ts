@@ -1,6 +1,19 @@
 import lodash from 'lodash';
 
+import type { Strategy } from '../definitions/plugin-config.js';
 import { toArray } from './utils.js';
+
+export type TemplateContext = Record<string, unknown>;
+
+type OptionalSource<T> = T | null | undefined;
+
+function findFirstSource<T>(sources: Array<OptionalSource<T>>): T | undefined {
+  return sources.find((source): source is T => Boolean(source));
+}
+
+export function createTemplateContext(context: object, strategy: Strategy): TemplateContext {
+  return { ...context, ...strategy };
+}
 
 /**
  * Renders one or more template strings sequentially using lodash.template.
@@ -9,10 +22,7 @@ import { toArray } from './utils.js';
  * @param context - The context object passed to each template during rendering.
  * @returns An array of rendered strings.
  */
-export function renderTemplates(
-  templates: string | string[],
-  context: Record<string, any>
-): string[] {
+export function renderTemplates(templates: string | string[], context: TemplateContext): string[] {
   return toArray(templates).map((tpl) => lodash.template(tpl)(context));
 }
 
@@ -24,10 +34,10 @@ export function renderTemplates(
  * @returns The rendered string, or undefined if no valid source is found.
  */
 export function resolveAndRenderTemplate(
-  sources: Array<string | undefined | null>,
-  context: Record<string, any>
+  sources: Array<OptionalSource<string>>,
+  context: TemplateContext
 ): string | undefined {
-  const source = sources.find(Boolean);
+  const source = findFirstSource(sources);
   if (!source) return undefined;
 
   return lodash.template(source)(context);
@@ -42,10 +52,10 @@ export function resolveAndRenderTemplate(
  * @returns An array of rendered strings, or undefined if no valid source is found.
  */
 export function resolveAndRenderTemplates(
-  sources: Array<string | string[] | undefined | null>,
-  context: Record<string, any>
+  sources: Array<OptionalSource<string | string[]>>,
+  context: TemplateContext
 ): string[] | undefined {
-  const source = sources.find(Boolean);
+  const source = findFirstSource(sources);
   if (!source) return undefined;
 
   return renderTemplates(source, context);

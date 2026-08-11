@@ -46,3 +46,8 @@ coverage
 *.temp
 
 .codegraph/
+
+.agents/
+.claude/
+
+skills-lock.json

@@ -7,9 +7,103 @@ import lodash from 'lodash';
 import type { PublishContext } from 'semantic-release';
 
 import { DependencyTypeMap } from './definitions/curseforge.js';
-import type { PluginConfig } from './definitions/plugin-config.js';
+import type {
+  CurseForgeRelationConfig,
+  PluginConfig,
+  ReleaseType,
+  Strategy,
+} from './definitions/plugin-config.js';
 import { findFilesAndPrimaryFile } from './utils/platform/utils.js';
-import { resolveAndRenderTemplate, resolveAndRenderTemplates } from './utils/template-utils.js';
+import {
+  createTemplateContext,
+  resolveAndRenderTemplate,
+  resolveAndRenderTemplates,
+} from './utils/template-utils.js';
+
+interface CurseForgeRelation {
+  slug: string;
+  projectId?: string;
+  type: CurseForgeRelationConfig['type'];
+}
+
+export interface CurseForgeMetadata {
+  gameVersions: number[] | undefined;
+  releaseType: ReleaseType;
+  changelog: string;
+  changelogType: 'text' | 'html' | 'markdown';
+  isMarkedForManualRelease: boolean;
+  relations?: { projects: CurseForgeRelation[] };
+  displayName: string;
+  modLoaders: string[];
+  parentFileID?: number;
+}
+
+interface CurseForgeUploadResponse {
+  id?: unknown;
+}
+
+interface CurseForgeUploadOptions {
+  apiKey: string;
+  projectId: string;
+  logger: PublishContext['logger'];
+  metadata: CurseForgeMetadata;
+  filePath: string;
+  primaryFileId?: number;
+}
+
+function getCurseForgeRelations(pluginConfig: PluginConfig): CurseForgeRelation[] | undefined {
+  const configuredRelations = pluginConfig.curseforge?.relations;
+  if (configuredRelations) {
+    return configuredRelations.map((relation) => ({
+      slug: relation.slug,
+      projectId: relation.project_id,
+      type: relation.type,
+    }));
+  }
+
+  if (!pluginConfig.dependencies) return undefined;
+
+  return pluginConfig.dependencies.map((dependency) => ({
+    slug: dependency.slug,
+    projectId: dependency.curseforge_project_id,
+    type: DependencyTypeMap[dependency.type],
+  }));
+}
+
+/**
+ * Builds the metadata sent with each CurseForge upload.
+ */
+export function buildCurseForgeMetadata(
+  pluginConfig: PluginConfig,
+  context: PublishContext,
+  strategy: Strategy,
+  curseforgeGameVersionIds: number[] | undefined
+): CurseForgeMetadata {
+  const { curseforge } = pluginConfig;
+  const templateContext = createTemplateContext(context, strategy);
+  const metadata: CurseForgeMetadata = {
+    gameVersions: curseforgeGameVersionIds,
+    releaseType: pluginConfig.release_type || 'release',
+    changelog: lodash.template(curseforge?.changelog || context.nextRelease.notes)(templateContext),
+    changelogType: curseforge?.changelog_type || 'markdown',
+    isMarkedForManualRelease: curseforge?.is_marked_for_manual_release || false,
+    displayName:
+      resolveAndRenderTemplate(
+        [curseforge?.display_name, pluginConfig.display_name],
+        templateContext
+      ) || context.nextRelease.name,
+    modLoaders:
+      resolveAndRenderTemplates(
+        [curseforge?.mod_loaders, pluginConfig.mod_loaders],
+        templateContext
+      ) || [],
+  };
+
+  const projects = getCurseForgeRelations(pluginConfig);
+  if (projects) metadata.relations = { projects };
+
+  return metadata;
+}
 
 /**
  * Publishes files to CurseForge.
@@ -17,13 +111,11 @@ import { resolveAndRenderTemplate, resolveAndRenderTemplates } from './utils/tem
 export async function publishToCurseforge(
   pluginConfig: PluginConfig,
   context: PublishContext,
-  strategy: Record<string, string>,
+  strategy: Strategy,
   curseforgeGameVersionIds?: number[]
 ): Promise<number> {
-  const { logger } = context;
-  const { curseforge } = pluginConfig;
-
-  const projectId = curseforge!.project_id!;
+  const { env, logger } = context;
+  const projectId = pluginConfig.curseforge!.project_id;
 
   const { files, primaryFile } = await findFilesAndPrimaryFile(
     pluginConfig,
@@ -33,16 +125,24 @@ export async function publishToCurseforge(
   );
   logger.log(`Publishing ${files.length} file(s) to CurseForge project ${projectId}...`);
 
-  const metadata = prepareMetadata(pluginConfig, context, strategy, curseforgeGameVersionIds);
-
-  let primaryFileId = await uploadCurseForgeFile(pluginConfig, context, metadata, primaryFile);
+  const metadata = buildCurseForgeMetadata(
+    pluginConfig,
+    context,
+    strategy,
+    curseforgeGameVersionIds
+  );
+  const uploadOptions = {
+    apiKey: env.CURSEFORGE_TOKEN!,
+    projectId,
+    logger,
+    metadata,
+  };
+  const primaryFileId = await uploadCurseForgeFile({ ...uploadOptions, filePath: primaryFile });
 
   for (const filePath of files) {
-    if (filePath === primaryFile) {
-      continue;
-    }
+    if (filePath === primaryFile) continue;
 
-    await uploadCurseForgeFile(pluginConfig, context, metadata, filePath, primaryFileId);
+    await uploadCurseForgeFile({ ...uploadOptions, filePath, primaryFileId });
   }
 
   return primaryFileId;
@@ -51,34 +151,18 @@ export async function publishToCurseforge(
 /**
  * Uploads a single file to CurseForge.
  */
-async function uploadCurseForgeFile(
-  pluginConfig: PluginConfig,
-  context: PublishContext,
-  metadata: any,
-  filePath: string,
-  primaryFileId?: number
-): Promise<number> {
-  const { env, logger } = context;
-  const { curseforge } = pluginConfig;
+async function uploadCurseForgeFile(options: CurseForgeUploadOptions): Promise<number> {
+  const { apiKey, filePath, logger, metadata, primaryFileId, projectId } = options;
 
-  const apiKey = env.CURSEFORGE_TOKEN!;
-  const projectId = curseforge!.project_id!;
-
-  // add file to form data
   const form = new FormData();
-  const file = readFileSync(filePath);
-  form.append('file', file, {
+  form.append('file', readFileSync(filePath), {
     filename: basename(filePath),
   });
 
-  if (primaryFileId) {
-    metadata.parentFileID = primaryFileId;
-  }
+  const uploadMetadata = primaryFileId ? { ...metadata, parentFileID: primaryFileId } : metadata;
+  form.append('metadata', JSON.stringify(uploadMetadata));
 
-  form.append('metadata', JSON.stringify(metadata));
-
-  // post to CurseForge API
-  const response = await axios.post(
+  const response = await axios.post<CurseForgeUploadResponse>(
     `https://minecraft.curseforge.com/api/projects/${projectId}/upload-file`,
     form,
     {
@@ -89,74 +173,14 @@ async function uploadCurseForgeFile(
     }
   );
 
-  const resData = response.data;
+  const responseData = response.data;
 
-  if (resData && typeof resData.id === 'number') {
+  if (responseData && typeof responseData.id === 'number') {
     logger.log(
-      `Successfully published to CurseForge, ${primaryFileId ? 'Primary ' : ''}File ID: ${resData.id}`
+      `Successfully published to CurseForge, ${primaryFileId ? 'Primary ' : ''}File ID: ${responseData.id}`
     );
-    return resData.id;
-  } else {
-    throw new Error(`CurseForge API returned unexpected response: ${resData}`);
-  }
-}
-
-/**
- * Prepares metadata for the CurseForge file upload.
- */
-function prepareMetadata(
-  pluginConfig: PluginConfig,
-  context: PublishContext,
-  strategy: Record<string, string>,
-  curseforgeGameVersionIds: number[] | undefined
-) {
-  const { curseforge } = pluginConfig;
-  const metadata: any = {
-    gameVersions: curseforgeGameVersionIds,
-    releaseType: pluginConfig.release_type || 'release',
-    changelog: lodash.template(curseforge?.changelog || context.nextRelease.notes)({
-      ...context,
-      ...strategy,
-    }),
-    changelogType: curseforge?.changelog_type || 'markdown',
-    isMarkedForManualRelease: curseforge?.is_marked_for_manual_release || false,
-  };
-
-  if (curseforge?.relations) {
-    metadata.relations = {
-      projects: curseforge?.relations.map((item) => ({
-        slug: item.slug,
-        projectId: item.project_id,
-        type: item.type,
-      })),
-    };
-  } else {
-    let projects = [];
-    if (pluginConfig.dependencies) {
-      for (const dependency of pluginConfig.dependencies) {
-        projects.push({
-          slug: dependency.slug,
-          projectId: dependency.curseforge_project_id,
-          type: DependencyTypeMap[dependency.type],
-        });
-      }
-      metadata.relations = {
-        projects,
-      };
-    }
+    return responseData.id;
   }
 
-  metadata.displayName =
-    resolveAndRenderTemplate([curseforge?.display_name, pluginConfig.display_name], {
-      ...context,
-      ...strategy,
-    }) || context.nextRelease.name;
-
-  metadata.modLoaders =
-    resolveAndRenderTemplates([pluginConfig.curseforge?.mod_loaders, pluginConfig.mod_loaders], {
-      ...context,
-      ...strategy,
-    }) || [];
-
-  return metadata;
+  throw new Error(`CurseForge API returned unexpected response: ${responseData}`);
 }
