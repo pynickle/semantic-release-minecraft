@@ -128,6 +128,7 @@ Configure under the `modrinth` object. Requires `project_id` to enable.
 | `display_name`      | `string`                                                                      | Modrinth-specific display name.                            | Global                | `'3.14.1_Fabric_1.21.1'` |
 | `game_versions`     | `string[]`                                                                    | Modrinth-specific game versions.                           | Global                | `'1.12.2'`               |
 | `mod_loaders`       | `string[]`                                                                    | Modrinth-specific loaders.                                 | Global                | `'quilt'`                |
+| `environment`       | `ModrinthEnvironment`                                                        | Supported environment for this version.                    | -                     | `'client_and_server'`    |
 | `changelog`         | `string`                                                                      | Custom changelog.                                          | `nextRelease.notes`   | `'See full changelog'`   |
 | `dependencies`      | Array of Objects                                                              | Dependency relations. See sub-table below.                 | Global                | -                        |
 | `featured`          | `boolean`                                                                     | Mark as featured version.                                  | `false`               | `true`                   |
@@ -135,6 +136,9 @@ Configure under the `modrinth` object. Requires `project_id` to enable.
 | `requested_status`  | `'listed' \| 'archived' \| 'draft' \| 'unlisted'`                             | Requested status (for moderation).                         | `'listed'`            | `'unlisted'`             |
 | `glob`              | `string \| string[]`                                                          | Modrinth-specific file glob.                               | Global                | ~~~                      |
 | `primary_file_glob` | `string \| string[]`                                                          | Modrinth-specific primary file.                            | Global                | ~~~                      |
+
+See [Modrinth's environment documentation](https://modrinth.com/news/article/new-environments/#new-system)
+for supported `ModrinthEnvironment` values.
 
 #### 🔗 Modrinth Dependencies Sub-Configuration
 

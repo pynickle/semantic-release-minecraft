@@ -61,6 +61,7 @@ export async function publishToModrinth(
     featured: modrinth?.featured || false,
     status: modrinth?.status || 'listed',
     requested_status: modrinth?.requested_status || 'listed',
+    environment: modrinth?.environment,
   };
 
   if (primaryFilePartName) {

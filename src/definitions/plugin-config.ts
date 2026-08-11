@@ -1,5 +1,16 @@
 import type { GlobalDependencyType } from './curseforge.js';
 
+export type ModrinthEnvironment =
+  | 'client_only'
+  | 'server_only'
+  | 'dedicated_server_only'
+  | 'client_and_server'
+  | 'server_only_client_optional'
+  | 'client_only_server_optional'
+  | 'client_or_server_prefers_both'
+  | 'client_or_server'
+  | 'singleplayer_only';
+
 export type PluginConfig = {
   release_type?: 'alpha' | 'beta' | 'release';
   game_versions?: string | string[];
@@ -49,6 +60,7 @@ export type PluginConfig = {
     display_name?: string;
     game_versions?: string[];
     mod_loaders?: string[];
+    environment?: ModrinthEnvironment;
     changelog?: string;
     dependencies?: Array<{
       version_id?: string;

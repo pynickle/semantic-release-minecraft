@@ -44,3 +44,5 @@ coverage
 # Temporary files
 *.tmp
 *.temp
+
+.codegraph/
