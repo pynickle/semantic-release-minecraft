@@ -10,10 +10,10 @@ import { toArray } from './utils.js';
  * @returns An array of rendered strings.
  */
 export function renderTemplates(
-    templates: string | string[],
-    context: Record<string, any>
+  templates: string | string[],
+  context: Record<string, any>
 ): string[] {
-    return toArray(templates).map((tpl) => lodash.template(tpl)(context));
+  return toArray(templates).map((tpl) => lodash.template(tpl)(context));
 }
 
 /**
@@ -24,13 +24,13 @@ export function renderTemplates(
  * @returns The rendered string, or undefined if no valid source is found.
  */
 export function resolveAndRenderTemplate(
-    sources: Array<string | undefined | null>,
-    context: Record<string, any>
+  sources: Array<string | undefined | null>,
+  context: Record<string, any>
 ): string | undefined {
-    const source = sources.find(Boolean);
-    if (!source) return undefined;
+  const source = sources.find(Boolean);
+  if (!source) return undefined;
 
-    return lodash.template(source)(context);
+  return lodash.template(source)(context);
 }
 
 /**
@@ -42,11 +42,11 @@ export function resolveAndRenderTemplate(
  * @returns An array of rendered strings, or undefined if no valid source is found.
  */
 export function resolveAndRenderTemplates(
-    sources: Array<string | string[] | undefined | null>,
-    context: Record<string, any>
+  sources: Array<string | string[] | undefined | null>,
+  context: Record<string, any>
 ): string[] | undefined {
-    const source = sources.find(Boolean);
-    if (!source) return undefined;
+  const source = sources.find(Boolean);
+  if (!source) return undefined;
 
-    return renderTemplates(source, context);
+  return renderTemplates(source, context);
 }

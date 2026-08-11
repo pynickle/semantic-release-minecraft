@@ -11,11 +11,6 @@
       "matchDepTypes": [
         "peerDependencies"
       ]
-    },
-    {
-      "matchManagers": ["github-actions"],
-      "matchPackageNames": ["pnpm/action-setup"],
-      "enabled": false
     }
   ]
 }

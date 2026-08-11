@@ -7,30 +7,30 @@ import type { PublishContext } from 'semantic-release';
  * Find files based on provided glob patterns.
  */
 export async function findFilesByGlob(
-    patterns: string[] = [
-        'build/libs/!(*-@(dev|sources|javadoc)).jar',
-        'build/libs/*-@(dev|sources|javadoc).jar',
-    ],
-    context: PublishContext
+  patterns: string[] = [
+    'build/libs/!(*-@(dev|sources|javadoc)).jar',
+    'build/libs/*-@(dev|sources|javadoc).jar',
+  ],
+  context: PublishContext
 ): Promise<string[]> {
-    const { logger, cwd } = context;
+  const { logger, cwd } = context;
 
-    const allFiles: string[] = [];
+  const allFiles: string[] = [];
 
-    for (const pattern of patterns) {
-        logger.log(`Searching for files with pattern: ${pattern}`);
-        const files = await glob(pattern, {
-            cwd,
-            nodir: true,
-        });
-        allFiles.push(...files);
-    }
+  for (const pattern of patterns) {
+    logger.log(`Searching for files with pattern: ${pattern}`);
+    const files = await glob(pattern, {
+      cwd,
+      nodir: true,
+    });
+    allFiles.push(...files);
+  }
 
-    const files = allFiles.map((file) => resolve(cwd!, file));
+  const files = allFiles.map((file) => resolve(cwd!, file));
 
-    if (files.length === 0) {
-        throw new Error(`No files found matching patterns: ${patterns.join(', ')}`);
-    }
+  if (files.length === 0) {
+    throw new Error(`No files found matching patterns: ${patterns.join(', ')}`);
+  }
 
-    return files;
+  return files;
 }

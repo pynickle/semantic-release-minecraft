@@ -9,74 +9,72 @@ import { getCurseForgeGameVersionIds } from './prepare.js';
 let curseforgeGameVersionsIdsPerStrategy: Array<number[]> = [];
 
 export async function verifyConditions(
-    pluginConfig: PluginConfig,
-    context: VerifyConditionsContext
+  pluginConfig: PluginConfig,
+  context: VerifyConditionsContext
 ) {
-    const { env } = context;
+  const { env } = context;
 
-    if (env.CURSEFORGE_TOKEN && !pluginConfig.curseforge?.project_id) {
-        throw new Error('CurseForge project ID is required');
-    }
+  if (env.CURSEFORGE_TOKEN && !pluginConfig.curseforge?.project_id) {
+    throw new Error('CurseForge project ID is required');
+  }
 
-    if (env.MODRINTH_TOKEN && !pluginConfig.modrinth?.project_id) {
-        throw new Error('Modrinth project ID is required');
-    }
+  if (env.MODRINTH_TOKEN && !pluginConfig.modrinth?.project_id) {
+    throw new Error('Modrinth project ID is required');
+  }
 }
 
 export async function prepare(pluginConfig: PluginConfig, context: PrepareContext) {
-    const { env, logger } = context;
+  const { env, logger } = context;
 
-    if (env.CURSEFORGE_TOKEN) {
-        const apiToken = env.CURSEFORGE_TOKEN;
-        logger.log('Fetching CurseForge game versions and types...');
+  if (env.CURSEFORGE_TOKEN) {
+    const apiToken = env.CURSEFORGE_TOKEN;
+    logger.log('Fetching CurseForge game versions and types...');
 
-        curseforgeGameVersionsIdsPerStrategy = await getCurseForgeGameVersionIds(
-            apiToken,
-            pluginConfig,
-            context
-        );
+    curseforgeGameVersionsIdsPerStrategy = await getCurseForgeGameVersionIds(
+      apiToken,
+      pluginConfig,
+      context
+    );
 
-        logger.log(
-            `Successfully transform into ${Object.keys(curseforgeGameVersionsIdsPerStrategy[0]).length} CurseForge game versions for each strategy`
-        );
-    }
+    logger.log(
+      `Successfully transform into ${Object.keys(curseforgeGameVersionsIdsPerStrategy[0]).length} CurseForge game versions for each strategy`
+    );
+  }
 }
 
 export async function publish(pluginConfig: PluginConfig, context: PublishContext) {
-    const { env, logger } = context;
-    const results: {
-        curseforge: { url: string }[];
-        modrinth: { url: string }[];
-    } = { curseforge: [], modrinth: [] };
+  const { env, logger } = context;
+  const results: {
+    curseforge: { url: string }[];
+    modrinth: { url: string }[];
+  } = { curseforge: [], modrinth: [] };
 
-    for (const [index, strategy] of (pluginConfig.strategies || [{}]).entries()) {
-        if (env.CURSEFORGE_TOKEN) {
-            const curseforgeId = await publishToCurseforge(
-                pluginConfig,
-                context,
-                strategy,
-                curseforgeGameVersionsIdsPerStrategy[index]
-            );
-            results.curseforge.push({
-                url: `https://www.curseforge.com/minecraft/mc-mods/${pluginConfig.curseforge!.project_id}/files/${curseforgeId}`,
-            });
-        } else {
-            logger.log(
-                'CurseForge publishing is skipped: CURSEFORGE_TOKEN environment variable not found.'
-            );
-        }
-
-        if (env.MODRINTH_TOKEN) {
-            const modrinthId = await publishToModrinth(pluginConfig, context, strategy);
-            results.modrinth.push({
-                url: `https://modrinth.com/mod/${pluginConfig.modrinth!.project_id}/version/${modrinthId}`,
-            });
-        } else {
-            logger.log(
-                'Modrinth publishing is skipped: MODRINTH_TOKEN environment variable not found.'
-            );
-        }
+  for (const [index, strategy] of (pluginConfig.strategies || [{}]).entries()) {
+    if (env.CURSEFORGE_TOKEN) {
+      const curseforgeId = await publishToCurseforge(
+        pluginConfig,
+        context,
+        strategy,
+        curseforgeGameVersionsIdsPerStrategy[index]
+      );
+      results.curseforge.push({
+        url: `https://www.curseforge.com/minecraft/mc-mods/${pluginConfig.curseforge!.project_id}/files/${curseforgeId}`,
+      });
+    } else {
+      logger.log(
+        'CurseForge publishing is skipped: CURSEFORGE_TOKEN environment variable not found.'
+      );
     }
 
-    return results;
+    if (env.MODRINTH_TOKEN) {
+      const modrinthId = await publishToModrinth(pluginConfig, context, strategy);
+      results.modrinth.push({
+        url: `https://modrinth.com/mod/${pluginConfig.modrinth!.project_id}/version/${modrinthId}`,
+      });
+    } else {
+      logger.log('Modrinth publishing is skipped: MODRINTH_TOKEN environment variable not found.');
+    }
+  }
+
+  return results;
 }

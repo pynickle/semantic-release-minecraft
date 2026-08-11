@@ -15,151 +15,148 @@ import { resolveAndRenderTemplate, resolveAndRenderTemplates } from './utils/tem
  * Publishes files to CurseForge.
  */
 export async function publishToCurseforge(
-    pluginConfig: PluginConfig,
-    context: PublishContext,
-    strategy: Record<string, string>,
-    curseforgeGameVersionIds?: number[]
+  pluginConfig: PluginConfig,
+  context: PublishContext,
+  strategy: Record<string, string>,
+  curseforgeGameVersionIds?: number[]
 ): Promise<number> {
-    const { logger } = context;
-    const { curseforge } = pluginConfig;
+  const { logger } = context;
+  const { curseforge } = pluginConfig;
 
-    const projectId = curseforge!.project_id!;
+  const projectId = curseforge!.project_id!;
 
-    const { files, primaryFile } = await findFilesAndPrimaryFile(
-        pluginConfig,
-        context,
-        strategy,
-        'curseforge'
-    );
-    logger.log(`Publishing ${files.length} file(s) to CurseForge project ${projectId}...`);
+  const { files, primaryFile } = await findFilesAndPrimaryFile(
+    pluginConfig,
+    context,
+    strategy,
+    'curseforge'
+  );
+  logger.log(`Publishing ${files.length} file(s) to CurseForge project ${projectId}...`);
 
-    const metadata = prepareMetadata(pluginConfig, context, strategy, curseforgeGameVersionIds);
+  const metadata = prepareMetadata(pluginConfig, context, strategy, curseforgeGameVersionIds);
 
-    let primaryFileId = await uploadCurseForgeFile(pluginConfig, context, metadata, primaryFile);
+  let primaryFileId = await uploadCurseForgeFile(pluginConfig, context, metadata, primaryFile);
 
-    for (const filePath of files) {
-        if (filePath === primaryFile) {
-            continue;
-        }
-
-        await uploadCurseForgeFile(pluginConfig, context, metadata, filePath, primaryFileId);
+  for (const filePath of files) {
+    if (filePath === primaryFile) {
+      continue;
     }
 
-    return primaryFileId;
+    await uploadCurseForgeFile(pluginConfig, context, metadata, filePath, primaryFileId);
+  }
+
+  return primaryFileId;
 }
 
 /**
  * Uploads a single file to CurseForge.
  */
 async function uploadCurseForgeFile(
-    pluginConfig: PluginConfig,
-    context: PublishContext,
-    metadata: any,
-    filePath: string,
-    primaryFileId?: number
+  pluginConfig: PluginConfig,
+  context: PublishContext,
+  metadata: any,
+  filePath: string,
+  primaryFileId?: number
 ): Promise<number> {
-    const { env, logger } = context;
-    const { curseforge } = pluginConfig;
+  const { env, logger } = context;
+  const { curseforge } = pluginConfig;
 
-    const apiKey = env.CURSEFORGE_TOKEN!;
-    const projectId = curseforge!.project_id!;
+  const apiKey = env.CURSEFORGE_TOKEN!;
+  const projectId = curseforge!.project_id!;
 
-    // add file to form data
-    const form = new FormData();
-    const file = readFileSync(filePath);
-    form.append('file', file, {
-        filename: basename(filePath),
-    });
+  // add file to form data
+  const form = new FormData();
+  const file = readFileSync(filePath);
+  form.append('file', file, {
+    filename: basename(filePath),
+  });
 
-    if (primaryFileId) {
-        metadata.parentFileID = primaryFileId;
+  if (primaryFileId) {
+    metadata.parentFileID = primaryFileId;
+  }
+
+  form.append('metadata', JSON.stringify(metadata));
+
+  // post to CurseForge API
+  const response = await axios.post(
+    `https://minecraft.curseforge.com/api/projects/${projectId}/upload-file`,
+    form,
+    {
+      headers: {
+        ...form.getHeaders(),
+        'X-API-TOKEN': apiKey,
+      },
     }
+  );
 
-    form.append('metadata', JSON.stringify(metadata));
+  const resData = response.data;
 
-    // post to CurseForge API
-    const response = await axios.post(
-        `https://minecraft.curseforge.com/api/projects/${projectId}/upload-file`,
-        form,
-        {
-            headers: {
-                ...form.getHeaders(),
-                'X-API-TOKEN': apiKey,
-            },
-        }
+  if (resData && typeof resData.id === 'number') {
+    logger.log(
+      `Successfully published to CurseForge, ${primaryFileId ? 'Primary ' : ''}File ID: ${resData.id}`
     );
-
-    const resData = response.data;
-
-    if (resData && typeof resData.id === 'number') {
-        logger.log(
-            `Successfully published to CurseForge, ${primaryFileId ? 'Primary ' : ''}File ID: ${resData.id}`
-        );
-        return resData.id;
-    } else {
-        throw new Error(`CurseForge API returned unexpected response: ${resData}`);
-    }
+    return resData.id;
+  } else {
+    throw new Error(`CurseForge API returned unexpected response: ${resData}`);
+  }
 }
 
 /**
  * Prepares metadata for the CurseForge file upload.
  */
 function prepareMetadata(
-    pluginConfig: PluginConfig,
-    context: PublishContext,
-    strategy: Record<string, string>,
-    curseforgeGameVersionIds: number[] | undefined
+  pluginConfig: PluginConfig,
+  context: PublishContext,
+  strategy: Record<string, string>,
+  curseforgeGameVersionIds: number[] | undefined
 ) {
-    const { curseforge } = pluginConfig;
-    const metadata: any = {
-        gameVersions: curseforgeGameVersionIds,
-        releaseType: pluginConfig.release_type || 'release',
-        changelog: lodash.template(curseforge?.changelog || context.nextRelease.notes)({
-            ...context,
-            ...strategy,
-        }),
-        changelogType: curseforge?.changelog_type || 'markdown',
-        isMarkedForManualRelease: curseforge?.is_marked_for_manual_release || false,
+  const { curseforge } = pluginConfig;
+  const metadata: any = {
+    gameVersions: curseforgeGameVersionIds,
+    releaseType: pluginConfig.release_type || 'release',
+    changelog: lodash.template(curseforge?.changelog || context.nextRelease.notes)({
+      ...context,
+      ...strategy,
+    }),
+    changelogType: curseforge?.changelog_type || 'markdown',
+    isMarkedForManualRelease: curseforge?.is_marked_for_manual_release || false,
+  };
+
+  if (curseforge?.relations) {
+    metadata.relations = {
+      projects: curseforge?.relations.map((item) => ({
+        slug: item.slug,
+        projectId: item.project_id,
+        type: item.type,
+      })),
     };
-
-    if (curseforge?.relations) {
-        metadata.relations = {
-            projects: curseforge?.relations.map((item) => ({
-                slug: item.slug,
-                projectId: item.project_id,
-                type: item.type,
-            })),
-        };
-    } else {
-        let projects = [];
-        if (pluginConfig.dependencies) {
-            for (const dependency of pluginConfig.dependencies) {
-                projects.push({
-                    slug: dependency.slug,
-                    projectId: dependency.curseforge_project_id,
-                    type: DependencyTypeMap[dependency.type],
-                });
-            }
-            metadata.relations = {
-                projects,
-            };
-        }
+  } else {
+    let projects = [];
+    if (pluginConfig.dependencies) {
+      for (const dependency of pluginConfig.dependencies) {
+        projects.push({
+          slug: dependency.slug,
+          projectId: dependency.curseforge_project_id,
+          type: DependencyTypeMap[dependency.type],
+        });
+      }
+      metadata.relations = {
+        projects,
+      };
     }
+  }
 
-    metadata.displayName =
-        resolveAndRenderTemplate([curseforge?.display_name, pluginConfig.display_name], {
-            ...context,
-            ...strategy,
-        }) || context.nextRelease.name;
+  metadata.displayName =
+    resolveAndRenderTemplate([curseforge?.display_name, pluginConfig.display_name], {
+      ...context,
+      ...strategy,
+    }) || context.nextRelease.name;
 
-    metadata.modLoaders =
-        resolveAndRenderTemplates(
-            [pluginConfig.curseforge?.mod_loaders, pluginConfig.mod_loaders],
-            {
-                ...context,
-                ...strategy,
-            }
-        ) || [];
+  metadata.modLoaders =
+    resolveAndRenderTemplates([pluginConfig.curseforge?.mod_loaders, pluginConfig.mod_loaders], {
+      ...context,
+      ...strategy,
+    }) || [];
 
-    return metadata;
+  return metadata;
 }
