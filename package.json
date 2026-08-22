@@ -32,7 +32,7 @@
     "@semantic-release/release-notes-generator": "^14.1.1",
     "@types/lodash": "^4.17.25",
     "@types/node": "^26.2.0",
-    "conventional-changelog-conventionalcommits": "^10.3.0",
+    "conventional-changelog-conventionalcommits": "^10.4.0",
     "oxfmt": "^0.63.0",
     "oxlint": "^1.78.0",
     "semantic-release": "^25.0.9",
