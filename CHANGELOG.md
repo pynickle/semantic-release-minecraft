@@ -1,3 +1,10 @@
+## [2.4.1](https://github.com/pynickle/semantic-release-minecraft/compare/v2.4.0...v2.4.1) (2026-09-17)
+
+### 🔧 Miscellaneous Changes
+
+* **deps:** update dependency conventional-changelog-conventionalcommits to ^10.4.0 ([b25572e](https://github.com/pynickle/semantic-release-minecraft/commit/b25572e79529c083f5043019f825fe8e5f65bd27))
+* update deps ([8e92d49](https://github.com/pynickle/semantic-release-minecraft/commit/8e92d4947f036b7b79d8fdd6fae7c1820dd942f3))
+
 ## [2.4.0](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.82...v2.4.0) (2026-08-11)
 
 ## [2.3.82](https://github.com/pynickle/semantic-release-minecraft/compare/v2.3.81...v2.3.82) (2026-08-11)
