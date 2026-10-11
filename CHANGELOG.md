@@ -1,3 +1,9 @@
+## [2.4.2](https://github.com/pynickle/semantic-release-minecraft/compare/v2.4.1...v2.4.2) (2026-10-11)
+
+### 🔧 Miscellaneous Changes
+
+* update deps ([b94a56f](https://github.com/pynickle/semantic-release-minecraft/commit/b94a56fe32a6a9af67835c5b03acee4afb93506c))
+
 ## [2.4.1](https://github.com/pynickle/semantic-release-minecraft/compare/v2.4.0...v2.4.1) (2026-09-17)
 
 ### 🔧 Miscellaneous Changes
