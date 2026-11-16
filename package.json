@@ -35,7 +35,7 @@
     "conventional-changelog-conventionalcommits": "^9.3.1",
     "oxfmt": "^0.72.0",
     "oxlint": "^1.87.0",
-    "semantic-release": "^25.0.9",
+    "semantic-release": "^26.0.1",
     "typescript": "^7.0.2"
   },
   "peerDependencies": {
